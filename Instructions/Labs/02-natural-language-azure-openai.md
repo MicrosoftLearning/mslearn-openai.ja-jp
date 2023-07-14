@@ -20,14 +20,14 @@ Azure OpenAI Service へのアクセスが承認されている Azure サブス�
 
 Azure OpenAI モデルを使用する前に、Azure サブスクリプションに Azure OpenAI リソースをプロビジョニングする必要があります。
 
-1. [Azure Portal](https://portal.azure.com) にサインインします。
+1. [Azure portal](https://portal.azure.com) にサインインします。
 2. 次の設定で **Azure OpenAI** リソースを作成します。
     - **サブスクリプション**: Azure OpenAI Service のアクセスが承認されている Azure サブスクリプション。
     - **リソース グループ**: ご自分で選択した名前を持つ新しいリソース グループを作成します。
-    - **リージョン**: 使用できるリージョンを選びます。
+    - **リージョン**: 使用できるリージョンを選択します。
     - **名前**: 任意の一意の名前。
     - **価格レベル**: Standard S0
-3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
+3. デプロイが完了するまで待ちます。 次に、Azure portal で、デプロイされた Azure OpenAI リソースに移動します。
 4. **[キーとエンドポイント]** ページに移動し、後で使用するためにテキスト ファイルに保存します。
 
 ## モデルをデプロイする
@@ -36,7 +36,8 @@ Azure OpenAI API を使用するには、まず、**Azure OpenAI Studio** を介
 
 1. Azure OpenAI リソースの **[概要]** ページで、 **[探索]** ボタンを使用して、新しいブラウザー タブで Azure OpenAI Studio を開きます。
 2. Azure OpenAI Studio で、次の設定で新しいデプロイを作成します。
-    - **モデル名**: gpt-35-turbo
+    - **モデル**: gpt-35-turbo
+    - **モデル バージョン**: "既定のバージョンを使用する"**
     - **デプロイ名**: text-turbo
 
 > **注**: 各 Azure OpenAI モデルは、機能とパフォーマンスの異なるバランスに合わせて最適化されています。 この演習では、**GPT-3** モデル ファミリの **3.5 Turbo** モデル シリーズを使用します。これは、言語理解に非常に適しています。 この演習では 1 つのモデルのみを使いますが、デプロイする他のモデルのデプロイと使用の場合も同じように動作します。
@@ -45,7 +46,7 @@ Azure OpenAI API を使用するには、まず、**Azure OpenAI Studio** を介
 
 Azure OpenAI モデルと統合する方法を示すために、Azure 上の Cloud Shell で実行される短いコマンドライン アプリケーションを使用します。 Cloud Shell を操作するには、新しいブラウザー タブを開きます。
 
-1. [Azure portal](https://portal.azure.com?azure-portal=true) で、ページ上部の検索ボックスの右側にある **[>_]** (*Cloud Shell*) ボタンを選びます。 ポータルの下部に Cloud Shell ペインが開きます。
+1. [Azure portal](https://portal.azure.com?azure-portal=true) で、ページ上部の検索ボックスの右側にある **[>_]** (*Cloud Shell*) ボタンを選択します。 ポータルの下部に Cloud Shell ペインが開きます。
 
     ![上部の検索ボックスの右側にあるアイコンをクリックして Cloud Shell を開始している状態のスクリーンショット。](../media/cloudshell-launch-portal.png#lightbox)
 
@@ -55,7 +56,7 @@ Azure OpenAI モデルと統合する方法を示すために、Azure 上の Clo
 
 4. Cloud Shell ペインの左上に表示されるシェルの種類が *Bash* に切り替えられたことを確認します。 *PowerShell* の場合は、ドロップダウン メニューを使用して *Bash* に切り替えます。
 
-5. ターミナルが起動したら、次のコマンドを入力してサンプル アプリケーションをダウンロードし、`azure-openai` というフォルダーに保存します。
+5. ターミナルが起動したら、次のコマンドを入力してサンプル アプリケーションをダウンロードし、`azure-openai` という名前のフォルダーに保存します。
 
     ```bash
    rm -r azure-openai -f
@@ -78,7 +79,7 @@ code .
 
 ## アプリケーションの作成
 
-この演習では、Azure OpenAI リソースの使用を有効にするために、アプリケーションのいくつかの重要な部分を完了します。
+この演習では、Azure OpenAI リソースの使用を有効にするために、アプリケーションのいくつかの重要な部分を完成します。
 
 1. コード エディターで、言語の設定に応じて **CSharp** または **Python** フォルダーを展開します。
 
@@ -185,7 +186,7 @@ code .
     - **C#** : `dotnet run`
     - **Python**: `python test-openai-model.py`
 
-1. サンプル テキスト ファイルの概要を確認します。
+1. サンプル テキスト ファイルの要約を確認します。
 1. 優先する言語のコード ファイルに移動し、*temperature* の値を `1` に変更します。 ファイルを保存します。
 1. アプリケーションをもう一度実行し、出力を確認します。
 

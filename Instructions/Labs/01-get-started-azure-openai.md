@@ -63,24 +63,24 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 "チャット" プレイグラウンドには、GPT 3.5 以降のモデル用のチャットボット インターフェイスが用意されています。** 以前の *Completions* API ではなく *ChatCompletions* API が使用されます。
 
 1. **[プレイグラウンド]** セクションで **[チャット]** ページを選択し、右側の構成ペインで **my-gpt-model** モデルが選択されていることを確認します。
-2. **[アシスタントのセットアップ]** セクションの **[システム メッセージ]** ボックスで、現在のテキストを `The system is an AI teacher that helps people learn about AI` のステートメントに置き換えます。
+2. **[アシスタントのセットアップ]** セクションの **[システム メッセージ]** ボックスで、現在のテキストを `AIについての学びをサポートするAI教師` のステートメントに置き換えます。
 
-3. **[システム メッセージ]** ボックスの下にある **[Add few-shot examples] (Few-shot の例を追加する)** をクリックし、指定されたボックスに次のメッセージと応答を入力します。
+3. **[システム メッセージ]** ボックスの下にある **[Examples]** をクリックし、指定されたボックスに次のメッセージと応答を入力します。
 
-    - **ユーザー**: `What are different types of artificial intelligence?`
-    - **アシスタント**: `There are three main types of artificial intelligence: Narrow or Weak AI (such as virtual assistants like Siri or Alexa, image recognition software, and spam filters), General or Strong AI (AI designed to be as intelligent as a human being. This type of AI does not currently exist and is purely theoretical), and Artificial Superintelligence (AI that is more intelligent than any human being and can perform tasks that are beyond human comprehension. This type of AI is also purely theoretical and has not yet been developed).`
+    - **ユーザー**: `人工知能にはどのような種類があるのか？`
+    - **アシスタント**: `主に3つのタイプの人工知能があります：狭い、または弱いAI（SiriやAlexaのような仮想アシスタント、画像認識ソフトウェア、スパムフィルターなど）、一般的または強いAI（人間と同じくらいの知能を持つように設計されたAI。このタイプのAIは現在存在せず、純粋に理論的なものです）、そして超越的人工知能（人間よりも知能が高く、人間の理解を超えるタスクを実行できるAI。このタイプのAIも純粋に理論的であり、まだ開発されていません）。`
 
     > **注**: Few-shot の例は、予測される応答の種類の例をモデルに提供するために使用されます。 モデルは、例のトーンとスタイルを自分の応答に反映させようとします。
 
 4. 変更を保存して新しいセッションを開始し、チャット システムの動作コンテキストを設定します。
-5. ページの下部にあるクエリ ボックスに、テキスト `What is artificial intelligence?` を入力します
+5. ページの下部にあるクエリ ボックスに、テキスト `人工知能とは何?` を入力します
 6. **[送信]** ボタンを使用してメッセージを送信し、応答を表示します。
 
     > **注**: API デプロイの準備がまだできていないという応答を受け取る場合があります。 その場合は、数分待ってからもう一度やり直してください。
 
-7. 応答を確認し、`How is it related to machine learning?` のメッセージを送信して会話を続けます。
+7. 応答を確認し、`それは機械学習とどう関係していますか？` のメッセージを送信して会話を続けます。
 8. 応答を確認し、前の対話式操作のコンテキストが保持されていることを確認します ("それ" が人工知能を指していることをモデルが認識しています)。
-9. **[コードの表示]** ボタンを使用して、対話式操作のコードを表示します。 プロンプトは、"システム" メッセージ、"ユーザー" と "アシスタント" のメッセージの Few-shot の例、そしてチャット セッション内の "ユーザー" と "アシスタント" のメッセージのシーケンスで構成されています。** ** ** ** **
+9. **[コードの表示]** ボタンを使用して、対話式操作のコードを表示します。 プロンプトは、"システム" メッセージ、"ユーザー" と "アシスタント" のメッセージの Few-shot の例、そしてチャット セッション内の "ユーザー" と "アシスタント" のメッセージのシーケンスで構成されています。
 
 ## プロンプトとパラメーターを探索する
 
@@ -93,15 +93,15 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 2. 次のメッセージを送信します
 
     ```
-    Write three multiple choice questions based on the following text.
-
-    Most computer vision solutions are based on machine learning models that can be applied to visual input from cameras, videos, or images.*
-
-    - Image classification involves training a machine learning model to classify images based on their contents. For example, in a traffic monitoring solution you might use an image classification model to classify images based on the type of vehicle they contain, such as taxis, buses, cyclists, and so on.*
-
-    - Object detection machine learning models are trained to classify individual objects within an image, and identify their location with a bounding box. For example, a traffic monitoring solution might use object detection to identify the location of different classes of vehicle.*
-
-    - Semantic segmentation is an advanced machine learning technique in which individual pixels in the image are classified according to the object to which they belong. For example, a traffic monitoring solution might overlay traffic images with "mask" layers to highlight different vehicles using specific colors.
+    次のテキストに基づいて、3 つの多肢選択式の質問を書いてください。
+    
+    ほとんどのコンピュータビジョンソリューションは、カメラ、ビデオ、または画像からの視覚的入力に適用できる機械学習モデルに基づいています。
+    
+    - 画像の分類は、画像の内容に基づいて画像を分類する機械学習モデルをトレーニングすることを含みます。例えば、交通監視ソリューションでは、タクシーやバス、自転車など、画像に含まれる車両の種類に基づいて画像を分類するモデルを使用するかもしれません。
+    
+    - 物体検出機械学習モデルは、画像内の個々の物体を分類し、境界ボックスでその位置を特定するために訓練されます。例えば、交通監視ソリューションは、異なるクラスの車両の位置を特定するために物体検出を使用するかもしれません。 
+    
+    - セマンティックセグメンテーションは、画像の個々のピクセルが所属するオブジェクトに従って分類される高度な機械学習技術です。例えば、交通監視ソリューションは、特定の色を使用して異なる車両を強調表示するために、交通画像に「マスク」レイヤーをオーバーレイするかもしれません。
     ```
 
 3. 結果を確認します。教師がコンピューター ビジョンのトピックについてプロンプトで学生をテストするために使用できる複数選択の質問で構成されている必要があります。 応答の合計は、パラメーターとして指定した最大長よりも短くする必要があります。
@@ -116,12 +116,12 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 自然言語による応答を生成するだけでなく、GPT モデルを使用してコードを生成することもできます。
 
 1. **[アシスタントのセットアップ]** ペインで、 **[空の例]** テンプレートを選択してシステム メッセージをリセットします。
-2. システム メッセージ `You are a Python developer.` を入力し、変更を保存します。
+2. システム メッセージ `あなたはPythonの開発者です。` を入力し、変更を保存します。
 3. **[チャット セッション]** ペインで、 **[チャットのクリア]** を選択してチャット履歴をクリアし、新しいセッションを開始します。
 4. 次のユーザー メッセージを送信します。
 
     ```
-    Write a Python function named Multiply that multiplies two numeric parameters.
+    二つの数値パラメータを掛け合わせる「Multiply」という名前のPython関数を書いてください。
     ```
 
 5. 応答を確認します。プロンプトの要件を満たすサンプルの Python コードが含まれている必要があります。

@@ -51,37 +51,37 @@ Azure OpenAI API を使用するには、まず、**Azure OpenAI Studio** を介
 アプリを使用する前に、プロンプト エンジニアリングによってプレイグラウンドでのモデルの応答がどのように向上するかを調べます。 この最初の例では、ユーモアのある名前を持つ動物の Python アプリを作成しようとしているとします。
 
 1. [Azure OpenAI Studio](https://oai.azure.com/?azure-portal=true) の左側のペインで、 **[チャット]** プレイグラウンドに移動します。
-1. 上部の **[アシスタントのセットアップ]** セクションで、システム メッセージとして「`You are a helpful AI assistant`」と入力します。
+1. 上部の **[アシスタントのセットアップ]** セクションで、システム メッセージとして「`あなたは役に立つ AI アシスタントです`」と入力します。
 1. **[チャット セッション]** セクションで、次のプロンプトを入力し、*Enter* キーを押します。
 
     ```code
-   1. Create a list of animals
-   2. Create a list of whimsical names for those animals
-   3. Combine them randomly into a list of 25 animal and name pairs
+    1. 動物のリストを作成する
+    2. それらの動物に対して風変わりな名前のリストを作成する
+    3. それらをランダムに組み合わせて、25組の動物と名前のペアのリストを作る
     ```
 
 1. モデルは回答を番号付きリストに分けて応答し、それらはおそらくプロンプトを満たしています。 これは適切な応答ですが、求めている回答ではありません。
-1. 次に、システム メッセージを更新して、`You are an AI assistant helping write python code. Complete the app based on provided comments` という指示を含めます。 **[変更内容を保存]** をクリックします。
+1. 次に、システム メッセージを更新して、`あなたは Python コードの作成を支援する AI アシスタントです。提供されたコメントに基づいてアプリを完成させます` という指示を含めます。 **[変更内容を保存]** をクリックします。
 1. 指示を Python コメントとして書式設定します。 次のプロンプトをモデルに送信します。
 
     ```code
-   # 1. Create a list of animals
-   # 2. Create a list of whimsical names for those animals
-   # 3. Combine them randomly into a list of 25 animal and name pairs
+   # 1. 動物のリストを作成する
+   # 2. それらの動物に対して風変わりな名前のリストを作成する
+   # 3. それらをランダムに組み合わせて、25組の動物と名前のペアのリストを作る
     ```
 
 1. モデルは、コメントで要求された内容を実行する完全な Python コードで正しく応答するはずです。
-1. 次に、記事を分類しようとしている場合のいくつかの短いプロンプトの影響を確認します。 システム メッセージに戻り、もう一度「`You are a helpful AI assistant`」と入力し、変更を保存します。 これにより、新しいチャット セッションが作成されます。
+1. 次に、記事を分類しようとしている場合のいくつかの短いプロンプトの影響を確認します。 システム メッセージに戻り、もう一度「`あなたは役に立つ AI アシスタントです`」と入力し、変更を保存します。 これにより、新しいチャット セッションが作成されます。
 1. 次のプロンプトをモデルに送信します。
 
     ```code
-   Severe drought likely in California
-
-   Millions of California residents are bracing for less water and dry lawns as drought threatens to leave a large swath of the region with a growing water shortage.
-   
-   In a remarkable indication of drought severity, officials in Southern California have declared a first-of-its-kind action limiting outdoor water use to one day a week for nearly 8 million residents.
-   
-   Much remains to be determined about how daily life will change as people adjust to a drier normal. But officials are warning the situation is dire and could lead to even more severe limits later in the year.
+    カリフォルニアで厳しい干ばつの可能性
+    
+    カリフォルニアの数百万の住民は、干ばつの脅威が地域の大部分に増大する水不足をもたらす可能性があるため、水の使用を制限し、芝生を乾燥させる準備をしています。
+    
+    干ばつの深刻さを示す注目すべき指摘として、南カリフォルニアの当局は、約800万人の住民に対して、屋外での水使用を週に1日に制限する、これまでにない行動を宣言しました。
+    
+    人々がより乾燥した新しい環境に適応するにつれて、日常生活がどのように変わるかはまだ多くが未決定です。しかし、当局は、状況が深刻であり、今年後半にさらに厳しい制限が導入される可能性があると警告しています。
     ```
 
 1. 応答では、カリフォルニアの干ばつに関するいくつかの情報が提供されます。 不適切な応答ではありませんが、求めている分類ではありません。
@@ -90,19 +90,19 @@ Azure OpenAI API を使用するには、まず、**Azure OpenAI Studio** を介
     **ユーザー:**
 
     ```code
-   New York Baseballers Wins Big Against Chicago
-   
-   New York Baseballers mounted a big 5-0 shutout against the Chicago Cyclones last night, solidifying their win with a 3 run homerun late in the bottom of the 7th inning.
-   
-   Pitcher Mario Rogers threw 96 pitches with only two hits for New York, marking his best performance this year.
-   
-   The Chicago Cyclones' two hits came in the 2nd and the 5th innings, but were unable to get the runner home to score.
+    ニューヨーク・ベースボーラーズがシカゴに大勝
+    
+    ニューヨーク・ベースボーラーズは昨夜、シカゴ・サイクロンズに対して5-0で大勝し、7回裏での3ランホームランによって勝利を確固たるものとしました。
+    
+    ピッチャーのマリオ・ロジャーズは、ニューヨークのために96球を投げ、たったの2安打を記録し、今年の彼の最高のパフォーマンスとなりました。
+    
+    シカゴ・サイクロンズの2安打は2回と5回に記録されましたが、ランナーをホームに帰すことができず、得点することができませんでした。
     ```
 
     **アシスタント:**
 
     ```code
-   Sports
+   スポーツ
     ```
 
 1. 次のテキストを含む別の例を追加します。
@@ -110,32 +110,32 @@ Azure OpenAI API を使用するには、まず、**Azure OpenAI Studio** を介
     **ユーザー:**
 
     ```code
-   Joyous moments at the Oscars
-
-   The Oscars this past week where quite something!
-   
-   Though a certain scandal might have stolen the show, this year's Academy Awards were full of moments that filled us with joy and even moved us to tears.
-   These actors and actresses delivered some truly emotional performances, along with some great laughs, to get us through the winter.
-   
-   From Robin Kline's history-making win to a full performance by none other than Casey Jensen herself, don't miss tomorrows rerun of all the festivities.
+    オスカーでの歓喜の瞬間
+    
+    この先週のオスカーは本当にすごかった！
+    
+    あるスキャンダルがショーを盗んでしまったかもしれませんが、今年のアカデミー賞には、私たちを喜びで満たし、時には涙に動かす瞬間がたくさんありました。
+    これらの俳優と女優たちは、真に感動的な演技とともに、私たちを冬を乗り越えるための大笑いを届けてくれました。
+    
+    ロビン・クラインの歴史を作る勝利から、ケイシー・ジェンセン本人によるフルパフォーマンスまで、明日の再放送での全てのお祭りをお見逃しなく。
     ```
 
     **アシスタント:**
 
     ```code
-   Entertainment
+   ・エンターテイメント
     ```
 
 1. 変更した内容をアシスタントのセットアップに保存し、カリフォルニアの干ばつに関する同じプロンプトを送信して、便宜上、ここでもう一度提供します。
 
     ```code
-   Severe drought likely in California
-
-   Millions of California residents are bracing for less water and dry lawns as drought threatens to leave a large swath of the region with a growing water shortage.
-   
-   In a remarkable indication of drought severity, officials in Southern California have declared a first-of-its-kind action limiting outdoor water use to one day a week for nearly 8 million residents.
-   
-   Much remains to be determined about how daily life will change as people adjust to a drier normal. But officials are warning the situation is dire and could lead to even more severe limits later in the year.
+    カリフォルニアで厳しい干ばつの可能性
+    
+    カリフォルニアの数百万の住民は、干ばつの脅威が地域の大部分に増大する水不足をもたらす可能性があるため、水の使用を制限し、芝生を乾燥させる準備をしています。
+    
+    干ばつの深刻さを示す注目すべき指摘として、南カリフォルニアの当局は、約800万人の住民に対して、屋外での水使用を週に1日に制限する、これまでにない行動を宣言しました。
+    
+    人々がより乾燥した新しい環境に適応するにつれて、日常生活がどのように変わるかはまだ多くが未決定です。しかし、当局は、状況が深刻であり、今年後半にさらに厳しい制限が導入される可能性があると警告しています。
     ```
 
 1. 今度は、指示がなくても、モデルは適切な分類で応答するはずです。

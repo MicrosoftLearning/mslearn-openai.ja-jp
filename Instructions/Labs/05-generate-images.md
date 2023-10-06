@@ -7,7 +7,7 @@ lab:
 
 Azure OpenAI Service には、DALL-E という名前の画像生成モデルが含まれています。 このモデルを使用して、目的の画像を説明する自然言語プロンプトを送信できます。モデルでは、指定した説明に基づいて元の画像が生成されます。
 
-この演習には約 **25** 分かかります。
+この演習には、約 **25** 分かかります。
 
 ## 開始する前に
 
@@ -24,10 +24,10 @@ Azure OpenAI モデルを使用する前に、Azure サブスクリプション�
 2. 次の設定で **Azure OpenAI** リソースを作成します。
     - **サブスクリプション**: Azure OpenAI Service のアクセスが承認されている Azure サブスクリプション。
     - **リソース グループ**: ご自分で選択した名前を持つ新しいリソース グループを作成します。
-    - **リージョン**: 使用できるリージョンを選びます。
+    - **リージョン: リージョン**として **[EastUS]** を選択してください
     - **名前**: 任意の一意の名前。
     - **価格レベル**: Standard S0
-3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
+3. デプロイが完了するまで待ちます。 次に、Azure portal で、デプロイされた Azure OpenAI リソースに移動します。
 4. **[キーとエンドポイント]** ページに移動します。 サービスの一意のエンドポイントと認証キーは、ここから取得できます。これらは後で必要になります。
 
 ## DALL-E プレイグラウンドで画像生成について調べる
@@ -52,7 +52,7 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
 
 この演習では、シンプルな Python または Microsoft C# アプリを使用し、REST API を呼び出して画像を生成します。 Azure portal の Cloud Shell コンソール インターフェイスでコードを実行します。
 
-1. [Azure portal](https://portal.azure.com?azure-portal=true) で、ページ上部の検索ボックスの右側にある **[>_]** (*Cloud Shell*) ボタンを選びます。 ポータルの下部に Cloud Shell ペインが開きます。 
+1. [Azure portal](https://portal.azure.com?azure-portal=true) で、ページ上部の検索ボックスの右側にある **[>_]** (*Cloud Shell*) ボタンを選択します。 ポータルの下部に Cloud Shell ペインが開きます。 
 
     ![上部の検索ボックスの右側にあるアイコンをクリックして Cloud Shell を開始している状態のスクリーンショット。](../media/cloudshell-launch-portal.png#lightbox)
 

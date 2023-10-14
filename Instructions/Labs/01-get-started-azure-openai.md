@@ -20,21 +20,21 @@ Azure OpenAI サービスへのアクセスが承認されている Azure サブ
 
 Azure OpenAI モデルを使用する前に、Azure サブスクリプションに Azure OpenAI リソースをプロビジョニングする必要があります。
 
-1. [Azure portal](https://portal.azure.com) にサインインします。
+1. [Azure Portal](https://portal.azure.com) にサインインします。
 2. 次の設定で **Azure OpenAI** リソースを作成します。
     - **サブスクリプション**: Azure OpenAI Service のアクセスが承認されている Azure サブスクリプション。
     - **リソース グループ**: ご自分で選択した名前を持つ新しいリソース グループを作成します。
-    - **リージョン**: 使用できるリージョンを選びます。
+    - **リージョン**: 使用できるリージョンを選択します。
     - **名前**: 任意の一意の名前。
     - **価格レベル**: Standard S0
-3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
+3. デプロイが完了するまで待ちます。 次に、Azure portal で、デプロイされた Azure OpenAI リソースに移動します。
 
 ## モデルをデプロイする
 
 Azure OpenAI には、モデルのデプロイ、管理、探索に使用できる **Azure OpenAI Studio** という名前の Web ベースのポータルが用意されています。 Azure OpenAI Studio を使用してモデルをデプロイすることで、Azure OpenAI の探索を開始します。
 
-1. Azure OpenAI リソースの **[概要]** ページで、 **[探索]** ボタンを使用して、新しいブラウザー タブで Azure OpenAI Studio を開きます。
-2. Azure OpenAI Studio で、新しいデプロイを次の設定で作成します。
+1. Azure OpenAI リソースの **[概要]** ページで、 **[Azure OpenAI Studio に移動する]** ボタンを使用して、新しいブラウザー タブで Azure OpenAI Studio を開きます。
+2. Azure OpenAI Studio で、次の設定で新しいデプロイを作成します。
     - **モデル**: gpt-35-turbo
     - **モデル バージョン**: 既定値に自動更新
     - **デプロイ名**: my-gpt-model

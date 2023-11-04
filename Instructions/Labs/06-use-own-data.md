@@ -23,7 +23,7 @@ Azure OpenAI モデルを使用する前に、Azure サブスクリプション�
 1. [Azure Portal](https://portal.azure.com?azure-portal=true) にサインインします。
 2. 次の設定で **Azure OpenAI** リソースを作成します。
     - **サブスクリプション**: Azure OpenAI Service のアクセスが承認されている Azure サブスクリプション。
-    - **リソース グループ**: ご自分で選択した名前を持つ新しいリソース グループを作成します。
+    - **リソース グループ**: 既存のリソース グループを選択するか、任意の名前を使用して新規に作成します。
     - **リージョン**: 使用できるリージョンを選択します。
     - **名前**: 任意の一意の名前。
     - **価格レベル**: Standard S0
@@ -98,11 +98,11 @@ Azure OpenAI を独自のデータに接続する前に、まず、基本モデ�
 
 データを追加したので、前と同じ質問をして、応答がどのように異なるかを確認します。
 
-```code
+```
 I'd like to take a trip to New York. Where should I stay?
 ```
 
-```code
+```
 What are some facts about New York?
 ```
 

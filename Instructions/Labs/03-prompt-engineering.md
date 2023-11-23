@@ -22,7 +22,7 @@ Azure OpenAI Service へのアクセスが承認されている Azure サブス�
 
 Azure OpenAI モデルを使用する前に、Azure サブスクリプションに Azure OpenAI リソースをプロビジョニングする必要があります。
 
-1. [Azure Portal](https://portal.azure.com) にサインインします。
+1. [Azure portal](https://portal.azure.com) にサインインします。
 2. 次の設定で **Azure OpenAI** リソースを作成します。
     - **サブスクリプション**: Azure OpenAI Service のアクセスが承認されている Azure サブスクリプション。
     - **リソース グループ**: 既存のリソース グループを選択するか、任意の名前を使用して新規に作成します。
@@ -149,7 +149,7 @@ Azure OpenAI モデルと統合する方法を示すために、Azure 上の Clo
 2. Cloud Shell を初めて開くと、使用するシェルの種類 (*Bash* または *PowerShell*) を選択するように求められる場合があります。 **[Bash]** を選択します。 このオプションが表示されない場合は、この手順をスキップします。  
 
 3. Cloud Shell 用のストレージを作成するように求められたら、 **[詳細設定の表示]** を選び、次の設定を選びます。
-    - **[サブスクリプション]** : 自分のサブスクリプション
+    - **[サブスクリプション]**: 自分のサブスクリプション
     - **Cloud Shell リージョン**: 使用できるリージョンを選びます
     - **Show VNET isolation setings (VNET 分離の設定を表示する)** : オフ
     - **リソース グループ**: Azure OpenAI リソースをプロビジョニングした既存のリソース グループを使います

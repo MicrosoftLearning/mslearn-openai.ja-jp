@@ -20,14 +20,14 @@ Azure OpenAI サービスへのアクセスが承認されている Azure サブ
 
 Azure OpenAI モデルを使用する前に、Azure サブスクリプションに Azure OpenAI リソースをプロビジョニングする必要があります。
 
-1. [Azure Portal](https://portal.azure.com) にサインインします。
+1. [Azure portal](https://portal.azure.com) にサインインします。
 2. 次の設定で **Azure OpenAI** リソースを作成します。
     - **サブスクリプション**: Azure OpenAI Service のアクセスが承認されている Azure サブスクリプション。
     - **リソース グループ**: 既存のリソース グループを選択するか、任意の名前を使用して新規に作成します。
     - **リージョン**: 使用できるリージョンを選択します。
     - **名前**: 任意の一意の名前。
     - **価格レベル**: Standard S0
-3. デプロイが完了するまで待ちます。 次に、Azure portal で、デプロイされた Azure OpenAI リソースに移動します。
+3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
 
 ## モデルをデプロイする
 

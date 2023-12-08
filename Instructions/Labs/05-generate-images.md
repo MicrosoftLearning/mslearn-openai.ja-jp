@@ -61,7 +61,7 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
 3. Cloud Shell 用のストレージを作成するように求められたら、 **[詳細設定の表示]** を選び、次の設定を選びます。
     - **[サブスクリプション]**: 自分のサブスクリプション
     - **Cloud Shell リージョン**: 使用できるリージョンを選びます
-    - **Show VNET isolation setings (VNET 分離の設定を表示する)** : オフ
+    - **Show VNET isolation settings (VNET 分離の設定を表示する)**: オフ
     - **リソース グループ**: Azure OpenAI リソースをプロビジョニングした既存のリソース グループを使います
     - **ストレージ アカウント**: 一意の名前で新しいストレージ アカウントを作成します
     - **ファイル共有**: 一意の名前で新しいファイル共有を作成します
@@ -75,8 +75,8 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
 5. ターミナルが起動したら、次のコマンドを入力して、使用するアプリケーション コードをダウンロードします。
 
     ```bash
-   rm -r azure-openai -f
-   git clone https://github.com/MicrosoftLearning/mslearn-openai azure-openai
+    rm -r azure-openai -f
+    git clone https://github.com/MicrosoftLearning/mslearn-openai azure-openai
     ```
 
     ファイルは、**azure-openai** という名前のフォルダーにダウンロードされます。 C# と Python の両方のアプリケーションが提供されています。 どちらのアプリにも同じ機能があります。
@@ -86,20 +86,22 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
     **Python**
 
     ```bash
-   cd azure-openai/Labfiles/05-image-generation/Python
+    cd azure-openai/Labfiles/05-image-generation/Python
     ```
 
     **C#**
 
     ```bash
-   cd azure-openai/Labfiles/05-image-generation/CSharp
+    cd azure-openai/Labfiles/05-image-generation/CSharp
     ```
 
 7. 次のコマンドを使用して、組み込みのコード エディターを開き、使用するコード ファイルを確認します。
 
     ```bash
-   code .
+    code .
     ```
+
+    > **ヒント**: Azure Cloud Shell コード エディターを使用して Azure Cloud Shell 環境でファイルを操作する方法の詳細については、[Azure Cloud Shell コード エディターのドキュメント](https://learn.microsoft.com/azure/cloud-shell/using-cloud-shell-editor)を参照してください。
 
 ### アプリケーションの作成
 
@@ -117,7 +119,7 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
 3. **Python** を使用している場合は、構成ファイルの読み取りに使用される **python-dotenv** パッケージもインストールする必要があります。 コンソール プロンプト ペインで、現在のフォルダーが **~/azure-openai/Labfiles/05-image-generation/Python** であることを確かめます。 その後、このコマンドを入力します。
 
     ```bash
-   pip install python-dotenv
+    pip install python-dotenv
     ```
 
 ### アプリケーション コードを表示する
@@ -148,13 +150,13 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
     **Python**
 
     ```bash
-   python generate-image.py
+    python generate-image.py
     ```
 
     **C#**
 
     ```bash
-   dotnet run
+    dotnet run
     ```
 
 2. メッセージが表示されたら、画像の説明を入力します。 たとえば、''*たこ揚げをするキリン*'' です。

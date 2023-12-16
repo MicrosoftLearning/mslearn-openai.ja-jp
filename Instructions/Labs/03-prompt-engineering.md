@@ -37,18 +37,25 @@ Azure OpenAI モデルを使用する前に、Azure サブスクリプション�
 Azure OpenAI API を使用するには、まず、**Azure OpenAI Studio** を介して使用するモデルをデプロイする必要があります。 デプロイが完了したら、アプリでそのモデルを参照します。
 
 1. Azure OpenAI リソースの **[概要]** ページで、 **[探索]** ボタンを使用して、新しいブラウザー タブで Azure OpenAI Studio を開きます。または、[Azure OpenAI Studio](https://oai.azure.com/?azure-portal=true) に直接移動します。
-2. Azure OpenAI Studio で、次の設定で新しいデプロイを作成します。
-    - **モデル**: gpt-35-turbo
-    - **モデル バージョン**: "既定のバージョンを使用する"**
-    - **デプロイ名**: text-turbo
+2. Azure OpenAI Studio の [**デプロイ**] ページで、既存のモデルのデプロイを表示します。 まだデプロイがない場合は、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+    - **モデル**: gpt-35-turbo-16k
+    - **モデル バージョン**: 既定値に自動更新
+    - **デプロイの名前**: *任意の一意の名前*
+    - **詳細オプション**
+        - **コンテンツ フィルター**: 既定
+        - **1 分あたりのトークンのレート制限**: 5K\*
+        - **動的クォータを有効にする**: 有効
 
-> **注**: 各 Azure OpenAI モデルは、機能とパフォーマンスの異なるバランスに合わせて最適化されています。 この演習では、**GPT-3** モデル ファミリの **3.5 Turbo** モデル シリーズを使用します。これは、言語理解に非常に適しています。 この演習では 1 つのモデルのみを使用しますが、他のモデルをデプロイした場合も、デプロイおよび使用する方法は同じです。
+    > \* この演習は、1 分あたり 5,000 トークンのレート制限内で余裕を持って完了できます。またこの制限によって、同じサブスクリプションを使用する他のユーザーのために容量を残すこともできます。
+
+> **注**: 一部のリージョンでは、新しいモデル デプロイ インターフェイスに [**モデル バージョン**] オプションが表示されません。 この場合は、オプションを設定せずにそのまま続行してください
 
 ## チャット プレイグラウンドでプロンプト エンジニアリングを適用する
 
 アプリを使用する前に、プロンプト エンジニアリングによってプレイグラウンドでのモデルの応答がどのように向上するかを調べます。 この最初の例では、ユーモアのある名前を持つ動物の Python アプリを作成しようとしているとします。
 
 1. [Azure OpenAI Studio](https://oai.azure.com/?azure-portal=true) の左側のペインで、 **[チャット]** プレイグラウンドに移動します。
+1. [**構成**] で、モデルのデプロイが選択されていることを確認します。
 1. 上部の **[アシスタントのセットアップ]** セクションで、システム メッセージとして「`You are a helpful AI assistant`」と入力します。
 1. **[チャット セッション]** セクションで、次のプロンプトを入力し、*Enter* キーを押します。
 
@@ -108,20 +115,20 @@ Azure OpenAI API を使用するには、まず、**Azure OpenAI Studio** を介
     **ユーザー:**
 
     ```code
-   Joyous moments at the Oscars
-
-   The Oscars this past week where quite something!
-   
-   Though a certain scandal might have stolen the show, this year's Academy Awards were full of moments that filled us with joy and even moved us to tears.
-   These actors and actresses delivered some truly emotional performances, along with some great laughs, to get us through the winter.
-   
-   From Robin Kline's history-making win to a full performance by none other than Casey Jensen herself, don't miss tomorrows rerun of all the festivities.
+    Joyous moments at the Oscars
+    
+    The Oscars this past week where quite something!
+    
+    Though a certain scandal might have stolen the show, this year's Academy Awards were full of moments that filled us with joy and even moved us to tears.
+    These actors and actresses delivered some truly emotional performances, along with some great laughs, to get us through the winter.
+    
+    From Robin Kline's history-making win to a full performance by none other than Casey Jensen herself, don't miss tomorrows rerun of all the festivities.
     ```
 
     **アシスタント:**
 
     ```code
-   Entertainment
+    Entertainment
     ```
 
 1. 変更した内容をアシスタントのセットアップに保存し、カリフォルニアの干ばつに関する同じプロンプトを送信して、便宜上、ここでもう一度提供します。
@@ -175,17 +182,19 @@ Azure OpenAI モデルと統合する方法を示すために、Azure 上の Clo
    cd azure-openai/Labfiles/03-prompt-engineering
     ```
 
-    C# と Python の両方のアプリケーションと、プロンプトを提供するテキスト ファイルが提供されています。 どちらのアプリにも同じ機能があります。
-
-    組み込みのコード エディターを開くと、`prompts` で使用するプロンプト ファイルを確認できます。 次のコマンドを使用して、コード エディターでラボ ファイルを開きます。
+7. 次のコマンドを実行して、組み込みのコード エディターを開きます。
 
     ```bash
-   code .
+    code .
     ```
+
+8. コード エディターで **prompts** フォルダーを展開し、アプリケーションでモデルに送信するプロンプトを含むテキスト ファイルを確認します。
+
+    > **ヒント**: Azure Cloud Shell コード エディターを使用して Azure Cloud Shell 環境でファイルを操作する方法の詳細については、[Azure Cloud Shell コード エディターのドキュメント](https://learn.microsoft.com/azure/cloud-shell/using-cloud-shell-editor)を参照してください。
 
 ## アプリケーションの作成
 
-この演習では、Azure OpenAI リソースの使用を有効にするために、アプリケーションのいくつかの重要な部分を完成します。
+この演習では、Azure OpenAI リソースの使用を有効にするために、アプリケーションのいくつかの重要な部分を完成します。 C# と Python の両方のアプリケーションが提供されています。 どちらのアプリにも同じ機能があります。
 
 1. コード エディターで、言語の設定に応じて **CSharp** または **Python** フォルダーを展開します。
 
@@ -194,23 +203,23 @@ Azure OpenAI モデルと統合する方法を示すために、Azure 上の Clo
     - C#: `appsettings.json`
     - Python: `.env`
     
-3. 構成値を更新して、作成した Azure OpenAI リソースの**エンドポイント**および**キー**と、デプロイしたモデル名 (`text-turbo`) を含めるようにします。 ファイルを保存します。
+3. 構成値を更新して、作成した Azure OpenAI リソースの**エンドポイント**や**キー**と、デプロイしたモデル名を含めるようにします。 ファイルを保存します。
 
-4. 選択した言語のフォルダーに移動し、必要なパッケージをインストールします。
+4. コンソール ウィンドウで次のコマンドを入力して、優先言語のフォルダーに移動し、必要なパッケージをインストールします。
 
     **C#**
 
     ```bash
-   cd CSharp
-   dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.5
+    cd CSharp
+    dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.9
     ```
 
     **Python**
 
     ```bash
-   cd Python
-   pip install python-dotenv
-   pip install openai
+    cd Python
+    pip install python-dotenv
+    pip install openai==1.2.0
     ```
 
 5. 選択した言語のフォルダーに移動し、コード ファイルを選択して、必要なライブラリを追加します。
@@ -218,79 +227,78 @@ Azure OpenAI モデルと統合する方法を示すために、Azure 上の Clo
     **C#**
 
     ```csharp
-   // Add Azure OpenAI package
-   using Azure.AI.OpenAI;
+    // Add Azure OpenAI package
+    using Azure.AI.OpenAI;
     ```
 
     **Python**
 
     ```python
-   # Add OpenAI import
-   import openai
+    # Add OpenAI import
+    from openai import AzureOpenAI
     ```
 
-5. 選択した言語のアプリケーション コードを開き、クライアントを構成するために必要なコードを追加します。
+6. 選択した言語のアプリケーション コードを開き、クライアントを構成するために必要なコードを追加します。
 
     **C#**
 
     ```csharp
-   // Initialize the Azure OpenAI client
-   OpenAIClient client = new OpenAIClient(new Uri(oaiEndpoint), new AzureKeyCredential(oaiKey));
+    // Initialize the Azure OpenAI client
+    OpenAIClient client = new OpenAIClient(new Uri(oaiEndpoint), new AzureKeyCredential(oaiKey));
     ```
 
     **Python**
 
     ```python
-   # Set OpenAI configuration settings
-   openai.api_type = "azure"
-   openai.api_base = azure_oai_endpoint
-   openai.api_version = "2023-03-15-preview"
-   openai.api_key = azure_oai_key
+    # Initialize the Azure OpenAI client
+    client = AzureOpenAI(
+            azure_endpoint = azure_oai_endpoint, 
+            api_key=azure_oai_key,  
+            api_version="2023-05-15"
+            )
     ```
 
-6. Azure OpenAI モデルを呼び出す関数で、書式を設定して要求をモデルに送信するコードを追加します。
+7. Azure OpenAI モデルを呼び出す関数で、書式を設定して要求をモデルに送信するコードを追加します。
 
     **C#**
 
     ```csharp
-   // Create chat completion options
-   var chatCompletionsOptions = new ChatCompletionsOptions()
-   {
-       Messages =
-       {
-          new ChatMessage(ChatRole.System, systemPrompt),
-          new ChatMessage(ChatRole.User, userPrompt)
-       },
-       Temperature = 0.7f,
-       MaxTokens = 800,
-   };
-
-   // Get response from Azure OpenAI
-   Response<ChatCompletions> response = await client.GetChatCompletionsAsync(
-       oaiModelName,
-       chatCompletionsOptions
-   );
-
-   ChatCompletions completions = response.Value;
-   string completion = completions.Choices[0].Message.Content;
+    // Create chat completion options
+    var chatCompletionsOptions = new ChatCompletionsOptions()
+    {
+        Messages =
+        {
+            new ChatMessage(ChatRole.System, systemPrompt),
+            new ChatMessage(ChatRole.User, userPrompt)
+        },
+        Temperature = 0.7f,
+        MaxTokens = 800,
+        DeploymentName = oaiModelName
+    };
+    
+    // Get response from Azure OpenAI
+    Response<ChatCompletions> response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
+    
+    ChatCompletions completions = response.Value;
+    string completion = completions.Choices[0].Message.Content;
     ```
 
     **Python**
 
     ```python
-   # Build the messages array
-   messages =[
-       {"role": "system", "content": system_message},
-       {"role": "user", "content": user_message},
-   ]
-
-   # Call the Azure OpenAI model
-   response = openai.ChatCompletion.create(
-       engine=model,
-       messages=messages,
-       temperature=0.7,
-       max_tokens=800
-   )
+    # Build the messages array
+    messages =[
+        {"role": "system", "content": system_message},
+        {"role": "user", "content": user_message},
+    ]
+    
+    # Call the Azure OpenAI model
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0.7,
+        max_tokens=800
+    )
     ```
 
 ## アプリケーションを実行する

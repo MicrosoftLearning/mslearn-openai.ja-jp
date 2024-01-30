@@ -20,11 +20,11 @@ DALL-E を含む、Azure OpenAI Service へのアクセスが承認された Azu
 
 Azure OpenAI モデルを使用する前に、Azure サブスクリプションに Azure OpenAI リソースをプロビジョニングする必要があります。
 
-1. [Azure Portal](https://portal.azure.com) にサインインします。
+1. [Azure portal](https://portal.azure.com) にサインインします。
 2. 次の設定で **Azure OpenAI** リソースを作成します。
     - **サブスクリプション**: Azure OpenAI Service のアクセスが承認されている Azure サブスクリプション。
-    - **リソース グループ**: ご自分で選択した名前を持つ新しいリソース グループを作成します。
-    - **リージョン**: 使用できるリージョンを選びます。
+    - **リソース グループ**: 既存のリソース グループを選択するか、任意の名前を使用して新規に作成します。
+    - **リージョン**: リージョンとして **EastUS** を選択する
     - **名前**: 任意の一意の名前。
     - **価格レベル**: Standard S0
 3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
@@ -58,17 +58,25 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
 
 2. Cloud Shell を初めて開くと、使用するシェルの種類 (*Bash* または *PowerShell*) を選択するように求められる場合があります。 **[Bash]** を選択します。 このオプションが表示されない場合は、この手順をスキップします。  
 
-3. Cloud Shell のストレージを作成するように求めるメッセージが表示された場合は、お使いのサブスクリプションが指定されていることを確認して、**[ストレージの作成]** を選択します。 その後、ストレージが作成されるのを 1 分程度待ちます。
+3. Cloud Shell 用のストレージを作成するように求められたら、 **[詳細設定の表示]** を選び、次の設定を選びます。
+    - **[サブスクリプション]**: 自分のサブスクリプション
+    - **Cloud Shell リージョン**: 使用できるリージョンを選びます
+    - **Show VNET isolation settings (VNET 分離の設定を表示する)**: オフ
+    - **リソース グループ**: Azure OpenAI リソースをプロビジョニングした既存のリソース グループを使います
+    - **ストレージ アカウント**: 一意の名前で新しいストレージ アカウントを作成します
+    - **ファイル共有**: 一意の名前で新しいファイル共有を作成します
+
+    その後、ストレージが作成されるのを 1 分程度待ちます。
 
     > **注**: Azure サブスクリプションに既に Cloud Shell を設定している場合は、⚙️ メニューの **[ユーザー設定のリセット]** オプションを使用して、最新バージョンの Python と .NET Framework がインストールされていることを確かめる必要がある場合があります。
 
-4. Cloud Shell ペインの左上に表示されるシェルの種類が *Bash* に切り替えられたことを確認します。 *PowerShell* の場合は、ドロップダウン メニューを使用して *Bash* に切り替えます。
+4. Cloud Shell ペインの左上に表示されるシェルの種類が *Bash* であることを確認します。 *PowerShell* の場合は、ドロップダウン メニューを使用して *Bash* に切り替えます。
 
 5. ターミナルが起動したら、次のコマンドを入力して、使用するアプリケーション コードをダウンロードします。
 
     ```bash
-   rm -r azure-openai -f
-   git clone https://github.com/MicrosoftLearning/mslearn-openai azure-openai
+    rm -r azure-openai -f
+    git clone https://github.com/MicrosoftLearning/mslearn-openai azure-openai
     ```
 
     ファイルは、**azure-openai** という名前のフォルダーにダウンロードされます。 C# と Python の両方のアプリケーションが提供されています。 どちらのアプリにも同じ機能があります。
@@ -78,20 +86,22 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
     **Python**
 
     ```bash
-   cd azure-openai/Labfiles/05-image-generation/Python
+    cd azure-openai/Labfiles/05-image-generation/Python
     ```
 
     **C#**
 
     ```bash
-   cd azure-openai/Labfiles/05-image-generation/CSharp
+    cd azure-openai/Labfiles/05-image-generation/CSharp
     ```
 
 7. 次のコマンドを使用して、組み込みのコード エディターを開き、使用するコード ファイルを確認します。
 
     ```bash
-   code .
+    code .
     ```
+
+    > **ヒント**: Azure Cloud Shell コード エディターを使用して Azure Cloud Shell 環境でファイルを操作する方法の詳細については、[Azure Cloud Shell コード エディターのドキュメント](https://learn.microsoft.com/azure/cloud-shell/using-cloud-shell-editor)を参照してください。
 
 ### アプリケーションの作成
 
@@ -109,7 +119,7 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
 3. **Python** を使用している場合は、構成ファイルの読み取りに使用される **python-dotenv** パッケージもインストールする必要があります。 コンソール プロンプト ペインで、現在のフォルダーが **~/azure-openai/Labfiles/05-image-generation/Python** であることを確かめます。 その後、このコマンドを入力します。
 
     ```bash
-   pip install python-dotenv
+    pip install python-dotenv
     ```
 
 ### アプリケーション コードを表示する
@@ -140,13 +150,13 @@ Azure OpenAI Service には、DALL-E モデルによって生成された画像�
     **Python**
 
     ```bash
-   python generate-image.py
+    python generate-image.py
     ```
 
     **C#**
 
     ```bash
-   dotnet run
+    dotnet run
     ```
 
 2. メッセージが表示されたら、画像の説明を入力します。 たとえば、''*たこ揚げをするキリン*'' です。

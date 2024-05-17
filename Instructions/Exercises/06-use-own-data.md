@@ -1,70 +1,70 @@
 ---
 lab:
-    title: 'Implement Retrieval Augmented Generation (RAG) with Azure OpenAI Service'
+  title: Azure OpenAI Service を使用して検索拡張生成 (RAG) を実装する
 ---
 
-# Implement Retrieval Augmented Generation (RAG) with Azure OpenAI Service
+# Azure OpenAI Service を使用して検索拡張生成 (RAG) を実装する
 
-The Azure OpenAI Service enables you to use your own data with the intelligence of the underlying LLM. You can limit the model to only use your data for pertinent topics, or blend it with results from the pre-trained model.
+Azure OpenAI Service を使用すると、基になる LLM のインテリジェンスで独自のデータを使用できます。 独自のデータのみを関連トピックに使用するようにモデルを制限したり、事前トレーニング済みモデルの結果とブレンドしたりすることができます。
 
-In the scenario for this exercise, you will perform the role of a software developer working for Margie's Travel Agency. You will explore how to use generative AI to make coding tasks easier and more efficient. The techniques used in the exercise can be applied to other code files, programming languages, and use cases.
+この演習のシナリオで、あなたは Margie's Travel Agency で働くソフトウェア開発者の役割を演じます。 生成 AI を使ってコーディング タスクをより簡単かつ効率的にする方法について説明します。 この演習で使われる手法は、他のコード ファイル、プログラミング言語、ユース ケースに適用できます。
 
-This exercise will take approximately **20** minutes.
+この演習には約 **20** 分かかります。
 
-## Provision an Azure OpenAI resource
+## Azure OpenAI リソースをプロビジョニングする
 
-If you don't already have one, provision an Azure OpenAI resource in your Azure subscription.
+まだ持っていない場合は、Azure サブスクリプションで Azure OpenAI リソースをプロビジョニングします。
 
-1. Sign into the **Azure portal** at `https://portal.azure.com`.
-2. Create an **Azure OpenAI** resource with the following settings:
-    - **Subscription**: *Select an Azure subscription that has been approved for access to the Azure OpenAI service*
-    - **Resource group**: *Choose or create a resource group*
-    - **Region**: *Make a **random** choice from any of the following regions*\*
-        - Australia East
-        - Canada East
-        - East US
-        - East US 2
-        - France Central
-        - Japan East
-        - North Central US
-        - Sweden Central
-        - Switzerland North
-        - UK South
-    - **Name**: *A unique name of your choice*
-    - **Pricing tier**: Standard S0
+1. **Azure portal** (`https://portal.azure.com`) にサインインします。
+2. 次の設定で **Azure OpenAI** リソースを作成します。
+    - **[サブスクリプション]**: "Azure OpenAI Service へのアクセスが承認されている Azure サブスクリプションを選びます"**
+    - **[リソース グループ]**: *リソース グループを作成または選択します*
+    - **[リージョン]**: *以下のいずれかのリージョンから**ランダム**に選択する*\*
+        - オーストラリア東部
+        - カナダ東部
+        - 米国東部
+        - 米国東部 2
+        - フランス中部
+        - 東日本
+        - 米国中北部
+        - スウェーデン中部
+        - スイス北部
+        - 英国南部
+    - **[名前]**: "*希望する一意の名前*"
+    - **価格レベル**: Standard S0
 
-    > \* Azure OpenAI resources are constrained by regional quotas. The listed regions include default quota for the model type(s) used in this exercise. Randomly choosing a region reduces the risk of a single region reaching its quota limit in scenarios where you are sharing a subscription with other users. In the event of a quota limit being reached later in the exercise, there's a possibility you may need to create another resource in a different region.
+    > \* Azure OpenAI リソースは、リージョンのクォータによって制限されます。 一覧表示されているリージョンには、この演習で使用されるモデル タイプの既定のクォータが含まれています。 リージョンをランダムに選択することで、サブスクリプションを他のユーザーと共有しているシナリオで、1 つのリージョンがクォータ制限に達するリスクが軽減されます。 演習の後半でクォータ制限に達した場合は、別のリージョンに別のリソースを作成する必要が生じる可能性があります。
 
-3. Wait for deployment to complete. Then go to the deployed Azure OpenAI resource in the Azure portal.
+3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
 
-## Deploy a model
+## モデルをデプロイする
 
-Azure OpenAI provides a web-based portal named **Azure OpenAI Studio**, that you can use to deploy, manage, and explore models. You'll start your exploration of Azure OpenAI by using Azure OpenAI Studio to deploy a model.
+Azure OpenAI には、モデルのデプロイ、管理、探索に使用できる **Azure OpenAI Studio** という名前の Web ベースのポータルが用意されています。 Azure OpenAI Studio を使用してモデルをデプロイすることで、Azure OpenAI の探索を開始します。
 
-1. On the **Overview** page for your Azure OpenAI resource, use the **Go to Azure OpenAI Studio** button to open Azure OpenAI Studio in a new browser tab.
-2. In Azure OpenAI Studio, on the **Deployments** page, view your existing model deployments. If you don't already have one, create a new deployment of the **gpt-35-turbo-16k** model with the following settings:
-    - **Model**: gpt-35-turbo-16k *(must be this model to use the features in this exercise)*
-    - **Model version**: Auto-update to default
-    - **Deployment name**: *A unique name of your choice. You'll use this name later in the lab.*
-    - **Advanced options**
-        - **Content filter**: Default
-        - **Deployment type**: Standard
-        - **Tokens per minute rate limit**: 5K\*
-        - **Enable dynamic quota**: Enabled
+1. Azure OpenAI リソースの **[概要]** ページで、 **[Azure OpenAI Studio に移動する]** ボタンを使用して、新しいブラウザー タブで Azure OpenAI Studio を開きます。
+2. Azure OpenAI Studio の [**デプロイ**] ページで、既存のモデルのデプロイを表示します。 まだデプロイがない場合は、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+    - **モデル**: gpt-35-turbo-16k "(この演習の機能を使うには、このモデルである必要があります)"**
+    - **モデル バージョン**: 既定値に自動更新
+    - **デプロイ名**:"任意の一意の名前。** この名前は、ラボの後半で使います。"
+    - **詳細オプション**
+        - **コンテンツ フィルター**: 既定
+        - **デプロイの種類**:Standard
+        - **1 分あたりのトークンのレート制限**: 5K\*
+        - **動的クォータを有効にする**: 有効
 
-    > \* A rate limit of 5,000 tokens per minute is more than adequate to complete this exercise while leaving capacity for other people using the same subscription.
+    > \* この演習は、1 分あたり 5,000 トークンのレート制限内で余裕を持って完了できます。またこの制限によって、同じサブスクリプションを使用する他のユーザーのために容量を残すこともできます。
 
-## Observe normal chat behavior without adding your own data
+## 独自のデータを追加せずに、通常のチャット動作を確認する
 
-Before connecting Azure OpenAI to your data, let's first observe how the base model responds to queries without any grounding data.
+Azure OpenAI を独自のデータに接続する前に、まず、基本モデルが、グラウンディング データなしでクエリに応答する方法を確認しましょう。
 
-1. In **Azure OpenAI Studio** at `https://oai.azure.com`, in the **Playground** section, select the **Chat** page. The **Chat** playground page consists of three main sections:
-    - **Setup** - used to set the context for the model's responses.
-    - **Chat session** - used to submit chat messages and view responses.
-    - **Configuration** - used to configure settings for the model deployment.
-2. In the **Configuration** section, ensure that your model deployment is selected.
-3. In the **Setup** area, select the default system message template to set the context for the chat session. The default system message is *You are an AI assistant that helps people find information*.
-4. In the **Chat session**, submit the following queries, and review the responses:
+1. **Azure OpenAI Studio** (`https://oai.azure.com`) の **[プレイグラウンド]** セクションで、**[チャット]** ページを選びます。 **[チャット]** プレイグラウンド ページは、次の 3 つのメイン セクションで構成されています。
+    - **設定** - モデルの応答のコンテキストを設定するために使われます。
+    - **チャット セッション** - チャット メッセージを送信し、応答を表示するために使われます。
+    - **構成** - モデル デプロイの設定を構成するために使われます。
+2. **[構成]** セクションで、モデル デプロイが選ばれていることを確認します。
+3. **[設定]** 領域で、既定のシステム メッセージ テンプレートを選び、チャット セッションのコンテキストを設定します。 既定のシステム メッセージは、"あなたはユーザーが情報を見つけるのを助ける AI アシスタントです" です。**
+4. **チャット セッション**で次のクエリを送信し、応答を確認します。
 
     ```
     I'd like to take a trip to New York. Where should I stay?
@@ -74,52 +74,52 @@ Before connecting Azure OpenAI to your data, let's first observe how the base mo
     What are some facts about New York?
     ```
 
-    Try similar questions about tourism and places to stay for other locations that will be included in our grounding data, such as London, or San Francisco. You'll likely get complete responses about areas or neighborhoods, and some general facts about the city.
+    根拠となるデータに含める他の場所 (ロンドン、サンフランシスコなど) についても、観光や滞在場所に関する同様の質問を試します。 地域や近隣地域に関する完全な応答、およびその都市に関する一般的な事実が返されるでしょう。
 
-## Connect your data in the chat playground
+## チャット プレイグラウンドで独自のデータを接続する
 
-Now you'll add some data for a fictional travel agent company named *Margie's Travel*. Then you'll see how the Azure OpenAI model responds when using the brochures from Margie's Travel as grounding data.
+次に、*Margie's Travel* という架空の旅行代理店会社のデータを追加します。 次に、Margie's Travel のパンフレットをグラウンディング データとして使ったときに、Azure OpenAI モデルがどのように応答するかを確認します。
 
-1. In a new browser tab, download an archive of brochure data from `https://aka.ms/own-data-brochures`. Extract the brochures to a folder on your PC.
-1. In Azure OpenAI Studio, in the **Chat** playground, in the **Setup** section, select **Add your data**.
-1. Select **Add a data source** and choose **Upload files**.
-1. You'll need to create a storage account and Azure AI Search resource. Under the dropdown for the storage resource, select **Create a new Azure Blob storage resource**, and create a storage account with the following settings. Anything not specified leave as the default.
+1. 新しいブラウザー タブで、`https://aka.ms/own-data-brochures` からパンフレット データのアーカイブをダウンロードします。 パンフレットを PC 上のフォルダーに展開します。
+1. Azure OpenAI Studio の **[チャット]** プレイグラウンドの **[設定]** セクションで、**[データの追加]** を選びます。
+1. **[データ ソースの追加]** を選び、**[ファイルのアップロード]** を選びます。
+1. ストレージ アカウントと Azure AI 検索リソースを作成する必要があります。 ストレージ リソースのドロップダウンで、 **[新しい Azure BLOB ストレージ リソースの作成]** を選択し、次の設定でストレージ アカウントを作成します。 指定されていない設定はすべて、既定値のままにします。
 
-    - **Subscription**: *Your Azure subscription*
-    - **Resource group**: *Select the same resource group as your Azure OpenAI resource*
-    - **Storage account name**: *Enter a unique name*
-    - **Region**: *Select the same region as your Azure OpenAI resource*
-    - **Redundancy**: Locally-redundant storage (LRS)
+    - **[サブスクリプション]**:"*ご自身の Azure サブスクリプション*"
+    - **[リソース グループ]**: "Azure OpenAI リソースと同じリソース グループを選びます"**
+    - **ストレージ アカウント名**: *一意の名前を入力します*
+    - **[リージョン]**: "Azure OpenAI リソースと同じリージョンを選びます"**
+    - **冗長**: ローカル冗長ストレージ (LRS)
 
-1. While the storage account resource is being created, return to Azure OpenAI Studio and select **Create a new Azure AI Search resource** with the following settings. Anything not specified leave as the default.
+1. ストレージ アカウント リソースが作成されている間に、Azure OpenAI Studio に戻り、次の設定で **[新しい Azure AI 検索リソースの作成]** を選びます。 指定されていない設定はすべて、既定値のままにします。
 
-    - **Subscription**: *Your Azure subscription*
-    - **Resource group**: *Select the same resource group as your Azure OpenAI resource*
-    - **Service name**: *Enter a unique name*
-    - **Location**: *Select the same location as your Azure OpenAI resource*
-    - **Pricing tier**: Basic
+    - **[サブスクリプション]**:"*ご自身の Azure サブスクリプション*"
+    - **[リソース グループ]**: "Azure OpenAI リソースと同じリソース グループを選びます"**
+    - **サービス名**: *一意の名前を入力します*
+    - **[場所]**: "Azure OpenAI リソースと同じ場所を選びます"**
+    - **価格レベル**: Basic
 
-1. Wait until your search resource has been deployed, then switch back to the Azure AI Studio.
-1. In the **Add data**, enter the following values for your data source, then select **Next**.
+1. 検索リソースがデプロイされるまで待ってから、Azure AI Studio に戻ります。
+1. **[データの追加]** で、データ ソースに関する次の値を入力し、 **[次へ]** を選択します。
 
-    - **Select data source**: Upload files
-    - **Subscription**: Your Azure subscription
-    - **Select Azure Blob storage resource**: *Use the **Refresh** button to repopulate the list, and then choose the storage resource you created*
-        - Turn on CORS when prompted
-    - **Select Azure AI Search resource**: *Use the **Refresh** button to repopulate the list, and then choose the search resource you created*
-    - **Enter the index name**: `margiestravel`
-    - **Add vector search to this search resource**: unchecked
-    - **I acknowledge that connecting to an Azure AI Search account will incur usage to my account** : checked
+    - **データ ソースの選択**: ファイルのアップロード
+    - **サブスクリプション**:お使いの Azure サブスクリプション
+    - **Azure Blob Storage リソースを選びます**。"**[更新]** ボタンを使って一覧を再作成し、作成したストレージ リソースを選びます"**
+        - プロンプトが表示されたら CORS を有効にします
+    - **Azure AI 検索リソースを選びます**。"**[更新]** ボタンを使って一覧を再作成し、作成した検索リソースを選びます"**
+    - **インデックス名を入力します**: `margiestravel`
+    - **Add vector search to this search resource (この検索リソースにベクトル検索を追加する)** : オフ
+    - **I acknowledge that connecting to an Azure AI Search account will incur usage to my account (アカウントに接続すると、自分のアカウントに対して使用料が発生することに同意します)** : オン
 
-1. On the **Upload files** page, upload the PDFs you downloaded, and then select **Next**.
-1. On the **Data management** page select the **Keyword** search type from the drop-down, and then select **Next**.
-1. On the **Review and finish** page select **Save and close**, which will add your data. This may take a few minutes, during which you need to leave your window open. Once complete, you'll see the data source, search resource, and index specified in the **Setup** section.
+1. **[ファイルのアップロード]** ページで、ダウンロードした PDF をアップロードし、 **[次へ]** を選択します。
+1. **[データ管理]** ページで、ドロップダウンから **[キーワード]** の検索の種類を選択し、 **[次へ]** を選択します。
+1. **[レビューと完了]** ページで **[保存して閉じる]** を選択すると、データが追加されます。 これには数分かかる場合があります。その間、ウィンドウを開いたままにしておく必要があります。 完了すると、**[設定]** セクションで指定したデータ ソース、検索リソース、インデックスが表示されます。
 
-    > **Tip**: Occasionally the connection between your new search index and Azure OpenAI Studio takes too long. If you've waited for a few minutes and it still hasn't connected, check your AI Search resources in Azure portal. If you see the completed index, you can disconnect the data connection in Azure OpenAI Studio and re-add it by specifying an Azure AI Search data source and selecting your new index.
+    > **ヒント**: 場合によっては、新しい検索インデックスと Azure OpenAI Studio 間の接続に時間がかかりすぎることがあります。 数分待っても接続できない場合は、Azure portal で AI 検索リソースを確認します。 完成したインデックスが表示された場合は、Azure OpenAI Studio でデータ接続を切断し、Azure AI 検索データ ソースを指定して新しいインデックスを選ぶことで接続を再追加できます。
 
-## Chat with a model grounded in your data
+## 独自のデータを根拠とするモデルとチャットする
 
-Now that you've added your data, ask the same questions as you did previously, and see how the response differs.
+データを追加したので、前と同じ質問をして、応答がどのように異なるかを確認します。
 
 ```
 I'd like to take a trip to New York. Where should I stay?
@@ -129,40 +129,40 @@ I'd like to take a trip to New York. Where should I stay?
 What are some facts about New York?
 ```
 
-You'll notice a very different response this time, with specifics about certain hotels and a mention of Margie's Travel, as well as references to where the information provided came from. If you open the PDF reference listed in the response, you'll see the same hotels as the model provided.
+特定のホテルに関する詳細や Margie's Travel への言及、提供された情報の出所への言及など、今度の応答はまったく異なることに気付くでしょう。 応答で一覧表示されている PDF 形式のリファレンスを開くと、ホテルが、モデルによって提示されたものと同じであることがわかります。
 
-Try asking it about other cities included in the grounding data, which are Dubai, Las Vegas, London, and San Francisco.
+根拠となるデータに含まれる他の都市 (ドバイ、ラスベガス、ロンドン、サンフランシスコ) についても質問してみましょう。
 
-> **Note**: **Add your data** is still in preview and might not always behave as expected for this feature, such as giving the incorrect reference for a city not included in the grounding data.
+> **注**: **[Add your data](独自のデータの追加)** はまだプレビュー段階であり、この機能は必ずしも期待どおりに動作するとは限りません。たとえば、根拠となるデータに含まれていない都市については、提供される参考情報が正しくない場合があります。
 
-## Connect your app to your own data
+## アプリを独自のデータに接続する
 
-Next, let's explore how to connect your app to use your own data.
+次に、アプリを接続して独自のデータを使う方法を見てみましょう。
 
-### Prepare to develop an app in Visual Studio Code
+### Visual Studio Code でアプリを開発する準備をする
 
-Now let's explore the use of your own data in an app that uses the Azure OpenAI service SDK. You'll develop your app using Visual Studio Code. The code files for your app have been provided in a GitHub repo.
+次に、Azure OpenAI Service SDK を使うアプリで独自のデータを使う方法を見てみましょう。 Visual Studio Code を使用してアプリを開発します。 アプリのコード ファイルは、GitHub リポジトリで提供されています。
 
-> **Tip**: If you have already cloned the **mslearn-openai** repo, open it in Visual Studio code. Otherwise, follow these steps to clone it to your development environment.
+> **ヒント**: 既に **mslearn-openai** リポジトリをクローンしている場合は、Visual Studio Code で開きます。 それ以外の場合は、次の手順に従って開発環境に複製します。
 
-1. Start Visual Studio Code.
-2. Open the palette (SHIFT+CTRL+P) and run a **Git: Clone** command to clone the `https://github.com/MicrosoftLearning/mslearn-openai` repository to a local folder (it doesn't matter which folder).
-3. When the repository has been cloned, open the folder in Visual Studio Code.
+1. Visual Studio Code を起動します。
+2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
 
-    > **Note**: If Visual Studio Code shows you a pop-up message to prompt you to trust the code you are opening, click on **Yes, I trust the authors** option in the pop-up.
+    > **注**:Visual Studio Code に、開いているコードを信頼するかどうかを求めるポップアップ メッセージが表示された場合は、ポップアップの **[はい、作成者を信頼します]** オプションをクリックします。
 
-4. Wait while additional files are installed to support the C# code projects in the repo.
+4. リポジトリ内の C# コード プロジェクトをサポートするために追加のファイルがインストールされるまで待ちます。
 
-    > **Note**: If you are prompted to add required assets to build and debug, select **Not Now**.
+    > **注**: ビルドとデバッグに必要なアセットを追加するように求めるプロンプトが表示された場合は、**[今はしない]** を選択します。
 
-## Configure your application
+## アプリケーションを構成する
 
-Applications for both C# and Python have been provided, and both apps feature the same functionality. First, you'll complete some key parts of the application to enable using your Azure OpenAI resource.
+C# と Python の両方のアプリケーションが用意されており、どちらのアプリも同じ機能を備えています。 まず、Azure OpenAI リソースの使用を有効にするために、アプリケーションの主要な部分をいくつか完成させます。
 
-1. In Visual Studio Code, in the **Explorer** pane, browse to the **Labfiles/06-use-own-data** folder and expand the **CSharp** or **Python** folder depending on your language preference. Each folder contains the language-specific files for an app into which you're going to integrate Azure OpenAI functionality.
-2. Right-click the **CSharp** or **Python** folder containing your code files and open an integrated terminal. Then install the Azure OpenAI SDK package by running the appropriate command for your language preference:
+1. Visual Studio Code の **[エクスプローラー]** ペインで、**Labfiles/06-use-own-data** フォルダーを参照し、言語の設定に応じて、**CSharp** または **Python** フォルダーを展開します。 各フォルダーには、Azure OpenAI 機能を統合するアプリの言語固有のファイルが含まれています。
+2. コード ファイルが含まれている **CSharp** または **Python** フォルダーを右クリックし、統合ターミナルを開きます。 次に、言語設定に応じて適切なコマンドを実行して、Azure OpenAI SDK パッケージをインストールします。
 
-    **C#**:
+    **C#:**
 
     ```
     dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.14
@@ -174,24 +174,24 @@ Applications for both C# and Python have been provided, and both apps feature th
     pip install openai==1.13.3
     ```
 
-3. In the **Explorer** pane, in the **CSharp** or **Python** folder, open the configuration file for your preferred language
+3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
     
-4. Update the configuration values to include:
-    - The  **endpoint** and a **key** from the Azure OpenAI resource you created (available on the **Keys and Endpoint** page for your Azure OpenAI resource in the Azure portal)
-    - The **deployment name** you specified for your model deployment (available in the **Deployments** page in Azure OpenAI Studio).
-    - The endpoint for your search service (the **Url** value on the overview page for your search resource in the Azure portal).
-    - A **key** for your search resource (available in the **Keys** page for your search resource in the Azure portal - you can use either of the admin keys)
-    - The name of the search index (which should be `margiestravel`).
-1. Save the configuration file.
+4. 次を含めて構成値を更新します。
+    - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
+    - モデル デプロイに指定した**デプロイ名** (Azure OpenAI Studio の **[デプロイ]** ページで確認できます)。
+    - 検索サービスのエンドポイント (Azure Portal の検索リソースの概要ページの **URL** 値)。
+    - 検索リソースの**キー** (Azure Portal の検索リソースの [**キー**] ページで使用できます。管理者キーのいずれかを使用できます)。
+    - 検索インデックスの名前 (`margiestravel` になります)。
+1. 構成ファイルを保存します。
 
-### Add code to use the Azure OpenAI service
+### Azure OpenAI サービスを使うコードを追加する
 
-Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
+これで、Azure OpenAI SDK を使って、デプロイされたモデルを使う準備が整いました。
 
-1. In the **Explorer** pane, in the **CSharp** or **Python** folder, open the code file for your preferred language, and replace the comment ***Configure your data source*** with code to add the Azure OpenAI SDK library:
+1. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語のコード ファイルを開き、コメント "***Configure your data source***" を、Azure OpenAI SDK ライブラリを追加するコードに置き換えます。
 
     **C#**: ownData.cs
 
@@ -221,25 +221,25 @@ Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
         )
     ```
 
-2. Review the rest of the code, noting the use of the *extensions* in the request body that is used to provide information about the data source settings.
+2. コードの残りの部分を確認して、データ ソース設定に関する情報の提供に使われる要求本文内での "拡張機能" の使用に注目してください。**
 
-3. Save the changes to the code file.
+3. コード ファイルに加えた変更を保存します。
 
-## Run your application
+## アプリケーションを実行する
 
-Now that your app has been configured, run it to send your request to your model and observe the response. You'll notice the only difference between the different options is the content of the prompt, all other parameters (such as token count and temperature) remain the same for each request.
+アプリが構成されたので、それを実行してモデルに要求を送信し、応答を確認します。 異なるオプションの間で違いがあるのはプロンプトの内容のみであり、他のすべてのパラメーター (トークン数や温度など) は要求ごとに変わりがないことがわかります。
 
-1. In the interactive terminal pane, ensure the folder context is the folder for your preferred language. Then enter the following command to run the application.
+1. 対話型ターミナル ペインで、フォルダー コンテキストが優先言語のフォルダーであることを確認します。 その後、次のコマンドを入力してアプリケーションを作成します。
 
-    - **C#**: `dotnet run`
+    - **C#** : `dotnet run`
     - **Python**: `python ownData.py`
 
-    > **Tip**: You can use the **Maximize panel size** (**^**) icon in the terminal toolbar to see more of the console text.
+    > **ヒント**: ターミナル ツールバーの **最大化パネル サイズ** (**^**) アイコンを使用すると、コンソール テキストをさらに表示できます。
 
-2. Review the response to the prompt `Tell me about London`, which should include an answer as well as some details of the data used to ground the prompt, which was obtained from your search service.
+2. プロンプト `Tell me about London` に対する応答を確認します。これには、回答だけでなく、検索サービスから取得したプロンプトのグラウンディングに使われるデータの詳細が含まれているはずです。
 
-    > **Tip**: If you want to see the citations from your search index, set the variable ***show citations*** near the top of the code file to **true**.
+    > **ヒント**: 検索インデックスからの引用を表示する場合は、コード ファイルの先頭近くにある変数 ***show citations*** を **true** に設定します。
 
-## Clean up
+## クリーンアップ
 
-When you're done with your Azure OpenAI resource, remember to delete the resource in the **Azure portal** at `https://portal.azure.com`. Be sure to also include the storage account and search resource, as those can incur a relatively large cost.
+Azure OpenAI リソースでの作業が完了したら、**Azure portal** (`https://portal.azure.com`) でリソースを忘れずに削除します。 これには、ストレージ アカウントと検索リソースも含まれます。これらによって比較的多額のコストが発生する可能性があるため、必ず削除してください。

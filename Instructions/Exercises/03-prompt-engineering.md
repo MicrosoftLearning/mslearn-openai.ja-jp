@@ -1,70 +1,70 @@
 ---
 lab:
-    title: 'Utilize prompt engineering in your app'
+  title: アプリでプロンプト エンジニアリングを利用する
 ---
 
-# Utilize prompt engineering in your app
+# アプリでプロンプト エンジニアリングを利用する
 
-When working with the Azure OpenAI Service, how developers shape their prompt greatly impacts how the generative AI model will respond. Azure OpenAI models are able to tailor and format content, if requested in a clear and concise way. In this exercise, you'll learn how different prompts for similar content help shape the AI model's response to better satisfy your requirements.
+Azure OpenAI Service を使用する場合、開発者がプロンプトをどのように形成するかは、生成 AI モデルの応答方法に大きく影響します。 明瞭かつ簡潔に要求すれば、Azure OpenAI はコンテンツを調整し、書式設定を行うことができます。 この演習では、類似するコンテンツのさまざまなプロンプトが、要件をより十分に満たす AI モデルの応答を形成するためにどのように役立つかを学習します。
 
-In scenario for this exercise, you will perform the role of a software developer working on a wildlife marketing campaign. You are exploring how to use generative AI to improve advertising emails and categorize articles that might apply to your team. The prompt engineering techniques used in the exercise can be applied similarly for a variety of use cases.
+この演習のシナリオで、あなたは野生動物のマーケティング キャンペーンに取り組むソフトウェア開発者の役割を演じます。 あなたは、生成 AI を使って広告メールを改善し、チームに適用される可能性のある記事を分類する方法を検討しています。 この演習で使われるプロンプト エンジニアリング手法は、さまざまなユース ケースにも同様に適用できます。
 
-This exercise will take approximately **30** minutes.
+この演習には約 **30** 分かかります。
 
-## Provision an Azure OpenAI resource
+## Azure OpenAI リソースをプロビジョニングする
 
-If you don't already have one, provision an Azure OpenAI resource in your Azure subscription.
+まだ持っていない場合は、Azure サブスクリプションで Azure OpenAI リソースをプロビジョニングします。
 
-1. Sign into the **Azure portal** at `https://portal.azure.com`.
-2. Create an **Azure OpenAI** resource with the following settings:
-    - **Subscription**: *Select an Azure subscription that has been approved for access to the Azure OpenAI service*
-    - **Resource group**: *Choose or create a resource group*
-    - **Region**: *Make a **random** choice from any of the following regions*\*
-        - Australia East
-        - Canada East
-        - East US
-        - East US 2
-        - France Central
-        - Japan East
-        - North Central US
-        - Sweden Central
-        - Switzerland North
-        - UK South
-    - **Name**: *A unique name of your choice*
-    - **Pricing tier**: Standard S0
+1. **Azure portal** (`https://portal.azure.com`) にサインインします。
+2. 次の設定で **Azure OpenAI** リソースを作成します。
+    - **[サブスクリプション]**: "Azure OpenAI Service へのアクセスが承認されている Azure サブスクリプションを選びます"**
+    - **[リソース グループ]**: *リソース グループを作成または選択します*
+    - **[リージョン]**: *以下のいずれかのリージョンから**ランダム**に選択する*\*
+        - オーストラリア東部
+        - カナダ東部
+        - 米国東部
+        - 米国東部 2
+        - フランス中部
+        - 東日本
+        - 米国中北部
+        - スウェーデン中部
+        - スイス北部
+        - 英国南部
+    - **[名前]**: "*希望する一意の名前*"
+    - **価格レベル**: Standard S0
 
-    > \* Azure OpenAI resources are constrained by regional quotas. The listed regions include default quota for the model type(s) used in this exercise. Randomly choosing a region reduces the risk of a single region reaching its quota limit in scenarios where you are sharing a subscription with other users. In the event of a quota limit being reached later in the exercise, there's a possibility you may need to create another resource in a different region.
+    > \* Azure OpenAI リソースは、リージョンのクォータによって制限されます。 一覧表示されているリージョンには、この演習で使用されるモデル タイプの既定のクォータが含まれています。 リージョンをランダムに選択することで、サブスクリプションを他のユーザーと共有しているシナリオで、1 つのリージョンがクォータ制限に達するリスクが軽減されます。 演習の後半でクォータ制限に達した場合は、別のリージョンに別のリソースを作成する必要が生じる可能性があります。
 
-3. Wait for deployment to complete. Then go to the deployed Azure OpenAI resource in the Azure portal.
+3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
 
-## Deploy a model
+## モデルをデプロイする
 
-Azure OpenAI provides a web-based portal named **Azure OpenAI Studio**, that you can use to deploy, manage, and explore models. You'll start your exploration of Azure OpenAI by using Azure OpenAI Studio to deploy a model.
+Azure OpenAI には、モデルのデプロイ、管理、探索に使用できる **Azure OpenAI Studio** という名前の Web ベースのポータルが用意されています。 Azure OpenAI Studio を使用してモデルをデプロイすることで、Azure OpenAI の探索を開始します。
 
-1. On the **Overview** page for your Azure OpenAI resource, use the **Go to Azure OpenAI Studio** button to open Azure OpenAI Studio in a new browser tab.
-2. In Azure OpenAI Studio, on the **Deployments** page, view your existing model deployments. If you don't already have one, create a new deployment of the **gpt-35-turbo-16k** model with the following settings:
-    - **Model**: gpt-35-turbo-16k *(if the 16k model isn't available, choose gpt-35-turbo)*
-    - **Model version**: Auto-update to default
-    - **Deployment name**: *A unique name of your choice. You'll use this name later in the lab.*
-    - **Advanced options**
-        - **Content filter**: Default
-        - **Deployment type**: Standard
-        - **Tokens per minute rate limit**: 5K\*
-        - **Enable dynamic quota**: Enabled
+1. Azure OpenAI リソースの **[概要]** ページで、 **[Azure OpenAI Studio に移動する]** ボタンを使用して、新しいブラウザー タブで Azure OpenAI Studio を開きます。
+2. Azure OpenAI Studio の [**デプロイ**] ページで、既存のモデルのデプロイを表示します。 まだデプロイがない場合は、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+    - **モデル**: gpt-35-turbo-16k "(16k モデルが使用できない場合は、gpt-35-turbo を選びます)"**
+    - **モデル バージョン**: 既定値に自動更新
+    - **デプロイ名**:"任意の一意の名前。** この名前は、ラボの後半で使います。"
+    - **詳細オプション**
+        - **コンテンツ フィルター**: 既定
+        - **デプロイの種類**:Standard
+        - **1 分あたりのトークンのレート制限**: 5K\*
+        - **動的クォータを有効にする**: 有効
 
-    > \* A rate limit of 5,000 tokens per minute is more than adequate to complete this exercise while leaving capacity for other people using the same subscription.
+    > \* この演習は、1 分あたり 5,000 トークンのレート制限内で余裕を持って完了できます。またこの制限によって、同じサブスクリプションを使用する他のユーザーのために容量を残すこともできます。
 
-## Explore prompt engineering techniques
+## プロンプト エンジニアリングの手法を調べる
 
-Let's start by exploring some prompt engineering techniques in the Chat playground.
+まずは、チャット プレイグラウンドでのプロンプト エンジニアリング手法をいくつか検討してみましょう。
 
-1. In **Azure OpenAI Studio** at `https://oai.azure.com`, in the **Playground** section, select the **Chat** page. The **Chat** playground page consists of three main sections:
-    - **Setup** - used to set the context for the model's responses.
-    - **Chat session** - used to submit chat messages and view responses.
-    - **Configuration** - used to configure settings for the model deployment.
-2. In the **Configuration** section, ensure that your model deployment is selected.
-3. In the **Setup** area, select the default system message template to set the context for the chat session. The default system message is *You are an AI assistant that helps people find information*.
-4. In the **Chat session**, submit the following query:
+1. **Azure OpenAI Studio** (`https://oai.azure.com`) の **[プレイグラウンド]** セクションで、**[チャット]** ページを選びます。 **[チャット]** プレイグラウンド ページは、次の 3 つのメイン セクションで構成されています。
+    - **設定** - モデルの応答のコンテキストを設定するために使われます。
+    - **チャット セッション** - チャット メッセージを送信し、応答を表示するために使われます。
+    - **構成** - モデル デプロイの設定を構成するために使われます。
+2. **[構成]** セクションで、モデル デプロイが選ばれていることを確認します。
+3. **[設定]** 領域で、既定のシステム メッセージ テンプレートを選び、チャット セッションのコンテキストを設定します。 既定のシステム メッセージは、"あなたはユーザーが情報を見つけるのを助ける AI アシスタントです" です。**
+4. **[チャット セッション]** で、次のクエリを送信します。
 
     ```
     What kind of article is this?
@@ -78,13 +78,13 @@ Let's start by exploring some prompt engineering techniques in the Chat playgrou
     Much remains to be determined about how daily life will change as people adjust to a drier normal. But officials are warning the situation is dire and could lead to even more severe limits later in the year.
     ```
 
-    The response provides a description of the article. However, suppose you want a more specific format for article categorization.
+    応答として記事の説明が表示されます。 ただし、記事の分類のために、さらに具体的な形式が必要だとします。
 
-5. In the **Setup** section change the system message to `You are a news aggregator that categorizes news articles.`
+5. **[設定]** セクションのシステム メッセージを `You are a news aggregator that categorizes news articles.` に変更します
 
-6. Under the new system message, in the **Examples** section, select the **Add** button. Then add the following example.
+6. 新しいシステム メッセージの **[例]** セクションで、**[追加]** ボタンを選びます。 次に、以下の例を追加します。
 
-    **User:**
+    **ユーザー:**
     
     ```
     What kind of article is this?
@@ -98,15 +98,15 @@ Let's start by exploring some prompt engineering techniques in the Chat playgrou
     The Chicago Cyclones' two hits came in the 2nd and the 5th innings but were unable to get the runner home to score.
     ```
     
-    **Assistant:**
+    **アシスタント:**
     
     ```
     Sports
       ```
 
-7. Add another example with the following text.
+7. 次のテキストを含む別の例を追加します。
 
-    **User:**
+    **ユーザー:**
     
     ```
     Categorize this article:
@@ -121,15 +121,15 @@ Let's start by exploring some prompt engineering techniques in the Chat playgrou
     From Robin Kline's history-making win to a full performance by none other than Casey Jensen herself, don't miss tomorrows rerun of all the festivities.
     ```
     
-    **Assistant:**
+    **アシスタント:**
     
     ```
     Entertainment
     ```
 
-8. Use the **Apply changes** button at the top of the **Setup** section to update the system message.
+8. **[設定]** セクションの上部にある **[変更の適用]** ボタンを使って、システム メッセージを更新します。
 
-9. In the **Chat session** section, resubmit the following prompt:
+9. **[チャット セッション]** セクションで、次のプロンプトを再送信します。
 
     ```
     What kind of article is this?
@@ -143,22 +143,11 @@ Let's start by exploring some prompt engineering techniques in the Chat playgrou
     Much remains to be determined about how daily life will change as people adjust to a drier normal. But officials are warning the situation is dire and could lead to even more severe limits later in the year.
     ```
 
-    The combination of a more specific system message and some examples of expected queries and responses results in a consistent format for the results.
+    より具体的なシステム メッセージと、予想されるクエリと応答のいくつかの例を組み合わせることで、結果の形式が一貫したものになります。
 
-10. In the **Setup** section, change the system message back to the default template, which should be `You are an AI assistant that helps people find information.` with no examples. Then apply the changes.
+10. **[設定]** セクションで、システム メッセージを既定のテンプレートに戻します。これは例なしの `You are an AI assistant that helps people find information.` です。 次に、変更を適用します。
 
-11. In the **Chat session** section, submit the following prompt:
-
-    ```
-    # 1. Create a list of animals
-    # 2. Create a list of whimsical names for those animals
-    # 3. Combine them randomly into a list of 25 animal and name pairs
-    ```
-
-    The model will likely respond with an answer to satisfy the prompt, split into a numbered list. This is an appropriate response, but suppose what you actually wanted was for the model to write a Python program that performs the tasks you described?
-
-12. Change the system message to `You are a coding assistant helping write python code.` and apply the changes.
-13. Resubmit the following prompt to the model:
+11. **[チャット セッション]** セクションで、次のプロンプトを送信します。
 
     ```
     # 1. Create a list of animals
@@ -166,32 +155,43 @@ Let's start by exploring some prompt engineering techniques in the Chat playgrou
     # 3. Combine them randomly into a list of 25 animal and name pairs
     ```
 
-    The model should correctly respond with python code doing what the comments requested.
+    モデルは回答を番号付きリストに分けて応答し、それらはおそらくプロンプトを満たしています。 これは適切な応答ですが、実際に望んでいたことは、説明したタスクを実行する Python プログラムをモデルに作成させることだったとします。
 
-## Prepare to develop an app in Visual Studio Code
+12. システム メッセージを `You are a coding assistant helping write python code.` に変更し、変更を適用します。
+13. 次のプロンプトをモデルに再送信します。
 
-Now let's explore the use of prompt engineering in an app that uses the Azure OpenAI service SDK. You'll develop your app using Visual Studio Code. The code files for your app have been provided in a GitHub repo.
+    ```
+    # 1. Create a list of animals
+    # 2. Create a list of whimsical names for those animals
+    # 3. Combine them randomly into a list of 25 animal and name pairs
+    ```
 
-> **Tip**: If you have already cloned the **mslearn-openai** repo, open it in Visual Studio code. Otherwise, follow these steps to clone it to your development environment.
+    モデルは、コメントで要求された内容を実行する Python コードで正しく応答するはずです。
 
-1. Start Visual Studio Code.
-2. Open the palette (SHIFT+CTRL+P) and run a **Git: Clone** command to clone the `https://github.com/MicrosoftLearning/mslearn-openai` repository to a local folder (it doesn't matter which folder).
-3. When the repository has been cloned, open the folder in Visual Studio Code.
+## Visual Studio Code でアプリを開発する準備をする
 
-    > **Note**: If Visual Studio Code shows you a pop-up message to prompt you to trust the code you are opening, click on **Yes, I trust the authors** option in the pop-up.
+次に、Azure OpenAI Service SDK を使うアプリでのプロンプト エンジニアリングの使用について説明します。 Visual Studio Code を使用してアプリを開発します。 アプリのコード ファイルは、GitHub リポジトリで提供されています。
 
-4. Wait while additional files are installed to support the C# code projects in the repo.
+> **ヒント**: 既に **mslearn-openai** リポジトリをクローンしている場合は、Visual Studio Code で開きます。 それ以外の場合は、次の手順に従って開発環境に複製します。
 
-    > **Note**: If you are prompted to add required assets to build and debug, select **Not Now**.
+1. Visual Studio Code を起動します。
+2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
 
-## Configure your application
+    > **注**:Visual Studio Code に、開いているコードを信頼するかどうかを求めるポップアップ メッセージが表示された場合は、ポップアップの **[はい、作成者を信頼します]** オプションをクリックします。
 
-Applications for both C# and Python have been provided, and both apps feature the same functionality. First, you'll complete some key parts of the application to enable using your Azure OpenAI resource with asynchronous API calls.
+4. リポジトリ内の C# コード プロジェクトをサポートするために追加のファイルがインストールされるまで待ちます。
 
-1. In Visual Studio Code, in the **Explorer** pane, browse to the **Labfiles/03-prompt-engineering** folder and expand the **CSharp** or **Python** folder depending on your language preference. Each folder contains the language-specific files for an app into which you're you're going to integrate Azure OpenAI functionality.
-2. Right-click the **CSharp** or **Python** folder containing your code files and open an integrated terminal. Then install the Azure OpenAI SDK package by running the appropriate command for your language preference:
+    > **注**: ビルドとデバッグに必要なアセットを追加するように求めるプロンプトが表示された場合は、**[今はしない]** を選択します。
 
-    **C#**:
+## アプリケーションを構成する
+
+C# と Python の両方のアプリケーションが用意されており、どちらのアプリも同じ機能を備えています。 まず、非同期 API 呼び出しで Azure OpenAI リソースを使用できるように、アプリケーションの主要な部分をいくつか完成させます。
+
+1. Visual Studio Code の **[エクスプローラー]** ペインで、**Labfiles/03-prompt-engineering** フォルダーを参照し、言語の設定に応じて **CSharp** または **Python** フォルダーを展開します。 各フォルダーには、Azure OpenAI 機能を統合するアプリの言語固有のファイルが含まれています。
+2. コード ファイルが含まれている **CSharp** または **Python** フォルダーを右クリックし、統合ターミナルを開きます。 次に、言語設定に応じて適切なコマンドを実行して、Azure OpenAI SDK パッケージをインストールします。
+
+    **C#:**
 
     ```
     dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.14
@@ -203,23 +203,23 @@ Applications for both C# and Python have been provided, and both apps feature th
     pip install openai==1.13.3
     ```
 
-3. In the **Explorer** pane, in the **CSharp** or **Python** folder, open the configuration file for your preferred language
+3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
     
-4. Update the configuration values to include:
-    - The  **endpoint** and a **key** from the Azure OpenAI resource you created (available on the **Keys and Endpoint** page for your Azure OpenAI resource in the Azure portal)
-    - The **deployment name** you specified for your model deployment (available in the **Deployments** page in Azure OpenAI Studio).
-5. Save the configuration file.
+4. 次を含めて構成値を更新します。
+    - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
+    - モデル デプロイに指定した**デプロイ名** (Azure OpenAI Studio の **[デプロイ]** ページで確認できます)。
+5. 構成ファイルを保存します。
 
-## Add code to use the Azure OpenAI service
+## Azure OpenAI サービスを使うコードを追加する
 
-Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
+これで、Azure OpenAI SDK を使って、デプロイされたモデルを使う準備が整いました。
 
-1. In the **Explorer** pane, in the **CSharp** or **Python** folder, open the code file for your preferred language, and replace the comment ***Add Azure OpenAI package*** with code to add the Azure OpenAI SDK library:
+1. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語のコード ファイルを開き、コメント "***Add Azure OpenAI package***" を、Azure OpenAI SDK ライブラリを追加するコードに置き換えます。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Add Azure OpenAI package
@@ -233,9 +233,9 @@ Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
     from openai import AsyncAzureOpenAI
     ```
 
-2. In the code file, find the comment ***Configure the Azure OpenAI client***, and add code to configure the Azure OpenAI client:
+2. コード ファイルでコメント "***Configure the Azure OpenAI client***" を見つけて、Azure OpenAI クライアントを構成するコードを追加します。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Configure the Azure OpenAI client
@@ -253,9 +253,9 @@ Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
         )
     ```
 
-3. In the function that calls the Azure OpenAI model, under the comment ***Format and send the request to the model***, add the code to format and send the request to the model.
+3. Azure OpenAI モデルを呼び出す関数のコメント "***Format and send the request to the model***" の下に、要求を書式設定してモデルに送信するコードを追加します。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Format and send the request to the model
@@ -295,44 +295,44 @@ Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
     )
     ```
 
-4. Save the changes to the code file.
+4. コード ファイルに加えた変更を保存します。
 
-## Run your application
+## アプリケーションを実行する
 
-Now that your app has been configured, run it to send your request to your model and observe the response. You'll notice the only difference between the different options is the content of the prompt, all other parameters (such as token count and temperature) remain the same for each request.
+アプリが構成されたので、それを実行してモデルに要求を送信し、応答を確認します。 異なるオプションの間で違いがあるのはプロンプトの内容のみであり、他のすべてのパラメーター (トークン数や温度など) は要求ごとに変わりがないことがわかります。
 
-1. In the folder of your preferred language, open `system.txt` in Visual Studio Code. For each of the interations, you'll enter the **System message** in this file and save it. Each iteration will pause first for you to change the system message.
-1. In the interactive terminal pane, ensure the folder context is the folder for your preferred language. Then enter the following command to run the application.
+1. Visual Studio Code で、使う言語のフォルダーにある `system.txt` を開きます。 イテレーションごとに、このファイルに**システム メッセージ**を入力して保存します。 各イテレーションは、システム メッセージを変更できるように、最初に一時停止します。
+1. 対話型ターミナル ペインで、フォルダー コンテキストが優先言語のフォルダーであることを確認します。 その後、次のコマンドを入力してアプリケーションを作成します。
 
-    - **C#**: `dotnet run`
+    - **C#** : `dotnet run`
     - **Python**: `python prompt-engineering.py`
 
-    > **Tip**: You can use the **Maximize panel size** (**^**) icon in the terminal toolbar to see more of the console text.
+    > **ヒント**: ターミナル ツールバーの **最大化パネル サイズ** (**^**) アイコンを使用すると、コンソール テキストをさらに表示できます。
 
-1. For the first iteration, enter the following prompts:
+1. 最初のイテレーションでは、次のプロンプトを入力します。
 
-    **System message**
+    **システム メッセージ**
 
     ```prompt
     You are an AI assistant
     ```
 
-    **User message:**
+    **ユーザー メッセージ:**
 
     ```prompt
     Write an intro for a new wildlife Rescue
     ```
 
-1. Observe the output. The AI model will likely produce a good generic introduction to a wildlife rescue.
-1. Next, enter the following prompts which specify a format for the response:
+1. 出力を確認します。 AI モデルは、野生動物の救護に関する適切で一般的な概要を生成します。
+1. 次に、応答の形式を指定する以下のプロンプトを入力します。
 
-    **System message**
+    **システム メッセージ**
 
     ```prompt
     You are an AI assistant helping to write emails
     ```
 
-    **User message:**
+    **ユーザー メッセージ:**
 
     ```prompt
     Write a promotional email for a new wildlife rescue, including the following: 
@@ -341,16 +341,16 @@ Now that your app has been configured, run it to send your request to your model
     - Call for donations to be given at our website
     ```
 
-1. Observe the output. This time, you'll likely see the format of an email with the specific animals included, as well as the call for donations.
-1. Next, enter the following prompts that additionally specify the content:
+1. 出力を確認します。 今度は、特定の動物と寄付の呼びかけを含む応答がメール形式で表示されます。
+1. 次に、コンテンツを追加で指定する以下のプロンプトを入力します。
 
-    **System message**
+    **システム メッセージ**
 
     ```prompt
     You are an AI assistant helping to write emails
     ```
 
-    **User message:**
+    **ユーザー メッセージ:**
 
     ```prompt
     Write a promotional email for a new wildlife rescue, including the following: 
@@ -360,16 +360,16 @@ Now that your app has been configured, run it to send your request to your model
     \n Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
     ```
 
-1. Observe the output, and see how the email has changed based on your clear instructions.
-1. Next, enter the following prompts where we add details about tone to the system message:
+1. 出力を確認します。また、明確な指示に基づいてメールがどのように変わったかを確認します。
+1. 次に、以下のプロンプトを入力して、トーンに関する詳細をシステム メッセージに追加します。
 
-    **System message**
+    **システム メッセージ**
 
     ```prompt
     You are an AI assistant that helps write promotional emails to generate interest in a new business. Your tone is light, chit-chat oriented and you always include at least two jokes.
     ```
 
-    **User message:**
+    **ユーザー メッセージ:**
 
     ```prompt
     Write a promotional email for a new wildlife rescue, including the following: 
@@ -379,12 +379,12 @@ Now that your app has been configured, run it to send your request to your model
     \n Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
     ```
 
-1. Observe the output. This time you'll likely see the email in a similar format, but with a much more informal tone. You'll likely even see jokes included!
-1. For the final iteration, we're deviating from email generation and exploring *grounding context*. Here you provide a simple system message, and change the app to provide the grounding context as the beginning of the user prompt. The app will then append the user input, and extract information from the grounding context to answer our user prompt.
-1. Open the file `grounding.txt` and briefly read the grounding context you'll be inserting.
-1. In your app immediately after the comment ***Format and send the request to the model*** and before any existing code, add the following code snippet to read text in from `grounding.txt` to augment the user prompt with the grounding context.
+1. 出力を確認します。 メールは同様の形式で表示されますが、今度は、よりくだけたトーンになります。 ジョークが含まれている可能性もあります。
+1. 最後のイテレーションでは、メールの生成から離れて、"グラウンディング コンテキスト" を検討します。** ここでは、単純なシステム メッセージを指定し、ユーザー プロンプトの始まりとしてグラウンディング コンテキストを提供するようにアプリを変更します。 その後、アプリはユーザー入力を追加し、グラウンディング コンテキストから情報を抽出してユーザー プロンプトに回答するようになります。
+1. ファイル `grounding.txt` を開き、挿入するグラウンディング コンテキストをざっと読みます。
+1. アプリのコメント "***Format and send the request to the model***" の直後、既存のコードの前に、`grounding.txt` からテキストを読み取る次のコード スニペットを追加して、ユーザー プロンプトにグラウンディング コンテキストを追加します。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Format and send the request to the model
@@ -402,23 +402,23 @@ Now that your app has been configured, run it to send your request to your model
     user_message = grounding_text + user_message
     ```
 
-1. Save the file and rerun your app.
-1. Enter the following prompts (with the **system message** still being entered and saved in `system.txt`).
+1. ファイルを保存し、アプリを再実行します。
+1. 次のプロンプトを入力します (**システム メッセージ**は入力されたままで、`system.txt` に保存されています)。
 
-    **System message**
+    **システム メッセージ**
 
     ```prompt
     You're an AI assistant who helps people find information. You'll provide answers from the text provided in the prompt, and respond concisely.
     ```
 
-    **User message:**
+    **ユーザー メッセージ:**
 
     ```prompt
     What animal is the favorite of children at Contoso?
     ```
 
-> **Tip**: If you would like to see the full response from Azure OpenAI, you can set the **printFullResponse** variable to `True`, and rerun the app.
+> **ヒント**: Azure OpenAI からの完全な応答を確認したい場合は、**printFullResponse** 変数を `True` に設定し、アプリを再実行します。
 
-## Clean up
+## クリーンアップ
 
-When you're done with your Azure OpenAI resource, remember to delete the deployment or the entire resource in the **Azure portal** at `https://portal.azure.com`.
+Azure OpenAI リソースでの作業が完了したら、**Azure portal** (`https://portal.azure.com`) でデプロイまたはリソース全体を忘れずに削除します。

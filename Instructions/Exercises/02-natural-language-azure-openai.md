@@ -1,83 +1,83 @@
 ---
 lab:
-    title: 'Use Azure OpenAI SDKs in your app'
+  title: アプリで Azure OpenAI SDK を使う
 ---
 
-# Use Azure OpenAI APIs in your app
+# アプリで Azure OpenAI API を使う
 
-With the Azure OpenAI Service, developers can create chatbots, language models, and other applications that excel at understanding natural human language. The Azure OpenAI provides access to pre-trained AI models, as well as a suite of APIs and tools for customizing and fine-tuning these models to meet the specific requirements of your application. In this exercise, you'll learn how to deploy a model in Azure OpenAI and use it in your own application.
+Azure OpenAI Service を使用すると、開発者はチャットボットや言語モデルをはじめとして、人間の自然な言語を理解することに優れたその他のアプリケーションを作成できます。 Azure OpenAI では、事前トレーニング済みの AI モデルにアクセスできるだけでなく、アプリケーションの特定の要件を満たすためにこれらのモデルをカスタマイズおよび微調整するための一連の API やツールが提供されます。 この演習では、Azure OpenAI にモデルをデプロイし、それを独自のアプリケーションで使う方法について学習します。
 
-In the scenario for this exercise, you will perform the role of a software developer who has been tasked to implement an app that can use generative AI to help provide hiking recommendations. The techniques used in the exercise can be applied to any app that wants to use Azure OpenAI APIs.
+この演習のシナリオでは、生成 AI を使ってハイキングの推奨事項を提供できるアプリの実装を任されたソフトウェア開発者の役割を果たします。 この演習で使われる手法は、Azure OpenAI API を使う任意のアプリに適用できます。
 
-This exercise will take approximately **30** minutes.
+この演習には約 **30** 分かかります。
 
-## Provision an Azure OpenAI resource
+## Azure OpenAI リソースをプロビジョニングする
 
-If you don't already have one, provision an Azure OpenAI resource in your Azure subscription.
+まだ持っていない場合は、Azure サブスクリプションで Azure OpenAI リソースをプロビジョニングします。
 
-1. Sign into the **Azure portal** at `https://portal.azure.com`.
-2. Create an **Azure OpenAI** resource with the following settings:
-    - **Subscription**: *Select an Azure subscription that has been approved for access to the Azure OpenAI service*
-    - **Resource group**: *Choose or create a resource group*
-    - **Region**: *Make a **random** choice from any of the following regions*\*
-        - Australia East
-        - Canada East
-        - East US
-        - East US 2
-        - France Central
-        - Japan East
-        - North Central US
-        - Sweden Central
-        - Switzerland North
-        - UK South
-    - **Name**: *A unique name of your choice*
-    - **Pricing tier**: Standard S0
+1. **Azure portal** (`https://portal.azure.com`) にサインインします。
+2. 次の設定で **Azure OpenAI** リソースを作成します。
+    - **[サブスクリプション]**: "Azure OpenAI Service へのアクセスが承認されている Azure サブスクリプションを選びます"**
+    - **[リソース グループ]**: *リソース グループを作成または選択します*
+    - **[リージョン]**: *以下のいずれかのリージョンから**ランダム**に選択する*\*
+        - オーストラリア東部
+        - カナダ東部
+        - 米国東部
+        - 米国東部 2
+        - フランス中部
+        - 東日本
+        - 米国中北部
+        - スウェーデン中部
+        - スイス北部
+        - 英国南部
+    - **[名前]**: "*希望する一意の名前*"
+    - **価格レベル**: Standard S0
 
-    > \* Azure OpenAI resources are constrained by regional quotas. The listed regions include default quota for the model type(s) used in this exercise. Randomly choosing a region reduces the risk of a single region reaching its quota limit in scenarios where you are sharing a subscription with other users. In the event of a quota limit being reached later in the exercise, there's a possibility you may need to create another resource in a different region.
+    > \* Azure OpenAI リソースは、リージョンのクォータによって制限されます。 一覧表示されているリージョンには、この演習で使用されるモデル タイプの既定のクォータが含まれています。 リージョンをランダムに選択することで、サブスクリプションを他のユーザーと共有しているシナリオで、1 つのリージョンがクォータ制限に達するリスクが軽減されます。 演習の後半でクォータ制限に達した場合は、別のリージョンに別のリソースを作成する必要が生じる可能性があります。
 
-3. Wait for deployment to complete. Then go to the deployed Azure OpenAI resource in the Azure portal.
+3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
 
-## Deploy a model
+## モデルをデプロイする
 
-Azure OpenAI provides a web-based portal named **Azure OpenAI Studio**, that you can use to deploy, manage, and explore models. You'll start your exploration of Azure OpenAI by using Azure OpenAI Studio to deploy a model.
+Azure OpenAI には、モデルのデプロイ、管理、探索に使用できる **Azure OpenAI Studio** という名前の Web ベースのポータルが用意されています。 Azure OpenAI Studio を使用してモデルをデプロイすることで、Azure OpenAI の探索を開始します。
 
-1. On the **Overview** page for your Azure OpenAI resource, use the **Go to Azure OpenAI Studio** button to open Azure OpenAI Studio in a new browser tab.
-2. In Azure OpenAI Studio, on the **Deployments** page, view your existing model deployments. If you don't already have one, create a new deployment of the **gpt-35-turbo-16k** model with the following settings:
-    - **Model**: gpt-35-turbo-16k *(if the 16k model isn't available, choose gpt-35-turbo)*
-    - **Model version**: Auto-update to default
-    - **Deployment name**: *A unique name of your choice. You'll use this name later in the lab.*
-    - **Advanced options**
-        - **Content filter**: Default
-        - **Deployment type**: Standard
-        - **Tokens per minute rate limit**: 5K\*
-        - **Enable dynamic quota**: Enabled
+1. Azure OpenAI リソースの **[概要]** ページで、 **[Azure OpenAI Studio に移動する]** ボタンを使用して、新しいブラウザー タブで Azure OpenAI Studio を開きます。
+2. Azure OpenAI Studio の [**デプロイ**] ページで、既存のモデルのデプロイを表示します。 まだデプロイがない場合は、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+    - **モデル**: gpt-35-turbo-16k "(16k モデルが使用できない場合は、gpt-35-turbo を選びます)"**
+    - **モデル バージョン**: 既定値に自動更新
+    - **デプロイ名**:"任意の一意の名前。** この名前は、ラボの後半で使います。"
+    - **詳細オプション**
+        - **コンテンツ フィルター**: 既定
+        - **デプロイの種類**:Standard
+        - **1 分あたりのトークンのレート制限**: 5K\*
+        - **動的クォータを有効にする**: 有効
 
-    > \* A rate limit of 5,000 tokens per minute is more than adequate to complete this exercise while leaving capacity for other people using the same subscription.
+    > \* この演習は、1 分あたり 5,000 トークンのレート制限内で余裕を持って完了できます。またこの制限によって、同じサブスクリプションを使用する他のユーザーのために容量を残すこともできます。
 
-## Prepare to develop an app in Visual Studio Code
+## Visual Studio Code でアプリを開発する準備をする
 
-You'll develop your Azure OpenAI app using Visual Studio Code. The code files for your app have been provided in a GitHub repo.
+Visual Studio Code を使って Azure OpenAI アプリを開発します。 アプリのコード ファイルは、GitHub リポジトリで提供されています。
 
-> **Tip**: If you have already cloned the **mslearn-openai** repo, open it in Visual Studio code. Otherwise, follow these steps to clone it to your development environment.
+> **ヒント**: 既に **mslearn-openai** リポジトリをクローンしている場合は、Visual Studio Code で開きます。 それ以外の場合は、次の手順に従って開発環境に複製します。
 
-1. Start Visual Studio Code.
-2. Open the palette (SHIFT+CTRL+P) and run a **Git: Clone** command to clone the `https://github.com/MicrosoftLearning/mslearn-openai` repository to a local folder (it doesn't matter which folder).
-3. When the repository has been cloned, open the folder in Visual Studio Code.
+1. Visual Studio Code を起動します。
+2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
 
-    > **Note**: If Visual Studio Code shows you a pop-up message to prompt you to trust the code you are opening, click on **Yes, I trust the authors** option in the pop-up.
+    > **注**:Visual Studio Code に、開いているコードを信頼するかどうかを求めるポップアップ メッセージが表示された場合は、ポップアップの **[はい、作成者を信頼します]** オプションをクリックします。
 
-4. Wait while additional files are installed to support the C# code projects in the repo.
+4. リポジトリ内の C# コード プロジェクトをサポートするために追加のファイルがインストールされるまで待ちます。
 
-    > **Note**: If you are prompted to add required assets to build and debug, select **Not Now**.
+    > **注**: ビルドとデバッグに必要なアセットを追加するように求めるプロンプトが表示された場合は、**[今はしない]** を選択します。
 
-## Configure your application
+## アプリケーションを構成する
 
-Applications for both C# and Python have been provided. Both apps feature the same functionality. First, you'll complete some key parts of the application to enable using your Azure OpenAI resource.
+C# と Python の両方のアプリケーションが提供されています。 どちらのアプリにも同じ機能があります。 まず、Azure OpenAI リソースの使用を有効にするために、アプリケーションの主要な部分をいくつか完成させます。
 
-1. In Visual Studio Code, in the **Explorer** pane, browse to the **Labfiles/02-azure-openai-api** folder and expand the **CSharp** or **Python** folder depending on your language preference. Each folder contains the language-specific files for an app into which you're going to integrate Azure OpenAI functionality.
-2. Right-click the **CSharp** or **Python** folder containing your code files and open an integrated terminal. Then install the Azure OpenAI SDK package by running the appropriate command for your language preference:
+1. Visual Studio Code の **[エクスプローラー]** ペインで、**Labfiles/02-azure-openai-api** フォルダーを参照し、言語の設定に応じて **CSharp** または **Python** フォルダーを展開します。 各フォルダーには、Azure OpenAI 機能を統合するアプリの言語固有のファイルが含まれています。
+2. コード ファイルが含まれている **CSharp** または **Python** フォルダーを右クリックし、統合ターミナルを開きます。 次に、言語設定に応じて適切なコマンドを実行して、Azure OpenAI SDK パッケージをインストールします。
 
-    **C#**:
+    **C#:**
 
     ```
     dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.14
@@ -89,23 +89,23 @@ Applications for both C# and Python have been provided. Both apps feature the sa
     pip install openai==1.13.3
     ```
 
-3. In the **Explorer** pane, in the **CSharp** or **Python** folder, open the configuration file for your preferred language
+3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
     
-4. Update the configuration values to include:
-    - The  **endpoint** and a **key** from the Azure OpenAI resource you created (available on the **Keys and Endpoint** page for your Azure OpenAI resource in the Azure portal)
-    - The **deployment name** you specified for your model deployment (available in the **Deployments** page in Azure OpenAI Studio).
-5. Save the configuration file.
+4. 次を含めて構成値を更新します。
+    - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
+    - モデル デプロイに指定した**デプロイ名** (Azure OpenAI Studio の **[デプロイ]** ページでアクセスできます)。
+5. 構成ファイルを保存します。
 
-## Add code to use the Azure OpenAI service
+## Azure OpenAI サービスを使うコードを追加する
 
-Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
+これで、Azure OpenAI SDK を使って、デプロイされたモデルを使う準備が整いました。
 
-1. In the **Explorer** pane, in the **CSharp** or **Python** folder, open the code file for your preferred language, and replace the comment ***Add Azure OpenAI package*** with code to add the Azure OpenAI SDK library:
+1. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、希望の言語のコード ファイルを開き、コメント "***Add Azure OpenAI package***" を、Azure OpenAI SDK ライブラリを追加するコードに置き換えます。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Add Azure OpenAI package
@@ -119,9 +119,9 @@ Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
     from openai import AzureOpenAI
     ```
 
-1. In the application code for your language, replace the comment ***Initialize the Azure OpenAI client...*** with the following code to initialize the client and define our system message.
+1. 使用する言語のアプリケーション コードで、コメント "***Initialize the Azure OpenAI client...***" を次のコードに置き換えて、クライアントを初期化し、システム メッセージを定義します。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Initialize the Azure OpenAI client
@@ -149,9 +149,9 @@ Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
         """
     ```
 
-1. Replace the comment ***Add code to send request...*** with the necessary code for building the request; specifying the various parameters for your model such as `messages` and `temperature`.
+1. コメント "***Add code to send request...***" を要求の構築に必要なコードに置き換え、`messages` や `temperature` など、モデルのさまざまなパラメーターを指定します。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Add code to send request...
@@ -196,37 +196,37 @@ Now you're ready to use the Azure OpenAI SDK to consume your deployed model.
     print("Response: " + generated_text + "\n")
     ```
 
-1. Save the changes to your code file.
+1. 変更内容をコード ファイルに保存します。
 
-## Test your application
+## アプリケーションのテスト
 
-Now that your app has been configured, run it to send your request to your model and observe the response.
+アプリが構成されたので、それを実行してモデルに要求を送信し、応答を確認します。
 
-1. In the interactive terminal pane, ensure the folder context is the folder for your preferred language. Then enter the following command to run the application.
+1. 対話型ターミナル ペインで、フォルダー コンテキストが優先言語のフォルダーであることを確認します。 その後、次のコマンドを入力してアプリケーションを作成します。
 
-    - **C#**: `dotnet run`
+    - **C#** : `dotnet run`
     - **Python**: `python test-openai-model.py`
 
-    > **Tip**: You can use the **Maximize panel size** (**^**) icon in the terminal toolbar to see more of the console text.
+    > **ヒント**: ターミナル ツールバーの **最大化パネル サイズ** (**^**) アイコンを使用すると、コンソール テキストをさらに表示できます。
 
-1. When prompted, enter the text `What hike should I do near Rainier?`.
-1. Observe the output, taking note that the response follows the guidelines provided in the system message you added to the *messages* array.
-1. Provide the prompt `Where should I hike near Boise? I'm looking for something of easy difficulty, between 2 to 3 miles, with moderate elevation gain.` and observe the output.
-1. In the code file for your preferred language, change the *temperature* parameter value in your request to **1.0** and save the file.
-1. Run the application again using the prompts above, and observe the output.
+1. プロンプトが表示されたら、テキスト `What hike should I do near Rainier?` を入力します。
+1. 応答が、*messages* 配列に追加したシステム メッセージに示されているガイドラインに従ってしていることに注意して、出力を確認します。
+1. プロンプト `Where should I hike near Boise? I'm looking for something of easy difficulty, between 2 to 3 miles, with moderate elevation gain.` を入力し、出力を確認します。
+1. 使用する言語のコード ファイルで、要求の *temperature* パラメーター値を **1.0** に変更し、ファイルを保存します。
+1. 上記のプロンプトを使ってアプリケーションを再度実行し、出力を確認します。
 
-Increasing the temperature often causes the response to vary, even when provided the same text, due to the increased randomness. You can run it several times to see how the output may change. Try using different values for your temperature with the same input.
+温度を上げると、ランダム性が高くなるため、同じテキストが指定された場合でも、多くの場合、応答が変化します。 これを数回実行して、出力がどのように変化するかを確認できます。 同じ入力で温度に異なる値を使用してみてください。
 
-## Maintain conversation history
+## 会話履歴を維持する
 
-In most real-world applications, the ability to reference previous parts of the conversation allows for a more realistic interaction with an AI agent. The Azure OpenAI API is stateless by design, but by providing a history of the conversation in your prompt you enable the AI model to reference past messages.
+ほとんどの実際のアプリケーションでは、会話の前の部分を参照できることにより、AI エージェントとのより現実的な対話が可能になります。 Azure OpenAI API は設計上ステートレスですが、プロンプトに会話の履歴を提供することで、AI モデルが過去のメッセージを参照できるようになります。
 
-1. Run the app again and provide the prompt `Where is a good hike near Boise?`.
-1. Observe the output, and then prompt `How difficult is the second hike you suggested?`.
-1. The response from the model will likely indicate can't understand the hike you're referring to. To fix that, we can enable the model to have the past conversation messages for reference.
-1. In your application, we need to add the previous prompt and response to the future prompt we are sending. Below the definition of the **system message**, add the following code.
+1. アプリを再度実行し、プロンプト `Where is a good hike near Boise?` を指定します。
+1. 出力を確認し、それからプロンプト `How difficult is the second hike you suggested?` を指定します。
+1. モデルからの応答は、言及しているハイキングを理解できないことを示している可能性があります。 これを修正するには、モデルが参照用に過去の会話メッセージを保持できるようにします。
+1. アプリケーションでは、以前のプロンプトと応答を、今後送信するプロンプトに追加する必要があります。 **システム メッセージ**の定義の下に、次のコードを追加します。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Initialize messages list
@@ -243,9 +243,9 @@ In most real-world applications, the ability to reference previous parts of the 
     messages_array = [{"role": "system", "content": system_message}]
     ```
 
-1. Under the comment ***Add code to send request...***, replace all the code from the comment to the end of the **while** loop with the following code then save the file. The code is mostly the same, but now using the messages array to store the conversation history.
+1. コメント "***Add code to send request...***"の下で、コメントから **while** ループの最後までのすべてのコードを次のコードに置き換えて、ファイルを保存します。 コードはほとんど同じですが、メッセージ配列を使って会話履歴を格納するようになりました。
 
-    **C#**: Program.cs
+    **C#** : Program.cs
 
     ```csharp
     // Add code to send request...
@@ -298,18 +298,18 @@ In most real-world applications, the ability to reference previous parts of the 
     print("Summary: " + generated_text + "\n")
     ```
 
-1. Save the file. In the code you added, notice we now append the previous input and response to the prompt array which allows the model to understand the history of our conversation.
-1. In the terminal pane, enter the following command to run the application.
+1. ファイルを保存します。 追加したコードでは、以前の入力と応答がプロンプト配列に追加され、モデルが会話の履歴を理解できるようになっていることに注目してください。
+1. ターミナル ペインで次のコマンドを入力してアプリケーションを実行します。
 
-    - **C#**: `dotnet run`
+    - **C#** : `dotnet run`
     - **Python**: `python test-openai-model.py`
 
-1. Run the app again and provide the prompt `Where is a good hike near Boise?`.
-1. Observe the output, and then prompt `How difficult is the second hike you suggested?`.
-1. You'll likely get a response about the second hike the model suggested, which provides a much more realistic conversation. You can ask additional follow up questions referencing previous answers, and each time the history provides context for the model to answer.
+1. アプリを再度実行し、プロンプト `Where is a good hike near Boise?` を指定します。
+1. 出力を確認し、それからプロンプト `How difficult is the second hike you suggested?` を指定します。
+1. モデルが提案した 2 番目のハイキングについての応答が得られる可能性が高く、より現実的な会話が得られます。 以前の回答を参照して追加のフォロー アップの質問をすることができ、そのたびに履歴によってモデルが回答するためのコンテキストが提供されます。
 
-    > **Tip**: The token count is only set to 1200, so if the conversation continues too long the application will run out of available tokens, resulting in an incomplete prompt. In production uses, limiting the length of the history to the most recent inputs and responses will help control the number of required tokens.
+    > **ヒント**: トークン数は 1200 のみに設定されているため、会話が長くなりすぎると、アプリケーションで使用できるトークンがなくなり、プロンプトが不完全になります。 運用環境での使用では、履歴の長さを最新の入力と応答に制限すると、必要なトークンの数を制御するのに役立ちます。
 
-## Clean up
+## クリーンアップ
 
-When you're done with your Azure OpenAI resource, remember to delete the deployment or the entire resource in the **Azure portal** at `https://portal.azure.com`.
+Azure OpenAI リソースでの作業が完了したら、**Azure portal** (`https://portal.azure.com`) でデプロイまたはリソース全体を忘れずに削除します。

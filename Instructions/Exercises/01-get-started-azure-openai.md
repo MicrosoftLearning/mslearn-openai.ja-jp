@@ -1,111 +1,111 @@
 ---
 lab:
-    title: 'Get started with Azure OpenAI service'
+  title: Azure OpenAI Service で作業を開始する
 ---
 
-# Get started with Azure OpenAI service
+# Azure OpenAI Service で作業を開始する
 
-Azure OpenAI Service brings the generative AI models developed by OpenAI to the Azure platform, enabling you to develop powerful AI solutions that benefit from the security, scalability, and integration of services provided by the Azure cloud platform. In this exercise, you'll learn how to get started with Azure OpenAI by provisioning the service as an Azure resource and using Azure OpenAI Studio to deploy and explore generative AI models.
+Azure OpenAI Service は OpenAI によって開発された生成 AI モデルを Azure プラットフォームに導入します。これにより、Azure クラウド プラットフォームによって提供されるサービスのセキュリティ、スケーラビリティ、統合の恩恵を受ける強力な AI ソリューションを開発できるようになります。 この演習では、サービスを Azure リソースとしてプロビジョニングし、Azure OpenAI Studio を使って生成 AI モデルをデプロイおよび調べることにより、Azure OpenAI で作業を開始する方法について学習します。
 
-In the scenario for this exercise, you will perform the role of a software developer who has been tasked to implement an AI agent that can use generative AI to help a marketing organization improve its effectiveness at reaching customers and advertising new products. The techniques used in the exercise can be applied to any scenario where an organization wants to use generative AI models to help employees be more effective and productive.
+この演習のシナリオでは、マーケティング組織が顧客にアプローチし、新製品を宣伝する効率を向上させるために生成 AI を使うことのできる AI エージェントの実装を任されたソフトウェア開発者の役割を果たします。 この演習で使われる手法は、組織が生成 AI モデルを使って従業員の効率と生産性を向上させたいあらゆるシナリオに適用できます。
 
-This exercise takes approximately **30** minutes.
+この演習は約 **30** 分かかります。
 
-## Provision an Azure OpenAI resource
+## Azure OpenAI リソースをプロビジョニングする
 
-If you don't already have one, provision an Azure OpenAI resource in your Azure subscription.
+まだ持っていない場合は、Azure サブスクリプションで Azure OpenAI リソースをプロビジョニングします。
 
-1. Sign into the **Azure portal** at `https://portal.azure.com`.
-2. Create an **Azure OpenAI** resource with the following settings:
-    - **Subscription**: *Select an Azure subscription that has been approved for access to the Azure OpenAI service*
-    - **Resource group**: *Choose or create a resource group*
-    - **Region**: *Make a **random** choice from any of the following regions*\*
-        - Australia East
-        - Canada East
-        - East US
-        - East US 2
-        - France Central
-        - Japan East
-        - North Central US
-        - Sweden Central
-        - Switzerland North
-        - UK South
-    - **Name**: *A unique name of your choice*
-    - **Pricing tier**: Standard S0
+1. **Azure portal** (`https://portal.azure.com`) にサインインします。
+2. 次の設定で **Azure OpenAI** リソースを作成します。
+    - **[サブスクリプション]**: "Azure OpenAI Service へのアクセスが承認されている Azure サブスクリプションを選びます"**
+    - **[リソース グループ]**: *リソース グループを作成または選択します*
+    - **[リージョン]**: *以下のいずれかのリージョンから**ランダム**に選択する*\*
+        - オーストラリア東部
+        - カナダ東部
+        - 米国東部
+        - 米国東部 2
+        - フランス中部
+        - 東日本
+        - 米国中北部
+        - スウェーデン中部
+        - スイス北部
+        - 英国南部
+    - **[名前]**: "*希望する一意の名前*"
+    - **価格レベル**: Standard S0
 
-    > \* Azure OpenAI resources are constrained by regional quotas. The listed regions include default quota for the model type(s) used in this exercise. Randomly choosing a region reduces the risk of a single region reaching its quota limit in scenarios where you are sharing a subscription with other users. In the event of a quota limit being reached later in the exercise, there's a possibility you may need to create another resource in a different region.
+    > \* Azure OpenAI リソースは、リージョンのクォータによって制限されます。 一覧表示されているリージョンには、この演習で使用されるモデル タイプの既定のクォータが含まれています。 リージョンをランダムに選択することで、サブスクリプションを他のユーザーと共有しているシナリオで、1 つのリージョンがクォータ制限に達するリスクが軽減されます。 演習の後半でクォータ制限に達した場合は、別のリージョンに別のリソースを作成する必要が生じる可能性があります。
 
-3. Wait for deployment to complete. Then go to the deployed Azure OpenAI resource in the Azure portal.
+3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
 
-## Deploy a model
+## モデルをデプロイする
 
-Azure OpenAI service provides a web-based portal named **Azure OpenAI Studio**, that you can use to deploy, manage, and explore models. You'll start your exploration of Azure OpenAI by using Azure OpenAI Studio to deploy a model.
+Azure OpenAI Service には、モデルのデプロイ、管理、調査に使用できる **Azure OpenAI Studio** という名前の Web ベースのポータルが用意されています。 Azure OpenAI Studio を使用してモデルをデプロイすることで、Azure OpenAI の探索を開始します。
 
-> **Note**: As you use Azure OpenAI Studio, message boxes suggesting tasks for you to perform may be displayed. You can close these and follow the steps in this exercise.
+> **注**:Azure OpenAI Studio を使うと、実行するタスクを提案するメッセージ ボックスが表示される場合があります。 これらを閉じて、この演習の手順に従うことができます。
 
-1. In the Azure portal, on the **Overview** page for your Azure OpenAI resource, use the **Go to Azure OpenAI Studio** button to open Azure OpenAI Studio in a new browser tab.
+1. Azure portal にある Azure OpenAI リソースの **[概要]** ページで、**[Azure OpenAI Studio に移動]** ボタンを使って、新しいブラウザー タブで Azure OpenAI Studio を開きます。
 
-    After the new tab opens, you can close any banner notifications for new preview services that are displayed at the top of the Azure OpenAI Studio page.
+    新しいタブが開いたら、Azure OpenAI Studio ページの上部に表示される新しいプレビュー サービスのバナー通知を閉じます。
 
-1. In Azure OpenAI Studio, in the pane on the left, select the **Deployments** page and view your existing model deployments. If you don't already have one, create a new deployment of the **gpt-35-turbo-16k** model with the following settings:
-    - **Model**: gpt-35-turbo-16k *(if the 16k model isn't available, choose gpt-35-turbo)*
-    - **Model version**: Auto-update to default
-    - **Deployment name**: *A unique name of your choice*
-    - **Advanced options**
-        - **Content filter**: Default
-        - **Deployment type**: Standard
-        - **Tokens per minute rate limit**: 5K\*
-        - **Enable dynamic quota**: Enabled
+1. Azure OpenAI Studio の左ペインで、**[デプロイ]** ページを選び、既存のモデル デプロイを表示します。 まだデプロイがない場合は、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+    - **モデル**: gpt-35-turbo-16k "(16k モデルが使用できない場合は、gpt-35-turbo を選びます)"**
+    - **モデル バージョン**: 既定値に自動更新
+    - **デプロイの名前**: *任意の一意の名前*
+    - **詳細オプション**
+        - **コンテンツ フィルター**: 既定
+        - **デプロイの種類**:Standard
+        - **1 分あたりのトークンのレート制限**: 5K\*
+        - **動的クォータを有効にする**: 有効
 
-    > \* A rate limit of 5,000 tokens per minute is more than adequate to complete this exercise while leaving capacity for other people using the same subscription.
+    > \* この演習は、1 分あたり 5,000 トークンのレート制限内で余裕を持って完了できます。またこの制限によって、同じサブスクリプションを使用する他のユーザーのために容量を残すこともできます。
 
-## Use the Chat playground
+## チャット プレイグラウンドを使用する
 
-Now that you've deployed a model, you can use it to generate responses based on natural language prompts. The *Chat* playground in Azure OpenAI Studio provides a chatbot interface for GPT 3.5 and higher models.
+モデルをデプロイしたので、それを使って自然言語プロンプトに基づいた応答を生成できます。 Azure OpenAI Studio の *Chat* プレイグラウンドは、GPT 3.5 以降のモデルにチャットボット インターフェイスを提供します。
 
-> **Note:** The *Chat* playground uses the *ChatCompletions* API rather than the older *Completions* API that is used by the *Completions* playground. The Completions playground is provided for compatibility with older models.
+> **注:**  *Chat* プレイグラウンドは、*Completions* プレイグラウンドで使われる以前の *Completions* API ではなく、*ChatCompletions* API を使います。 Completions プレイグラウンドは、以前のモデルとの互換性のために提供されています。
 
-1. In the **Playground** section, select the **Chat** page. The **Chat** playground page consists of three main panels (which may be arranged right-to-left horizontally, or top-to-bottom vertically depending on your screen resolution):
-    - **Setup** - used to set the context for the model's responses.
-    - **Chat session** - used to submit chat messages and view responses.
-    - **Configuration** - used to configure settings for the model deployment.
-1. In the **Configuration** panel, ensure that your gpt-35-turbo-16k model deployment is selected.
-1. In the **Setup** panel, review the default **System message**, which should be *You are an AI assistant that helps people find information.* The system message is included in prompts submitted to the model, and provides context for the model's responses; setting expectations about how an AI agent based on the model should interact with the user.
-1. In the **Chat session** panel, enter the user query `How can I use generative AI to help me market a new product?`
+1. **[プレイグラウンド]** セクションで、**[Chat]** ページを選びます。 **Chat** プレイグラウンド ページは 3 つのメイン パネルで構成されます (画面の解像度に応じて、右から左へ水平に、または上から下へ垂直に配置されます)。
+    - **設定** - モデルの応答のコンテキストを設定するために使われます。
+    - **チャット セッション** - チャット メッセージを送信し、応答を表示するために使われます。
+    - **構成** - モデル デプロイの設定を構成するために使われます。
+1. **[構成]** パネルで、gpt-35-turbo-16k モデル デプロイが選ばれていることを確認します。
+1. **[設定]** パネルで、既定の **[システム メッセージ]** を確認します。これは、*You are an AI assistant that helps people find information* (あなたは、人々が情報を見つけるのを助ける AI アシスタントです) となっています。 システム メッセージはモデルに送信されるプロンプトに含まれており、モデルの応答のコンテキストを提供します。モデルに基づいた AI エージェントがユーザーとどのように対話するかについて期待されるものを設定します。
+1. **[チャット セッション]** パネルに、ユーザー クエリ `How can I use generative AI to help me market a new product?` を入力します
 
-    > **Note**: You may receive a response that the API deployment is not yet ready. If so, wait for a few minutes and try again.
+    > **注**: API デプロイの準備がまだできていないという応答を受け取る場合があります。 その場合は、数分待ってからもう一度やり直してください。
 
-1. Review the response, noting that the model has generated a cohesive natural language answer that is relevant to the query with which it was prompted.
-1. Enter the user query `What skills do I need if I want to develop a solution to accomplish this?`.
-1. Review the response, noting that the chat session has retained the conversational context (so "this" is interpreted as a generative AI solution for marketing). This contextualization is achieved by including the recent conversation history in each successive prompt submission, so the prompt sent to the model for the second query included the original query and response as well as the new user input.
-1. In the **Chat session** panel toolbar, select **Clear chat** and confirm that you want to restart the chat session.
-1. Enter the query `Can you help me find resources to learn those skills?` and review the response, which should be a valid natural language answer, but since the previous chat history has been lost, the answer is likely to be about finding generic skilling resources rather than being related to the specific skills needed to build a generative AI marketing solution.
+1. モデルが、プロンプトの対象となったクエリに関連する簡潔にまとめられた自然言語の回答を生成していることに注意して、応答を確認します。
+1. ユーザー クエリを入力します `What skills do I need if I want to develop a solution to accomplish this?`。
+1. チャット セッションが会話のコンテキストを保持している (そのため、"this" はマーケティング用の生成 AI ソリューションとして解釈されます) ことに注意して、応答を確認します。 このコンテキスト化は、連続する各プロンプト送信に最近の会話履歴を含めることによって実現されるため、2 番目のクエリのモデルに送信されるプロンプトには、元のクエリと応答、新しいユーザー入力が含まれます。
+1. **[チャット セッション]** パネルのツール バーで、**[チャットのクリア]** を選び、チャット セッションが再起動することを確認します。
+1. クエリ `Can you help me find resources to learn those skills?` を入力して応答を確認します。これは有効な自然言語の回答であるはずですが、以前のチャット履歴が失われているため、回答は生成 AI マーケティング ソリューションを構築するために必要な特定のスキルに関連するものではなく、一般的なスキル リソースを見つけることに関するものになる可能性があります。
 
-## Experiment with system messages, prompts, and few-shot examples
+## システム メッセージ、プロンプト、フューショットの例を試してみる
 
-So far, you've engaged in a chat conversation with your model based on the default system message. You can customize the system setup to have more control over the kinds of responses generated by your model.
+ここまでは、既定のシステム メッセージに基づいてモデルとのチャット会話を行ってきました。 システム設定をカスタマイズして、モデルによって生成される応答の種類をより詳細に制御できます。
 
-1. In the **Setup** panel, under **Use a system message template**, select the **Marketing Writing Assistant** template and confirm that you want to update the system message.
-1. Review the new system message, which describes how an AI agent should use the model to respond.
-1. In the **Chat session** panel, enter the user query `Create an advertisement for a new scrubbing brush`.
-1. Review the response, which should include advertising copy for a scrubbing brush. The copy may be quite extensive and creative.
+1. **[設定]** パネルの **[システム メッセージ テンプレートを使う]** で、**Marketing Writing Assistant** テンプレートを選び、システム メッセージを更新することを確認します。
+1. AI エージェントがモデルを使って応答する方法を説明する、新しいシステム メッセージを確認します。
+1. **[チャット セッション]** パネルに、ユーザー クエリ `Create an advertisement for a new scrubbing brush` を入力します。
+1. 応答を確認します。これには、デッキブラシの広告コピーが含まれているはずです。 コピーは非常に広範で創造的なものかもしれません。
 
-    In a real scenario, a marketing professional would likely already know the name of the scrubbing brush product as well as have some ideas about key features that should be highlighted in an advert. To get the most useful results from a generative AI model, users need to design their prompts to include as much pertinent information as possible.
+    実際のシナリオでは、マーケティング担当者はおそらく既にデッキブラシ製品の名前を知っているだけでなく、広告で強調すべき主要な機能についていくつかのアイデアを持っているでしょう。 生成 AI モデルから最も有用な結果を得るには、ユーザーは可能な限り多くの関連情報を含むようにプロンプトを設計する必要があります。
 
-1. Enter the prompt `Revise the advertisement for a scrubbing brush named "Scrubadub 2000", which is made of carbon fiber and reduces cleaning times by half compared to ordinary scrubbing brushes`.
-1. Review the response, which should take into account the additional information you provided about the scrubbing brush product.
+1. プロンプト `Revise the advertisement for a scrubbing brush named "Scrubadub 2000", which is made of carbon fiber and reduces cleaning times by half compared to ordinary scrubbing brushes` を入力します。
+1. 応答を確認します。これには、デッキブラシ製品に関して提供した追加情報を考慮に入れる必要があります。
 
-    The response should now be more useful, but to have even more control over the output from the model, you can provide one or more *few-shot* examples on which responses should be based.
+    応答はさらに有用なものになったはずですが、モデルからの出力をさらに細かく制御するために、応答のベースとなる 1 つ以上の "フューショット" の例を提供します。**
 
-1. In the **Setup** panel, under **Examples**, select **Add**. Then type the following message and response in the designated boxes:
+1. **[設定]** パネルの **[例]** で、**[追加]** を選びます。 次に、指定されたボックスに次のメッセージと応答を入力します。
 
-    **User**:
+    **ユーザー:**
     
     ```
     Write an advertisement for the lightweight "Ultramop" mop, which uses patented absorbent materials to clean floors.
     ```
     
-    **Assistant**:
+    **アシスタント:**
     
     ```
     Welcome to the future of cleaning!
@@ -118,53 +118,53 @@ So far, you've engaged in a chat conversation with your model based on the defau
     Check out this and other products on our website at www.contoso.com.
     ```
 
-1. Use the **Apply changes** button to save the examples and start a new session.
-1. In the **Chat session** section, enter the user query `Create an advertisement for the Scrubadub 2000 - a new scrubbing brush made of carbon fiber that reduces cleaning time by half`.
-1. Review the response, which should be a new advert for the "Scrubadub 2000" that is modeled on the "Ultramop" example provided in the system setup.
+1. **[変更を適用]** ボタンを使って例を保存し、新しいセッションを開始します。
+1. **[チャット セッション]** セクションに、ユーザー クエリ `Create an advertisement for the Scrubadub 2000 - a new scrubbing brush made of carbon fiber that reduces cleaning time by half` を入力します。
+1. 応答を確認します。これは、システム セットアップで提供される "Ultramop" の例でモデル化された "Scrubadub 2000" の新しい広告であるはずです。
 
-## Experiment with parameters
+## パラメーターを試してみる
 
-You've explored how the system message, examples, and prompts can help refine the responses returned by the model. You can also use parameters to control model behavior.
+システム メッセージ、例、プロンプトが、モデルから返される応答を調整するのにどのように役立つかについて説明しました。 パラメーターを使ってモデルの動作を制御することもできます。
 
-1. In the **Configuration** panel, select the **Parameters** tab and set the following parameter values:
-    - **Max response**: 1000
-    - **Temperature**: 1
+1. **[構成]** パネルで、**[パラメーター]** タブを選び、次のパラメーター値を設定します。
+    - **最大応答**:1000
+    - **温度**:1
 
-1. In the **Chat session** section, use the **Clear chat** button to reset the chat session. Then enter the user query `Create an advertisement for a cleaning sponge` and review the response. The resulting advertisement copy should include a maximum of 1000 text tokens, and include some creative elements - for example, the model may have invented a product name for the sponge and made some claims about its features.
-1. Use the **Clear chat** button to reset the chat session again, and then re-enter the same query as before (`Create an advertisement for a cleaning sponge`) and review the response. The response may be different from the previous response.
-1. In the **Configuration** panel, on the **Parameters** tab, change the **Temperature** parameter value to 0.
-1. In the **Chat session** section, use the **Clear chat** button to reset the chat session again, and then re-enter the same query as before (`Create an advertisement for a cleaning sponge`) and review the response. This time, the response may not be quite so creative.
-1. Use the **Clear chat** button to reset the chat session one more time, and then re-enter the same query as before (`Create an advertisement for a cleaning sponge`) and review the response; which should be very similar (if not identical) to the previous response.
+1. **[チャット セッション]** セクションで、**[チャットのクリア]** ボタンを使ってチャット セッションをリセットします。 次に、ユーザー クエリ `Create an advertisement for a cleaning sponge` を入力し、応答を確認します。 結果として得られる広告のコピーには、最大 1000 個のテキスト トークンが含まれ、創造的な要素を含める必要があります。たとえば、モデルがスポンジの製品名を考案し、その機能について何らかの主張をすることなどです。
+1. **[チャットのクリア]** ボタンを使ってチャット セッションを再度リセットし、前と同じクエリ (`Create an advertisement for a cleaning sponge`) を再入力して応答を確認します。 応答は以前の応答とは異なる場合があります。
+1. **[構成]** パネルの **[パラメーター]** タブで、**[温度]** パラメーター値を 0 に変更します。
+1. **[チャット セッション]** セクションで、**[チャットのクリア]** ボタンを使ってチャット セッションを再度リセットし、前と同じクエリ (`Create an advertisement for a cleaning sponge`) を再入力して応答を確認します。 今回の応答はそれほど創造的ではないかもしれません。
+1. **[チャットのクリア]** ボタンを使ってチャット セッションを再度リセットし、前と同じクエリ (`Create an advertisement for a cleaning sponge`) を再入力して応答を確認します。これは、前の応答と (同一ではないにしても) 非常に似ているはずです。
 
-    The **Temperature** parameter controls the degree to which the model can be creative in its generation of a response. A low value results in a consistent response with little random variation, while a high value encourages the model to add creative elements its output; which may affect the accuracy and realism of the response.
+    **[温度]** パラメーターは、応答の生成においてモデルが創造的である度合いを制御します。 値が低いと、ランダムな変動がほとんどない一貫した応答が得られますが、値が高いと、モデルがその出力に創造的な要素を追加することが促進されます。これは、応答の正確性と現実性に影響を与える可能性があります。
 
-## Deploy your model to a web app
+## モデルを Web アプリにデプロイする
 
-Now that you've explored some of the capabilities of a generative AI model in the Azure OpenAI Studio playground, you can deploy an Azure web app to provide a basic AI agent interface through which users can chat with the model.
+Azure OpenAI Studio プレイグラウンドで生成 AI モデルの機能の一部を確認したので、Azure Web アプリをデプロイして、ユーザーがモデルとチャットできる基本的な AI エージェント インターフェイスを提供できます。
 
-1. At the top right of the **Chat** playground page, in the **Deploy to** menu, select **A new web app**.
-1. In the **Deploy to a web app** dialog box, create a new web app with the following settings:
-    - **Name**: *A unique name*
-    - **Subscription**: *Your Azure subscription*
-    - **Resource group**: *The resource group in which you provisioned your Azure OpenAI resource*
-    - **Locations**: *The region where you provisioned your Azure OpenAI resource*
-    - **Pricing plan**: Free (F1) - *If this is not available, select Basic (B1)*
-    - **Enable chat history in the web app**: <u>Un</u>selected
-    - **I acknowledge that web apps will incur usage to my account**: Selected
-1. Deploy the new web app and wait for deployment to complete (which may take 10 minutes or so)
-1. After your web app has deployed successfully, use the button at the top right of the **Chat** playground page to launch the web app. The app may take a few minutes to launch. If prompted, accept the permissions request.
-1. In the web app, enter the following chat message:
+1. **Chat** プレイグラウンド ページの右上隅にある **[デプロイ先]** メニューで、**[新しい Web アプリ]** を選びます。
+1. **[Web アプリにデプロイ]** ダイアログ ボックスで、次の設定で新しい Web アプリを作成します。
+    - **名前**: ''一意の名前''**
+    - **[サブスクリプション]**:"*ご自身の Azure サブスクリプション*"
+    - **[リソース グループ]**: "Azure OpenAI リソースをプロビジョニングしたリソース グループ"**
+    - **位置**:"Azure OpenAI リソースをプロビジョニングしたリージョン"**
+    - **料金プラン**:無料 (F1) - "これが利用できない場合は、基本 (B1) を選びます"**
+    - **Web アプリでチャット履歴を有効にする**:<u>未</u>選択
+    - **Web アプリが私のアカウントに使用されることに同意します**: 選択済み
+1. 新しい Web アプリをデプロイし、デプロイが完了するまで待ちます (10 分ほどかかる場合があります)
+1. Web アプリが正常にデプロイされたら、**Chat** プレイグラウンド ページの右上隅にあるボタンを使って Web アプリを起動します。 アプリの起動には数分かかる場合があります。 プロンプトが表示されたら、アクセス許可要求に同意してください。
+1. Web アプリで、次のチャット メッセージを入力します:
 
     ```
     Write an advertisement for the new "WonderWipe" cloth that attracts dust particulates and can be used to clean any household surface.
     ```
 
-1. Review the response.
+1. 応答を確認します。
 
-    > **Note**: You deployed the *model* to a web app, but this deployment doesn't include the system settings and parameters you set in the playground; so the response may not reflect the examples you specified in the playground. In a real scenario, you would add logic to your application to modify the prompt so that it includes the appropriate contextual data for the kinds of response you want to generate. This kind of customization is beyond the scope of this introductory-level exercise, but you can learn about prompt engineering techniques and Azure OpenAI APIs in other exercises and product documentation.
+    > **注**:"モデル" を Web アプリにデプロイしましたが、このデプロイにはプレイグラウンドで設定したシステム設定とパラメーターが含まれていません。そのため、応答にはプレイグラウンドで指定した例が反映されない場合があります。** 実際のシナリオでは、アプリケーションにロジックを追加してプロンプトを変更し、生成する応答の種類に応じた適切なコンテキスト データがプロンプトに含まれるようにします。 この種のカスタマイズは、この入門レベルの演習の範囲を超えていますが、プロンプト エンジニアリング手法と Azure OpenAI API については、他の演習や製品ドキュメントで学ぶことができます。
 
-1. When you have finished experimenting with your model in the web app, close the web app tab in your browser to return to Azure OpenAI Studio.
+1. Web アプリでのモデルの実験が完了したら、ブラウザーの Web アプリ タブを閉じて、Azure OpenAI Studio に戻ります。
 
-## Clean up
+## クリーンアップ
 
-When you're done with your Azure OpenAI resource, remember to delete the deployment or the entire resource in the **Azure portal** at `https://portal.azure.com`.
+Azure OpenAI リソースでの作業が完了したら、**Azure portal** (`https://portal.azure.com`) でデプロイまたはリソース全体を忘れずに削除します。

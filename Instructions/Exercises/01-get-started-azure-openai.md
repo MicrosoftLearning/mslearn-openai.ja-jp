@@ -101,13 +101,13 @@ Azure OpenAI Service には、モデルのデプロイ、管理、調査に使�
 
     **ユーザー:**
     
-    ```
+    ```prompt
     Write an advertisement for the lightweight "Ultramop" mop, which uses patented absorbent materials to clean floors.
     ```
     
     **アシスタント:**
     
-    ```
+    ```prompt
     Welcome to the future of cleaning!
     
     The Ultramop makes light work of even the dirtiest of floors. Thanks to its patented absorbent materials, it ensures a brilliant shine. Just look at these features:
@@ -155,7 +155,7 @@ Azure OpenAI Studio プレイグラウンドで生成 AI モデルの機能の�
 1. Web アプリが正常にデプロイされたら、**Chat** プレイグラウンド ページの右上隅にあるボタンを使って Web アプリを起動します。 アプリの起動には数分かかる場合があります。 プロンプトが表示されたら、アクセス許可要求に同意してください。
 1. Web アプリで、次のチャット メッセージを入力します:
 
-    ```
+    ```prompt
     Write an advertisement for the new "WonderWipe" cloth that attracts dust particulates and can be used to clean any household surface.
     ```
 

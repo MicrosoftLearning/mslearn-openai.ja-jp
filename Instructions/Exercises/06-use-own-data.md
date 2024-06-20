@@ -66,11 +66,11 @@ Azure OpenAI を独自のデータに接続する前に、まず、基本モデ�
 3. **[設定]** 領域で、既定のシステム メッセージ テンプレートを選び、チャット セッションのコンテキストを設定します。 既定のシステム メッセージは、"あなたはユーザーが情報を見つけるのを助ける AI アシスタントです" です。**
 4. **チャット セッション**で次のクエリを送信し、応答を確認します。
 
-    ```
+    ```prompt
     I'd like to take a trip to New York. Where should I stay?
     ```
 
-    ```
+    ```prompt
     What are some facts about New York?
     ```
 
@@ -121,11 +121,11 @@ Azure OpenAI を独自のデータに接続する前に、まず、基本モデ�
 
 データを追加したので、前と同じ質問をして、応答がどのように異なるかを確認します。
 
-```
+```prompt
 I'd like to take a trip to New York. Where should I stay?
 ```
 
-```
+```prompt
 What are some facts about New York?
 ```
 
@@ -174,7 +174,7 @@ C# と Python の両方のアプリケーションが用意されており、ど
     pip install openai==1.13.3
     ```
 
-3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語の構成ファイルを開きます
+3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env

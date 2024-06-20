@@ -66,7 +66,7 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 3. **[設定]** 領域で、既定のシステム メッセージ テンプレートを選び、チャット セッションのコンテキストを設定します。 既定のシステム メッセージは、"あなたはユーザーが情報を見つけるのを助ける AI アシスタントです" です。**
 4. **[チャット セッション]** で、次のクエリを送信します。
 
-    ```
+    ```prompt
     What kind of article is this?
     ---
     Severe drought likely in California
@@ -86,7 +86,7 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 
     **ユーザー:**
     
-    ```
+    ```prompt
     What kind of article is this?
     ---
     New York Baseballers Wins Big Against Chicago
@@ -100,7 +100,7 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
     
     **アシスタント:**
     
-    ```
+    ```prompt
     Sports
       ```
 
@@ -108,7 +108,7 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 
     **ユーザー:**
     
-    ```
+    ```prompt
     Categorize this article:
     ---
     Joyous moments at the Oscars
@@ -123,7 +123,7 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
     
     **アシスタント:**
     
-    ```
+    ```prompt
     Entertainment
     ```
 
@@ -131,7 +131,7 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 
 9. **[チャット セッション]** セクションで、次のプロンプトを再送信します。
 
-    ```
+    ```prompt
     What kind of article is this?
     ---
     Severe drought likely in California
@@ -149,7 +149,7 @@ Azure OpenAI には、モデルのデプロイ、管理、探索に使用でき�
 
 11. **[チャット セッション]** セクションで、次のプロンプトを送信します。
 
-    ```
+    ```prompt
     # 1. Create a list of animals
     # 2. Create a list of whimsical names for those animals
     # 3. Combine them randomly into a list of 25 animal and name pairs
@@ -203,21 +203,21 @@ C# と Python の両方のアプリケーションが用意されており、ど
     pip install openai==1.13.3
     ```
 
-3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語の構成ファイルを開きます
+3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
     
 4. 次を含めて構成値を更新します。
     - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
-    - モデル デプロイに指定した**デプロイ名** (Azure OpenAI Studio の **[デプロイ]** ページで確認できます)。
+    - モデル デプロイに指定した**デプロイ名** (Azure OpenAI Studio の **[デプロイ]** ページでアクセスできます)。
 5. 構成ファイルを保存します。
 
 ## Azure OpenAI サービスを使うコードを追加する
 
 これで、Azure OpenAI SDK を使って、デプロイされたモデルを使う準備が整いました。
 
-1. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語のコード ファイルを開き、コメント "***Add Azure OpenAI package***" を、Azure OpenAI SDK ライブラリを追加するコードに置き換えます。
+1. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、希望の言語のコード ファイルを開き、コメント "***Add Azure OpenAI package***" を、Azure OpenAI SDK ライブラリを追加するコードに置き換えます。
 
     **C#** : Program.cs
 

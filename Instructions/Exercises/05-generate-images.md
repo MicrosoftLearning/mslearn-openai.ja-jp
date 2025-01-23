@@ -26,8 +26,8 @@ Azure OpenAI を使って画像を生成する前に、Azure サブスクリプ�
     > \* DALL-E 3 モデルは、**米国東部**および**スウェーデン中部**リージョンの Azure OpenAI Service リソースでのみ使用できます。
 
 1. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
-1. Azure OpenAI リソースの **[概要]** ページで、 **[開始する]** セクションまで下にスクロールし、ボタンを選択して **AI Studio** に移動します。
-1. Azure AI Studio の左ペインで、**[デプロイ]** ページを選び、既存のモデル デプロイを表示します。 まだ DALL-E 3 のデプロイがない場合は、次の設定で **dall-e-3** モデルの新しいデプロイを作成します。
+1. Azure OpenAI リソースの **[概要]** ページで、**[開始する]** セクションまで下にスクロールし、そのボタンを選択して **AI Foundry ポータル** (以前は AI Studio) に移動します。
+1. Azure AI Foundry の左ペインで、**[デプロイ]** ページを選び、既存のモデル デプロイを表示します。 まだ DALL-E 3 のデプロイがない場合は、次の設定で **dall-e-3** モデルの新しいデプロイを作成します。
     - **デプロイ名**: dalle3
     - **モデル バージョン**: *既定のバージョンを使用する*
     - **デプロイの種類**:Standard
@@ -38,16 +38,16 @@ Azure OpenAI を使って画像を生成する前に、Azure サブスクリプ�
 
 ## 画像プレイグラウンドで画像生成について調べる
 
-**Azure AI Studio** の画像プレイグラウンドを使用して、画像生成を試すことができます。
+**Azure AI Foundry ポータル**の画像プレイグラウンドを使用して、画像生成を試すことができます。
 
 1. **画像プレイグラウンド** セクションで、DALL-E 3 のデプロイを自動的に選択する必要があります。 自動選択されなければ、使用するデプロイを [デプロイ] ドロップダウンから選択します。
 1. **[プロンプト]** ボックスに、生成する画像の説明を入力します。 たとえば、`An elephant on a skateboard` として、次に、**[生成]** を選び、生成された画像を表示します。
 
-    ![生成された画像を含む Azure AI Studio の画像プレイグラウンド。](../media/images-playground.png)
+    ![生成された画像を含む Azure AI Foundry ポータルの画像プレイグラウンド。](../media/images-playground.png)
 
 1. より具体的な説明を入力するようにプロンプトを変更します。 たとえば、「 `An elephant on a skateboard in the style of Picasso` 」のように指定します。 次に、新しい画像を生成し、結果を確認します。
 
-    ![2 つの生成された画像を含む Azure AI Studio の画像プレイグラウンド。](../media/images-playground-new-style.png)
+    ![生成された画像 2 つを含む Azure AI Foundry ポータルの画像プレイグラウンド。](../media/images-playground-new-style.png)
 
 ## REST API を使用して画像を生成する
 

@@ -11,6 +11,17 @@ Azure OpenAI Service を使用すると、開発者はチャットボットや R
 
 この演習には約 **30** 分かかります。
 
+## このコースのリポジトリを複製する
+
+まだ行っていない場合は、このコースのコード リポジトリを複製する必要があります。
+
+1. Visual Studio Code を起動します。
+2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
+4. リポジトリ内の C# コード プロジェクトをサポートするために追加のファイルがインストールされるまで待ちます。
+
+    > **注**: ビルドとデバッグに必要なアセットを追加するように求めるプロンプトが表示された場合は、**[今はしない]** を選択します。
+
 ## Azure OpenAI リソースをプロビジョニングする
 
 まだ持っていない場合は、Azure サブスクリプションで Azure OpenAI リソースをプロビジョニングします。
@@ -114,13 +125,8 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
     ```csharp
     // Configure the Azure OpenAI client
-       AzureOpenAIClient azureClient = new (new Uri(oaiEndpoint), new ApiKeyCredential(oaiKey));
-        ChatClient chatClient = azureClient.GetChatClient(oaiDeploymentName);
-        ChatCompletion completion = chatClient.CompleteChat(
-        [
-        new SystemChatMessage(systemMessage),
-        new UserChatMessage(userMessage),
-        ]);
+    AzureOpenAIClient azureClient = new (new Uri(oaiEndpoint), new ApiKeyCredential(oaiKey));
+    ChatClient chatClient = azureClient.GetChatClient(oaiDeploymentName);
     ```
 
     **Python**: application.py
@@ -140,8 +146,21 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
     ```csharp
     // Get response from Azure OpenAI
-    Console.WriteLine($"{completion.Role}: {completion.Content[0].Text}");
+    ChatCompletionOptions chatCompletionOptions = new ChatCompletionOptions()
+    {
+        Temperature = 0.7f,
+        MaxOutputTokenCount = 800
+    };
 
+    ChatCompletion completion = chatClient.CompleteChat(
+        [
+            new SystemChatMessage(systemMessage),
+            new UserChatMessage(userMessage)
+        ],
+        chatCompletionOptions
+    );
+
+    Console.WriteLine($"{completion.Role}: {completion.Content[0].Text}");
     ```
 
     **Python**: application.py

@@ -59,12 +59,12 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
 まずは、チャット プレイグラウンドでのプロンプト エンジニアリング手法をいくつか検討してみましょう。
 
-1. **[プレイグラウンド]** セクションで、**[Chat]** ページを選びます。 **Chat** プレイグラウンド ページは、ボタンの行と 2 つのメイン パネルで構成されます (画面の解像度に応じて、右から左へ水平に、または上から下へ垂直に配置されます)。
-    - **構成** - デプロイの選択、システム メッセージの定義、デプロイとやり取りするためのパラメーターの設定に使用されます。
-    - **チャット セッション** - チャット メッセージを送信し、応答を表示するために使われます。
-2. **デプロイ**で、gpt-35-turbo-16k モデル デプロイが選択されていることを確認します。
-1. 既定の**システム メッセージ**を確認します。それは、*"あなたは、ユーザーが情報を見つけるのを助ける AI アシスタントです"* となっているはずです。
-4. **[チャット セッション]** で、次のクエリを送信します。
+1. 左側ペインの **[プレイグラウンド]** セクションで、**[チャット]** ページを選択します。 **Chat** プレイグラウンド ページは、ボタンの行と 2 つのメイン パネルで構成されます (画面の解像度に応じて、右から左へ水平に、または上から下へ垂直に配置されます)。
+    - **[セットアップ]**: デプロイの選択、システム メッセージの定義、デプロイとやり取りするためのパラメーターの設定に使用します。
+    - **[チャットの履歴]**: チャット メッセージの送信や、応答の表示に使用されます。
+2. **[デプロイ]** で、gpt-35-turbo-16k モデルのデプロイが選択されていることを確認します。
+1. 選択したデプロイのすぐ下のテキストボックスに表示された既定のシステム メッセージを確認します。それは、*"あなたは、情報の検索を支援する AI アシスタントです。"* となっているはずです。
+4. **[チャットの履歴]** で、次のクエリを送信します。
 
     ```prompt
     What kind of article is this?
@@ -80,7 +80,7 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
     応答として記事の説明が表示されます。 ただし、記事の分類のために、さらに具体的な形式が必要だとします。
 
-5. **[構成]** セクションで、システム メッセージを `You are a news aggregator that categorizes news articles.` に変更します
+5. **[設定]** セクションのシステム メッセージを `You are a news aggregator that categorizes news articles.` に変更します
 
 6. 新しいシステム メッセージの下で、**[セクションの追加]** ボタンを選択し、**[例]** を選択します。 次に、以下の例を追加します。
 
@@ -127,9 +127,9 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
     Entertainment
     ```
 
-8. **[構成]** セクションの上部にある **[変更の適用]** ボタンを使用して、変更を保存します。
+8. **[セットアップ]** セクションのシステム メッセージ テキスト ボックスの下にある **[変更の適用]** ボタンを使用して、変更を保存します。
 
-9. **[チャット セッション]** セクションで、次のプロンプトを再送信します。
+9. **[チャットの履歴]** セクションで、次のプロンプトを再送信します。
 
     ```prompt
     What kind of article is this?
@@ -147,7 +147,7 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
 10. システム メッセージを既定のテンプレートに戻します。これは例なしの `You are an AI assistant that helps people find information.` です。 次に、変更を適用します。
 
-11. **[チャット セッション]** セクションで、次のプロンプトを送信します。
+11. **[チャットの履歴]** セクションで、次のプロンプトを送信します。
 
     ```prompt
     # 1. Create a list of animals
@@ -359,7 +359,7 @@ C# と Python の両方のアプリケーションが用意されており、ど
     - Rescue name is Contoso 
     - It specializes in elephants, as well as zebras and giraffes 
     - Call for donations to be given at our website 
-    \n Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
+    Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
     ```
 
 1. 出力を確認します。また、明確な指示に基づいてメールがどのように変わったかを確認します。
@@ -378,7 +378,7 @@ C# と Python の両方のアプリケーションが用意されており、ど
     - Rescue name is Contoso 
     - It specializes in elephants, as well as zebras and giraffes 
     - Call for donations to be given at our website 
-    \n Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
+    Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
     ```
 
 1. 出力を確認します。 メールは同様の形式で表示されますが、今度は、よりくだけたトーンになります。 ジョークが含まれている可能性もあります。

@@ -43,8 +43,6 @@ Azure OpenAI を使って画像を生成する前に、Azure サブスクリプ�
 1. **画像プレイグラウンド** セクションで、DALL-E 3 のデプロイを自動的に選択する必要があります。 自動選択されなければ、使用するデプロイを [デプロイ] ドロップダウンから選択します。
 1. **[プロンプト]** ボックスに、生成する画像の説明を入力します。 たとえば、`An elephant on a skateboard` として、次に、**[生成]** を選び、生成された画像を表示します。
 
-    ![生成された画像を含む Azure AI Foundry ポータルの画像プレイグラウンド。](../media/images-playground.png)
-
 1. より具体的な説明を入力するようにプロンプトを変更します。 たとえば、「 `An elephant on a skateboard in the style of Picasso` 」のように指定します。 次に、新しい画像を生成し、結果を確認します。
 
     ![生成された画像 2 つを含む Azure AI Foundry ポータルの画像プレイグラウンド。](../media/images-playground-new-style.png)

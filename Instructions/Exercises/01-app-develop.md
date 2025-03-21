@@ -1,6 +1,7 @@
 ---
 lab:
   title: Azure OpenAI Service を使用したアプリケーションの開発
+  status: new
 ---
 
 # Azure OpenAI Service を使用したアプリケーションの開発

@@ -1,6 +1,7 @@
 ---
 lab:
   title: アプリで Azure OpenAI SDK を使う
+  status: stale
 ---
 
 # アプリで Azure OpenAI API を使う

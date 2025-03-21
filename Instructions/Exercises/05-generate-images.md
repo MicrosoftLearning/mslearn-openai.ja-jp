@@ -1,6 +1,7 @@
 ---
 lab:
   title: DALL-E モデルを使用して画像を生成する
+  status: stale
 ---
 
 # DALL-E モデルを使用して画像を生成する

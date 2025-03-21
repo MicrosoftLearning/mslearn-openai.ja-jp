@@ -1,6 +1,7 @@
 ---
 lab:
   title: Azure OpenAI Service で作業を開始する
+  status: stale
 ---
 
 # Azure OpenAI Service で作業を開始する

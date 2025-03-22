@@ -1,6 +1,7 @@
 ---
 lab:
   title: Azure OpenAI Service を使用して検索拡張生成 (RAG) を実装する
+  status: stale
 ---
 
 # Azure OpenAI Service を使用して検索拡張生成 (RAG) を実装する

@@ -1,6 +1,7 @@
 ---
 lab:
   title: Azure OpenAI Service を使用してコードを生成して改善する
+  status: stale
 ---
 
 # Azure OpenAI Service を使用してコードを生成して改善する

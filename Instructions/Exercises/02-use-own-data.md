@@ -74,15 +74,14 @@ Azure OpenAI Service を使用すると、基になる LLM のインテリジェ
 - パンフレット内のテキストを*ベクター化する*テキスト埋め込みモデル。グラウンディング プロンプトで使用するために効率的にインデックスを作成できます。
 - データに基づいたプロンプトに対する応答の生成にアプリケーションで使用できる GPT モデル。
 
-
 ## モデルをデプロイする
 
 次に、CLI から Azure OpenAI モデル リソースをデプロイします。 Azure portal で、上部のメニュー バーから **Cloud Shell** アイコンを選択し、ターミナルが **Bash** に設定されていることを確認します。 この例を参照して、次の変数を独自の値に置き換えます。
 
 ```dotnetcli
 az cognitiveservices account deployment create \
-   -g *your resource group* \
-   -n *your Open AI resource* \
+   -g <your_resource_group> \
+   -n <your_OpenAI_resource> \
    --deployment-name text-embedding-ada-002 \
    --model-name text-embedding-ada-002 \
    --model-version "2"  \
@@ -91,24 +90,21 @@ az cognitiveservices account deployment create \
    --sku-capacity 5
 ```
 
-    > \* Sku-capacity is measured in thousands of tokens per minute. A rate limit of 5,000 tokens per minute is more than adequate to complete this exercise while leaving capacity for other people using the same subscription.
+> **注**: SKU 容量は、1 分あたりトークン数 (1,000 単位) で測定されます。 同じサブスクリプションを使用する他のユーザーのための容量を残しながらこの演習を完了するのに、1 分あたり 5,000 トークンのレート制限で十分です。
 
-
-テキスト埋め込みモデルがデプロイされたら、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+テキスト埋め込みモデルがデプロイされたら、次の設定で **gpt-4o** モデルの新しいデプロイを作成します。
 
 ```dotnetcli
 az cognitiveservices account deployment create \
-   -g *your resource group* \
-   -n *your Open AI resource* \
-   --deployment-name gpt-35-turbo-16k \
-   --model-name gpt-35-turbo-16k \
-   --model-version "0125"  \
+   -g <your_resource_group> \
+   -n <your_OpenAI_resource> \
+   --deployment-name gpt-4o \
+   --model-name gpt-4o \
+   --model-version "2024-05-13" \
    --model-format OpenAI \
    --sku-name "Standard" \
    --sku-capacity 5
 ```
-
-    > \* Sku-capacity is measured in thousands of tokens per minute. A rate limit of 5,000 tokens per minute is more than adequate to complete this exercise while leaving capacity for other people using the same subscription.
 
 ## インデックスを作成する
 
@@ -130,7 +126,7 @@ az cognitiveservices account deployment create \
     - **モデル デプロイ**: text-embedding-ada-002
     - **認証の種類**: API キー
     - **Azure OpenAI サービスに接続すると、アカウントに追加コストが発生することを了承します**: 選択済み
-1. 次のページでは、画像をベクター化したり、AI スキルを使用してデータを抽出したりするオプションは選択<u>しない</u>でください。
+1. 次のページでは、画像をベクター化したり、AI スキルを使用してデータを抽出したりするオプションは選択**しない**でください。
 1. 次のページで、セマンティック ランク付けを有効にし、インデクサーを 1 回実行するようにスケジュールします。
 1. 最後のページで、**オブジェクト名のプレフィックス**を `margies-index` に設定し、インデックスを作成します。
 
@@ -141,7 +137,7 @@ az cognitiveservices account deployment create \
 > **ヒント**: 既に **mslearn-openai** リポジトリをクローンしている場合は、Visual Studio Code で開きます。 それ以外の場合は、次の手順に従って開発環境に複製します。
 
 1. Visual Studio Code を起動します。
-2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+2. パレットを開き (Shift + Ctrl + P キーまたは **[表示]** - **[コマンド パレット]**)、**Git: Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーにクローンします (どのフォルダーでも問題ありません)。
 3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
 
     > **注**:Visual Studio Code に、開いているコードを信頼するかどうかを求めるポップアップ メッセージが表示された場合は、ポップアップの **[はい、作成者を信頼します]** オプションをクリックします。
@@ -159,24 +155,25 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
     **C#:**
 
-    ```
-    dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.17
+    ```powershell
+    dotnet add package Azure.AI.OpenAI --version 2.1.0
+    dotnet add package Azure.Search.Documents --version 11.6.0
     ```
 
     **Python**:
 
-    ```
-    pip install openai==1.54.3
+    ```powershell
+    pip install openai==1.65.2
     ```
 
 3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
-    
+
 4. 次を含めて構成値を更新します。
     - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
-    - gpt-35-turbo モデル デプロイに指定した**デプロイ名** (`gpt-35-turbo-16k` である必要があります。
+    - gpt-4o モデル デプロイに指定した**デプロイ名** (`gpt-4o` であるはずです)。
     - 検索サービスのエンドポイント (Azure Portal の検索リソースの概要ページの **URL** 値)。
     - 検索リソースの**キー** (Azure Portal の検索リソースの [**キー**] ページで使用できます。管理者キーのいずれかを使用できます)。
     - 検索インデックスの名前 (`margies-index` になります)。
@@ -186,55 +183,62 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
 これで、Azure OpenAI SDK を使って、デプロイされたモデルを使う準備が整いました。
 
-1. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使う言語のコード ファイルを開き、コメント "***Configure your data source***" を、Azure OpenAI SDK ライブラリを追加するコードに置き換えます。
+1. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語のコード ファイルを開き、コメント "***Configure your data source***" を、チャット入力候補のデータ ソースとして、インデックスに対するコードに置き換えます。
 
     **C#**: ownData.cs
 
     ```csharp
     // Configure your data source
-    AzureSearchChatExtensionConfiguration ownDataConfig = new()
+    // Extension methods to use data sources with options are subject to SDK surface changes. Suppress the warning to acknowledge this and use the subject-to-change AddDataSource method.
+    #pragma warning disable AOAI001
+    
+    ChatCompletionOptions chatCompletionsOptions = new ChatCompletionOptions()
     {
-            SearchEndpoint = new Uri(azureSearchEndpoint),
-            Authentication = new OnYourDataApiKeyAuthenticationOptions(azureSearchKey),
-            IndexName = azureSearchIndex
+        MaxOutputTokenCount = 600,
+        Temperature = 0.9f,
     };
+    
+    chatCompletionsOptions.AddDataSource(new AzureSearchChatDataSource()
+    {
+        Endpoint = new Uri(azureSearchEndpoint),
+        IndexName = azureSearchIndex,
+        Authentication = DataSourceAuthentication.FromApiKey(azureSearchKey),
+    });
     ```
 
     **Python**: ownData.py
 
     ```python
-# Configure your data source
-text = input('\nEnter a question:\n')
-
-completion = client.chat.completions.create(
-    model=deployment,
-    messages=[
-        {
-            "role": "user",
-            "content": text,
-        },
-    ],
-    extra_body={
-        "data_sources":[
+    # Configure your data source
+    text = input('\nEnter a question:\n')
+    
+    completion = client.chat.completions.create(
+        model=deployment,
+        messages=[
             {
-                "type": "azure_search",
-                "parameters": {
-                    "endpoint": os.environ["AZURE_SEARCH_ENDPOINT"],
-                    "index_name": os.environ["AZURE_SEARCH_INDEX"],
-                    "authentication": {
-                        "type": "api_key",
-                        "key": os.environ["AZURE_SEARCH_KEY"],
+                "role": "user",
+                "content": text,
+            },
+        ],
+        extra_body={
+            "data_sources":[
+                {
+                    "type": "azure_search",
+                    "parameters": {
+                        "endpoint": os.environ["AZURE_SEARCH_ENDPOINT"],
+                        "index_name": os.environ["AZURE_SEARCH_INDEX"],
+                        "authentication": {
+                            "type": "api_key",
+                            "key": os.environ["AZURE_SEARCH_KEY"],
+                        }
                     }
                 }
-            }
-        ],
-    }
-)
+            ],
+        }
+    )
     ```
 
-2. コードの残りの部分を確認して、データ ソース設定に関する情報の提供に使われる要求本文内での "拡張機能" の使用に注目してください。**
-
-3. コード ファイルに加えた変更を保存します。
+1. コード ファイルに加えた変更を保存します。
 
 ## アプリケーションを実行する
 

@@ -17,7 +17,7 @@ Azure OpenAI Service を使用すると、開発者はチャットボットや R
 まだ行っていない場合は、このコースのコード リポジトリを複製する必要があります。
 
 1. Visual Studio Code を起動します。
-2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+2. コマンド パレットを開き (Shift + Ctrl + P キーを押すか **[表示]**、**[コマンド パレット]** の順に選択)、**Git: Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーにクローンします (どのフォルダーでも問題ありません)。
 3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
 4. リポジトリ内の C# コード プロジェクトをサポートするために追加のファイルがインストールされるまで待ちます。
 
@@ -47,7 +47,7 @@ Azure OpenAI Service を使用すると、開発者はチャットボットや R
 
     > \* Azure OpenAI リソースは、リージョンのクォータによって制限されます。 一覧表示されているリージョンには、この演習で使用されるモデル タイプの既定のクォータが含まれています。 リージョンをランダムに選択することで、サブスクリプションを他のユーザーと共有しているシナリオで、1 つのリージョンがクォータ制限に達するリスクが軽減されます。 演習の後半でクォータ制限に達した場合は、別のリージョンに別のリソースを作成する必要が生じる可能性があります。
 
-3. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
+1. デプロイが完了するまで待ちます。 次に、Azure portal でデプロイされた Azure OpenAI リソースに移動します。
 
 ## モデルをデプロイする
 
@@ -55,20 +55,17 @@ Azure OpenAI Service を使用すると、開発者はチャットボットや R
 
 ```dotnetcli
 az cognitiveservices account deployment create \
-   -g *Your resource group* \
-   -n *Name of your OpenAI service* \
-   --deployment-name gpt-35-turbo \
-   --model-name gpt-35-turbo \
-   --model-version 0125  \
+   -g <your_resource_group> \
+   -n <your_OpenAI_service> \
+   --deployment-name gpt-4o \
+   --model-name gpt-4o \
+   --model-version 2024-05-13 \
    --model-format OpenAI \
    --sku-name "Standard" \
    --sku-capacity 5
 ```
 
-    > \* Sku-capacity is measured in thousands of tokens per minute. A rate limit of 5,000 tokens per minute is more than adequate to complete this exercise while leaving capacity for other people using the same subscription.
-
-> [!NOTE]
-> net7.0 フレームワークがサポート対象外であるという警告が表示された場合、この演習では無視できます。
+> **注**: SKU 容量は、1 分あたりトークン数 (1,000 単位) で測定されます。 同じサブスクリプションを使用する他のユーザーのための容量を残しながらこの演習を完了するのに、1 分あたり 5,000 トークンのレート制限で十分です。
 
 ## アプリケーションを構成する
 
@@ -79,21 +76,21 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
     **C#:**
 
-    ```
-    dotnet add package Azure.AI.OpenAI --version 2.0.0
+    ```powershell
+    dotnet add package Azure.AI.OpenAI --version 2.1.0
     ```
 
     **Python**:
 
-    ```
-    pip install openai==1.54.3
+    ```powershell
+    pip install openai==1.65.2
     ```
 
 3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
-    
+
 4. 次を含めて構成値を更新します。
     - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
     - モデル デプロイに指定した**デプロイ名**。
@@ -138,7 +135,7 @@ C# と Python の両方のアプリケーションが用意されており、ど
         azure_endpoint = azure_oai_endpoint, 
         api_key=azure_oai_key,  
         api_version="2024-02-15-preview"
-        )
+    )
     ```
 
 3. Azure OpenAI モデルを呼び出す関数で、***Azure OpenAI サービスから応答を取得します***のコメントの下で、書式を設定して要求をモデルに送信するコードを追加します。
@@ -271,28 +268,112 @@ C# と Python の両方のアプリケーションが用意されており、ど
     ```
 
 1. 出力を確認します。 メールは同様の形式で表示されますが、今度は、よりくだけたトーンになります。 ジョークが含まれている可能性もあります。
-1. 最後のイテレーションでは、メールの生成から離れて、"グラウンディング コンテキスト" を検討します。** ここでは、単純なシステム メッセージを指定し、ユーザー プロンプトの始まりとしてグラウンディング コンテキストを提供するようにアプリを変更します。 その後、アプリはユーザー入力を追加し、グラウンディング コンテキストから情報を抽出してユーザー プロンプトに回答するようになります。
+
+## 根拠付けるコンテキストを使用しチャット履歴をメンテナンスする
+
+1. 最後のイテレーションでは、メールの生成から離れて、*根拠付けるコンテキスト*を検討し、チャット履歴をメンテナンスします。 ここでは、単純なシステム メッセージを指定し、根拠付けるコンテキストをチャット履歴の始まりとして提供するようにアプリを変更します。 その後、アプリはユーザー入力を追加し、グラウンディング コンテキストから情報を抽出してユーザー プロンプトに回答するようになります。
 1. ファイル `grounding.txt` を開き、挿入するグラウンディング コンテキストをざっと読みます。
-1. アプリのコメント "***Format and send the request to the model***" の直後、既存のコードの前に、`grounding.txt` からテキストを読み取る次のコード スニペットを追加して、ユーザー プロンプトにグラウンディング コンテキストを追加します。
+1. アプリの ***Initialize messages list*** (メッセージ リストを初期化する) というコメントの直後で既存コードの前に、`grounding.txt` からテキストを読み取り、根拠付けるコンテキストでチャット履歴を初期化する次のコード スニペットを追加します。
 
     **C#** : Program.cs
 
     ```csharp
-    // Format and send the request to the model
+    // Initialize messages list
     Console.WriteLine("\nAdding grounding context from grounding.txt");
     string groundingText = System.IO.File.ReadAllText("grounding.txt");
-    userMessage = groundingText + userMessage;
+    var messagesList = new List<ChatMessage>()
+    {
+        new UserChatMessage(groundingText),
+    };
+    ```
+
+    **Python**: application.py
+
+    ```python
+    # Initialize messages array
+    print("\nAdding grounding context from grounding.txt")
+    grounding_text = open(file="grounding.txt", encoding="utf8").read().strip()
+    messages_array = [{"role": "user", "content": grounding_text}]
+    ```
+
+1. ***Format and send the request to the model*** (要求を書式設定しモデルに送信する) というコメントの下で、コメントから **while** ループの終わりまでのコードを次のコードに置き換えます。 コードはほとんど同じですが、メッセージ配列を使用して要求をモデルに送信するようになりました。
+
+    **C#** : Program.cs
+   
+    ```csharp
+    // Format and send the request to the model
+    messagesList.Add(new SystemChatMessage(systemMessage));
+    messagesList.Add(new UserChatMessage(userMessage));
+    GetResponseFromOpenAI(messagesList);
     ```
 
     **Python**: application.py
 
     ```python
     # Format and send the request to the model
-    print("\nAdding grounding context from grounding.txt")
-    grounding_text = open(file="grounding.txt", encoding="utf8").read().strip()
-    user_message = grounding_text + user_message
+    messages_array.append({"role": "system", "content": system_text})
+    messages_array.append({"role": "user", "content": user_text})
+    await call_openai_model(messages=messages_array, 
+        model=azure_oai_deployment, 
+        client=client
+    )
     ```
 
+1. ***Define the function that will get the response from Azure OpenAI endpoint*** (Azure OpenAI エンドポイントから応答を取得する関数を定義する) というコメントの下で、関数宣言を次のコードに置き換えて、関数 `GetResponseFromOpenAI` (C# の場合) または `call_openai_model` (Python の場合) を呼び出すときにチャット履歴リストを使用するようにします。
+
+    **C#** : Program.cs
+   
+    ```csharp
+    // Define the function that gets the response from Azure OpenAI endpoint
+    private static void GetResponseFromOpenAI(List<ChatMessage> messagesList)
+    ```
+
+    **Python**: application.py
+
+    ```python
+    # Define the function that will get the response from Azure OpenAI endpoint
+    async def call_openai_model(messages, model, client):
+    ```
+    
+1. 最後に、***Get response from Azure OpenAI*** (Azure OpenAI の応答を取得する) というコメントの下のすべてのコードを置き換えます。 コードはほとんど同じですが、メッセージ配列を使って会話履歴を格納するようになりました。
+
+    **C#** : Program.cs
+   
+    ```csharp
+    // Get response from Azure OpenAI
+    ChatCompletionOptions chatCompletionOptions = new ChatCompletionOptions()
+    {
+        Temperature = 0.7f,
+        MaxOutputTokenCount = 800
+    };
+
+    ChatCompletion completion = chatClient.CompleteChat(
+        messagesList,
+        chatCompletionOptions
+    );
+
+    Console.WriteLine($"{completion.Role}: {completion.Content[0].Text}");
+    messagesList.Add(new AssistantChatMessage(completion.Content[0].Text));
+    ```
+
+    **Python**: application.py
+
+    ```python
+    # Get response from Azure OpenAI
+    print("\nSending request to Azure OpenAI model...\n")
+
+    # Call the Azure OpenAI model
+    response = await client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0.7,
+        max_tokens=800
+    )   
+
+    print("Response:\n" + response.choices[0].message.content + "\n")
+    messages.append({"role": "assistant", "content": response.choices[0].message.content})
+    ```
+    
 1. ファイルを保存し、アプリを再実行します。
 1. 次のプロンプトを入力します (**システム メッセージ**は入力されたままで、`system.txt` に保存されています)。
 
@@ -308,8 +389,18 @@ C# と Python の両方のアプリケーションが用意されており、ど
     What animal is the favorite of children at Contoso?
     ```
 
-> **ヒント**: Azure OpenAI からの完全な応答を確認したい場合は、**printFullResponse** 変数を `True` に設定し、アプリを再実行します。
+   モデルでは、根拠付けるテキスト情報を使用して質問に回答することに注意してください。
 
+1. システム メッセージを変更せずに、ユーザー メッセージに対して次のプロンプトを入力します。
+
+    **ユーザー メッセージ:**
+
+    ```prompt
+    How can they interact with it at Contoso?
+    ```
+
+    このモデルでは、チャット履歴にある以前の質問にアクセスできるようになったので、"they" が子供として認識され、"it" が子供が好きな動物として認識されていることに注目してください。
+   
 ## クリーンアップ
 
 Azure OpenAI リソースでの作業が完了したら、**Azure portal** (`https://portal.azure.com`) でデプロイまたはリソース全体を忘れずに削除します。

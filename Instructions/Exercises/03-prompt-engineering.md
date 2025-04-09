@@ -45,9 +45,9 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 > **注**: Azure AI Foundry ポータルを使用すると、実行するタスクを提案するメッセージ ボックスが表示される場合があります。 これらを閉じて、この演習の手順に従うことができます。
 
 1. Azure portal にある Azure OpenAI リソースの **[概要]** ページで、**[開始する]** セクションまで下にスクロールし、ボタンを選択して **AI Foundry portal** (以前は AI Studio) に移動します。
-1. Azure AI Foundry の左ペインで、**[デプロイ]** ページを選び、既存のモデル デプロイを表示します。 まだデプロイがない場合は、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+1. Azure AI Foundry の左ペインで、**[デプロイ]** ページを選び、既存のモデル デプロイを表示します。 まだない場合は、次の設定で **gpt-4o** モデルの新しいデプロイを作成します。
     - **デプロイの名前**: *任意の一意の名前*
-    - **モデル**: gpt-35-turbo-16k "(16k モデルが使用できない場合は、gpt-35-turbo を選びます)"**
+    - **モデル**: gpt-4o
     - **モデル バージョン**: *既定のバージョンを使用する*
     - **デプロイの種類**:Standard
     - **1 分あたりのトークンのレート制限**: 5K\*
@@ -63,9 +63,9 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 1. 左側ペインの **[プレイグラウンド]** セクションで、**[チャット]** ページを選択します。 **Chat** プレイグラウンド ページは、ボタンの行と 2 つのメイン パネルで構成されます (画面の解像度に応じて、右から左へ水平に、または上から下へ垂直に配置されます)。
     - **[セットアップ]**: デプロイの選択、システム メッセージの定義、デプロイとやり取りするためのパラメーターの設定に使用します。
     - **[チャットの履歴]**: チャット メッセージの送信や、応答の表示に使用されます。
-2. **[デプロイ]** で、gpt-35-turbo-16k モデルのデプロイが選択されていることを確認します。
+1. **[デプロイ]** で、gpt-4o モデル デプロイが選択されていることを確認します。
 1. 選択したデプロイのすぐ下のテキストボックスに表示された既定のシステム メッセージを確認します。それは、*"あなたは、情報の検索を支援する AI アシスタントです。"* となっているはずです。
-4. **[チャットの履歴]** で、次のクエリを送信します。
+1. **[チャットの履歴]** で、次のクエリを送信します。
 
     ```prompt
     What kind of article is this?
@@ -81,12 +81,12 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
     応答として記事の説明が表示されます。 ただし、記事の分類のために、さらに具体的な形式が必要だとします。
 
-5. **[設定]** セクションのシステム メッセージを `You are a news aggregator that categorizes news articles.` に変更します
+1. **[設定]** セクションのシステム メッセージを `You are a news aggregator that categorizes news articles.` に変更します
 
-6. 新しいシステム メッセージの下で、**[セクションの追加]** ボタンを選択し、**[例]** を選択します。 次に、以下の例を追加します。
+1. 新しいシステム メッセージの下で、**[セクションの追加]** ボタンを選択し、**[例]** を選択します。 次に、以下の例を追加します。
 
     **ユーザー:**
-    
+
     ```prompt
     What kind of article is this?
     ---
@@ -98,17 +98,17 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
     
     The Chicago Cyclones' two hits came in the 2nd and the 5th innings but were unable to get the runner home to score.
     ```
-    
+
     **アシスタント:**
-    
+
     ```prompt
     Sports
       ```
 
-7. 次のテキストを含む別の例を追加します。
+1. 次のテキストを含む別の例を追加します。
 
     **ユーザー:**
-    
+
     ```prompt
     Categorize this article:
     ---
@@ -121,16 +121,16 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
     
     From Robin Kline's history-making win to a full performance by none other than Casey Jensen herself, don't miss tomorrows rerun of all the festivities.
     ```
-    
+
     **アシスタント:**
-    
+
     ```prompt
     Entertainment
     ```
 
-8. **[セットアップ]** セクションのシステム メッセージ テキスト ボックスの下にある **[変更の適用]** ボタンを使用して、変更を保存します。
+1. **[セットアップ]** セクションのシステム メッセージ テキスト ボックスの下にある **[変更の適用]** ボタンを使用して、変更を保存します。
 
-9. **[チャットの履歴]** セクションで、次のプロンプトを再送信します。
+1. **[チャットの履歴]** セクションで、次のプロンプトを再送信します。
 
     ```prompt
     What kind of article is this?
@@ -146,9 +146,9 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
     より具体的なシステム メッセージと、予想されるクエリと応答のいくつかの例を組み合わせることで、結果の形式が一貫したものになります。
 
-10. システム メッセージを既定のテンプレートに戻します。これは例なしの `You are an AI assistant that helps people find information.` です。 次に、変更を適用します。
+1. システム メッセージを既定のテンプレートに戻します。これは例なしの `You are an AI assistant that helps people find information.` です。 次に、変更を適用します。
 
-11. **[チャットの履歴]** セクションで、次のプロンプトを送信します。
+1. **[チャットの履歴]** セクションで、次のプロンプトを送信します。
 
     ```prompt
     # 1. Create a list of animals
@@ -158,10 +158,10 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
     モデルは回答を番号付きリストに分けて応答し、それらはおそらくプロンプトを満たしています。 これは適切な応答ですが、実際に望んでいたことは、説明したタスクを実行する Python プログラムをモデルに作成させることだったとします。
 
-12. システム メッセージを `You are a coding assistant helping write python code.` に変更し、変更を適用します。
-13. 次のプロンプトをモデルに再送信します。
+1. システム メッセージを `You are a coding assistant helping write python code.` に変更し、変更を適用します。
+1. 次のプロンプトをモデルに再送信します。
 
-    ```
+    ```prompt
     # 1. Create a list of animals
     # 2. Create a list of whimsical names for those animals
     # 3. Combine them randomly into a list of 25 animal and name pairs
@@ -176,7 +176,7 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 > **ヒント**: 既に **mslearn-openai** リポジトリをクローンしている場合は、Visual Studio Code で開きます。 それ以外の場合は、次の手順に従って開発環境に複製します。
 
 1. Visual Studio Code を起動します。
-2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+2. パレットを開き (Shift + Ctrl + P キーまたは **[表示]** - **[コマンド パレット]**)、**Git: Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーにクローンします (どのフォルダーでも問題ありません)。
 3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
 
     > **注**:Visual Studio Code に、開いているコードを信頼するかどうかを求めるポップアップ メッセージが表示された場合は、ポップアップの **[はい、作成者を信頼します]** オプションをクリックします。
@@ -194,21 +194,21 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
     **C#:**
 
-    ```
-    dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.14
+    ```powershell
+    dotnet add package Azure.AI.OpenAI --version 2.1.0
     ```
 
     **Python**:
 
-    ```
-    pip install openai==1.55.3
+    ```powershell
+    pip install openai==1.65.2
     ```
 
 3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
-    
+
 4. 次を含めて構成値を更新します。
     - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
     - モデル デプロイに指定した**デプロイ名** (Azure AI Foundry ポータルの **[デプロイ]** ページで使用できます)。
@@ -225,6 +225,7 @@ C# と Python の両方のアプリケーションが用意されており、ど
     ```csharp
     // Add Azure OpenAI package
     using Azure.AI.OpenAI;
+    using OpenAI.Chat;
     ```
 
     **Python**: prompt-engineering.py
@@ -240,7 +241,8 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
     ```csharp
     // Configure the Azure OpenAI client
-    OpenAIClient client = new OpenAIClient(new Uri(oaiEndpoint), new AzureKeyCredential(oaiKey));
+    AzureOpenAIClient azureClient = new (new Uri(oaiEndpoint), new ApiKeyCredential(oaiKey));
+    ChatClient chatClient = azureClient.GetChatClient(oaiDeploymentName);
     ```
 
     **Python**: prompt-engineering.py
@@ -260,20 +262,19 @@ C# と Python の両方のアプリケーションが用意されており、ど
 
     ```csharp
     // Format and send the request to the model
-    var chatCompletionsOptions = new ChatCompletionsOptions()
+    var chatCompletionsOptions = new ChatCompletionOptions()
     {
-        Messages =
-        {
-            new ChatRequestSystemMessage(systemMessage),
-            new ChatRequestUserMessage(userMessage)
-        },
         Temperature = 0.7f,
-        MaxTokens = 800,
-        DeploymentName = oaiDeploymentName
+        MaxOutputTokenCount = 800
     };
     
     // Get response from Azure OpenAI
-    Response<ChatCompletions> response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
+    ChatCompletion response = await chatClient.CompleteChatAsync(
+        [
+            new SystemChatMessage(systemMessage),
+            new UserChatMessage(userMessage),
+        ],
+        chatCompletionsOptions);
     ```
 
     **Python**: prompt-engineering.py

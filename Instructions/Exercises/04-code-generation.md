@@ -45,9 +45,9 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 > **注**: Azure AI Foundry ポータルを使用すると、実行するタスクを提案するメッセージ ボックスが表示される場合があります。 これらを閉じて、この演習の手順に従うことができます。
 
 1. Azure portal にある Azure OpenAI リソースの **[概要]** ページで、**[開始する]** セクションまで下にスクロールし、ボタンを選択して **AI Foundry portal** (以前は AI Studio) に移動します。
-1. Azure AI Foundry の左ペインで、**[デプロイ]** ページを選び、既存のモデル デプロイを表示します。 まだデプロイがない場合は、次の設定で **gpt-35-turbo-16k** モデルの新しいデプロイを作成します。
+1. Azure AI Foundry の左ペインで、**[デプロイ]** ページを選び、既存のモデル デプロイを表示します。 まだない場合は、次の設定で **gpt-4o** モデルの新しいデプロイを作成します。
     - **デプロイの名前**: *任意の一意の名前*
-    - **モデル**: gpt-35-turbo-16k "(16k モデルが使用できない場合は、gpt-35-turbo を選びます)"**
+    - **モデル**: gpt-4o
     - **モデル バージョン**: *既定のバージョンを使用する*
     - **デプロイの種類**:Standard
     - **1 分あたりのトークンのレート制限**: 5K\*
@@ -67,7 +67,7 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 1. **[システム メッセージ]** 領域で、システム メッセージを `You are a programming assistant helping write code` に設定し、変更を適用します。
 1. **[チャット セッション]** で、次のクエリを送信します。
 
-    ```
+    ```prompt
     Write a function in python that takes a character and a string as input, and returns how many times the character appears in the string
     ```
 
@@ -79,7 +79,7 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
 1. 次に、AI を使ってコードを理解することを検討してみましょう。 次のプロンプトをユーザー メッセージとして送信します。
 
-    ```
+    ```prompt
     What does the following function do?  
     ---  
     def multiply(a, b):  
@@ -105,11 +105,11 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 
     モデルは、関数が何を行うか、つまりループを使って 2 つの数値を乗算するということを説明する必要があります。
 
-7. プロンプト `Can you simplify the function?` を送信します。
+1. プロンプト `Can you simplify the function?` を送信します。
 
     モデルでは、関数のより単純なバージョンを記述するはずです。
 
-8. プロンプトを送信します: `Add some comments to the function.`
+1. プロンプトを送信します: `Add some comments to the function.`
 
     モデルはコードにコメントを追加します。
 
@@ -120,7 +120,7 @@ Azure には、モデルのデプロイ、管理、調査に使用できる **Az
 > **ヒント**: 既に **mslearn-openai** リポジトリをクローンしている場合は、Visual Studio Code で開きます。 それ以外の場合は、次の手順に従って開発環境に複製します。
 
 1. Visual Studio Code を起動します。
-2. パレットを開き (SHIFT+CTRL+P)、**Git:Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーに複製します (どのフォルダーでも問題ありません)。
+2. コマンド パレットを開き (Shift + Ctrl + P キーを押すか **[表示]**、**[コマンド パレット]** の順に選択)、**Git: Clone** コマンドを実行して、`https://github.com/MicrosoftLearning/mslearn-openai` リポジトリをローカル フォルダーにクローンします (どのフォルダーでも問題ありません)。
 3. リポジトリを複製したら、Visual Studio Code でフォルダーを開きます。
 
     > **注**:Visual Studio Code に、開いているコードを信頼するかどうかを求めるポップアップ メッセージが表示された場合は、ポップアップの **[はい、作成者を信頼します]** オプションをクリックします。
@@ -138,21 +138,21 @@ C# と Python の両方のアプリケーションと、要約のテストに使
 
     **C#:**
 
-    ```
-    dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.14
+    ```powershell
+    dotnet add package Azure.AI.OpenAI --version 2.1.0
     ```
 
     **Python**:
 
-    ```
-    pip install openai==1.55.3
+    ```powershell
+    pip install openai==1.65.2
     ```
 
 3. **[エクスプローラー]** ペインの **CSharp** または **Python** フォルダーで、使用する言語の構成ファイルを開きます
 
     - **C#**: appsettings.json
     - **Python**: .env
-    
+
 4. 次を含めて構成値を更新します。
     - 作成した Azure OpenAI リソースの**エンドポイント**と**キー** (Azure Portal の Azure OpenAI リソースの [**キーとエンドポイント**] ページで使用できます)
     - モデル デプロイに指定した**デプロイ名** (Azure AI Foundry ポータルの **[デプロイ]** ページで使用できます)。
@@ -168,23 +168,19 @@ C# と Python の両方のアプリケーションと、要約のテストに使
 
     ```csharp
     // Format and send the request to the model
-    var chatCompletionsOptions = new ChatCompletionsOptions()
+    var chatCompletionsOptions = new ChatCompletionOptions()
     {
-        Messages =
-        {
-            new ChatRequestSystemMessage(systemPrompt),
-            new ChatRequestUserMessage(userPrompt)
-        },
         Temperature = 0.7f,
-        MaxTokens = 1000,
-        DeploymentName = oaiDeploymentName
+        MaxOutputTokenCount = 800
     };
-
+    
     // Get response from Azure OpenAI
-    Response<ChatCompletions> response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
-
-    ChatCompletions completions = response.Value;
-    string completion = completions.Choices[0].Message.Content;
+    ChatCompletion response = await chatClient.CompleteChatAsync(
+        [
+            new SystemChatMessage(systemPrompt),
+            new UserChatMessage(userPrompt),
+        ],
+        chatCompletionsOptions);
     ```
 
     **Python**: code-generation.py
@@ -205,7 +201,7 @@ C# と Python の両方のアプリケーションと、要約のテストに使
     )
     ```
 
-4. コード ファイルに加えた変更を保存します。
+1. コード ファイルに加えた変更を保存します。
 
 ## アプリケーションの実行
 
@@ -249,7 +245,7 @@ C# と Python の両方のアプリケーションと、要約のテストに使
     - **Python**: 修正は、行 18 と 31 で行われます
 
     バグのある行を Azure OpenAI からの応答に置き換えると、**sample-code** 内の Go Fish アプリを実行できます。 修正しないで実行すると、ただしく動作しません。
-    
+
     > **注**:この Go Fish アプリのコードは一部の構文が修正されてはいますが、ゲームを厳密には正しく表現したものではないことに注意することが重要です。 よく見ると、カードを引くときに山札が空かどうかを確認しない、プレーヤーがペアを手に入れたときにペアを手札から削除しないなどの問題があり、その他にもカード ゲームを理解する必要があるバグがいくつかあります。 これは、コード生成を支援するのに生成 AI モデルがいかに役立つかを示す好例ですが、正しいと信頼することはできず、開発者による検証が必要です。
 
     Azure OpenAI からの完全な応答を確認したい場合は、**printFullResponse** 変数を `True` に設定し、アプリを再実行します。

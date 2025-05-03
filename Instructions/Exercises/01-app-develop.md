@@ -33,15 +33,13 @@ Azure OpenAI Service を使用すると、開発者はチャットボットや R
     - **[サブスクリプション]**: "Azure OpenAI Service へのアクセスが承認されている Azure サブスクリプションを選びます"**
     - **[リソース グループ]**: *リソース グループを作成または選択します*
     - **[リージョン]**: *以下のいずれかのリージョンから**ランダム**に選択する*\*
-        - カナダ東部
         - 米国東部
         - 米国東部 2
-        - フランス中部
-        - 東日本
         - 米国中北部
+        - 米国中南部
         - スウェーデン中部
-        - スイス北部
-        - 英国南部
+        - 米国西部
+        - 米国西部 3
     - **[名前]**: "*希望する一意の名前*"
     - **価格レベル**: Standard S0
 
@@ -51,19 +49,25 @@ Azure OpenAI Service を使用すると、開発者はチャットボットや R
 
 ## モデルをデプロイする
 
-次に、CLI から Azure OpenAI モデル リソースをデプロイします。 この例を使い、次の変数を上記から独自のリソースの値に置き換えます。
+次に、Cloud Shell から Azure OpenAI モデル リソースをデプロイします。
 
-```dotnetcli
-az cognitiveservices account deployment create \
-   -g <your_resource_group> \
-   -n <your_OpenAI_service> \
-   --deployment-name gpt-4o \
-   --model-name gpt-4o \
-   --model-version 2024-05-13 \
-   --model-format OpenAI \
-   --sku-name "Standard" \
-   --sku-capacity 5
-```
+1. ページ上部の検索バーの右側にある **[\>_]** ボタンを使用して、***Bash*** 環境を選択し、Azure portal 内に新しい Cloud Shell を作成します。 Azure portal の下部にあるペインに、Cloud Shell のコマンド ライン インターフェイスが表示されます。
+
+    > **注**: *PowerShell* 環境を使用するクラウド シェルを以前に作成している場合は、それを ***Bash*** に切り替えること。
+
+1. この例を使い、次の変数を上記から独自のリソースの値に置き換えます。
+
+    ```dotnetcli
+    az cognitiveservices account deployment create \
+       -g <your_resource_group> \
+       -n <your_OpenAI_service> \
+       --deployment-name gpt-4o \
+       --model-name gpt-4o \
+       --model-version 2024-05-13 \
+       --model-format OpenAI \
+       --sku-name "Standard" \
+       --sku-capacity 5
+    ```
 
 > **注**: SKU 容量は、1 分あたりトークン数 (1,000 単位) で測定されます。 同じサブスクリプションを使用する他のユーザーのための容量を残しながらこの演習を完了するのに、1 分あたり 5,000 トークンのレート制限で十分です。
 
@@ -245,7 +249,7 @@ C# と Python の両方のアプリケーションが用意されており、ど
     - Rescue name is Contoso 
     - It specializes in elephants, as well as zebras and giraffes 
     - Call for donations to be given at our website 
-    \n Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
+    Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
     ```
 
 1. 出力を確認します。また、明確な指示に基づいてメールがどのように変わったかを確認します。
@@ -264,7 +268,7 @@ C# と Python の両方のアプリケーションが用意されており、ど
     - Rescue name is Contoso 
     - It specializes in elephants, as well as zebras and giraffes 
     - Call for donations to be given at our website 
-    \n Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
+    Include a list of the current animals we have at our rescue after the signature, in the form of a table. These animals include elephants, zebras, gorillas, lizards, and jackrabbits.
     ```
 
 1. 出力を確認します。 メールは同様の形式で表示されますが、今度は、よりくだけたトーンになります。 ジョークが含まれている可能性もあります。

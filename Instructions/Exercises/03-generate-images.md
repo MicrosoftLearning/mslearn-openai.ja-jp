@@ -20,16 +20,16 @@ lab:
     ![Azure AI Foundry ポータルのスクリーンショット。](../media/ai-foundry-home.png)
 
 1. ホーム ページで、**[+ 作成]** を選択します。
-1. **プロジェクトの作成** ウィザードで、適切なプロジェクト名 (たとえば、`my-ai-project`) を入力してから、プロジェクトをサポートするために自動的に作成される Azure リソースを確認します。
+1. **[プロジェクトの作成]** ウィザードで、プロジェクトの有効な名前を入力し、既存のハブが推奨される場合は、新しいハブを作成するオプションを選択します。 次に、ハブとプロジェクトをサポートするために自動的に作成される Azure リソースを確認します。
 1. **[カスタマイズ]** を選択し、ハブに次の設定を指定します。
-    - **[ハブ名]**: *一意の名前 - たとえば `my-ai-hub`*
+    - **ハブ名**: *ハブの有効な名前*
     - **[サブスクリプション]**:"*ご自身の Azure サブスクリプション*"
-    - **[リソース グループ]**: *一意の名前 (たとえば、`my-ai-resources`) で新しいリソース グループを作成するか、既存のものを選びます*
+    - **リソース グループ**: *リソース グループを作成または選択します*
     - **場所**: **[選択に関するヘルプ]** を選択してから、[場所ヘルパー] ウィンドウで **DALL-E** を選択し、推奨されるリージョンを選択します\*
-    - **Azure AI サービスまたは Azure OpenAI の接続**: *適切な名前 (たとえば、`my-ai-services`) を使用して新しい AI サービス リソースを作成するか、既存のものを使用します*
+    - **Azure AI サービスまたは Azure OpenAI への接続**: *新しい AI サービス リソースを作成します*
     - **Azure AI 検索への接続**:接続をスキップする
 
-    > \* Azure OpenAI リソースは、リージョンのクォータによってテナント レベルで制限されます。 演習の後半でクォータ制限に達した場合は、別のリージョンに別のリソースを作成する必要が生じる可能性があります。
+    > \* Azure OpenAI リソースは、リージョンのクォータによって制限されます。 演習の後半でクォータ制限に達した場合は、別のリージョンに別のリソースを作成する必要が生じる可能性があります。
 
 1. **[次へ]** を選択し、構成を確認します。 **[作成]** を選択し、プロセスが完了するまで待ちます。
 1. プロジェクトが作成されたら、表示されているヒントをすべて閉じて、Azure AI Foundry ポータルのプロジェクト ページを確認します。これは次の画像のようになっているはずです。
@@ -40,12 +40,12 @@ lab:
 
 これで、画像生成をサポートする DALL-E モデルをデプロイする準備ができました。
 
-1. Azure AI Foundry プロジェクト ページの右上にあるツール バーで、**プレビュー機能**アイコンを使用して、**[Azure AI モデル推論サービスにモデルをデプロイする]** 機能を有効にします。
+1. Azure AI Foundry プロジェクト ページの右上にあるツール バーで、**プレビュー機能**アイコンを使用して、**[Azure AI モデル推論サービスにモデルをデプロイする]** 機能を有効にします。 この機能により、アプリケーション コードで使用する Azure AI 推論サービスでモデル デプロイを使用できるようになります。
 1. プロジェクトの左側のウィンドウの **[マイ アセット]** セクションで、**[モデル + エンドポイント]** ページを選択します。
 1. **[モデル + エンドポイント]** ページの **[モデル デプロイ]** タブの **[+ モデルのデプロイ]** メニューで、**[基本モデルのデプロイ]** を選択します。
 1. 一覧で **DALL-E-3** モデルを検索してから、それを選択して確認します。
 1. メッセージに応じて使用許諾契約書に同意したあと、デプロイの詳細で **[カスタマイズ]** を選択して、以下の設定でモデルをデプロイします。
-    - **デプロイ名**: *モデル デプロイの一意の名前 - たとえば、`dall-e-3` (割り当てた名前を覚えておいてください。後で必要になります*)
+    - **デプロイ名**: *モデル デプロイの有効な名前*
     - **デプロイの種類**:Standard
     - **デプロイの詳細**: *既定の設定を使用します*
 1. デプロイのプロビジョニングの状態が**完了**になるまで待ちます。
@@ -78,20 +78,20 @@ lab:
 
     > **注**: *Bash* 環境を使用するクラウド シェルを以前に作成した場合は、それを ***PowerShell*** に切り替えます。
 
-1. Cloud Shell ツール バーの **[設定]** メニューで、**[クラシック バージョンに移動]** を選択します (これはコード エディターを使用するのに必要です)。
+5. Cloud Shell ツール バーの **[設定]** メニューで、**[クラシック バージョンに移動]** を選択します (これはコード エディターを使用するのに必要です)。
 
-    > **ヒント**: Cloudshell にコマンドを貼り付けると、出力が大量のスクリーン バッファーを占有する可能性があります。 `cls` コマンドを入力して、各タスクに集中しやすくすることで、スクリーンをクリアできます。
+    **<font color="red">続行する前に、クラシック バージョンの Cloud Shell に切り替えたことを確認します。</font>**
 
-1. PowerShell ペインで、次のコマンドを入力して、この演習用の GitHub リポジトリを複製します。
+1. Cloud Shell 画面で、次のコマンドを入力して、この演習のコード ファイルを含む GitHub リポジトリをクローンします (コマンドを入力するか、クリップボードにコピーしてから、コマンド ラインで右クリックし、プレーンテキストとして貼り付けます)。
 
     ```
     rm -r mslearn-openai -f
     git clone https://github.com/microsoftlearning/mslearn-openai mslearn-openai
     ```
 
-> **注**: 選択したプログラミング言語の手順に従います。
+    > **ヒント**: Cloudshell にコマンドを貼り付けると、出力が大量のスクリーン バッファーを占有する可能性があります。 `cls` コマンドを入力して、各タスクに集中しやすくすることで、スクリーンをクリアできます。
 
-1. リポジトリが複製されたら、アプリケーション コード ファイルを含んだフォルダーに移動します。  
+1. リポジトリが複製されたら、選択したプログラミング言語 (Python または C#) に基づいて、アプリケーション コード ファイルを含む言語固有のフォルダーに移動します。  
 
     **Python**
 
@@ -110,10 +110,10 @@ lab:
     **Python**
 
     ```
+   python -m venv labenv
+   ./labenv/bin/Activate.ps1
    pip install python-dotenv azure-identity azure-ai-projects openai requests
     ```
-
-    *pip のバージョンとローカル パスに関するエラーは無視できます*
 
     **C#**
 
@@ -164,7 +164,8 @@ lab:
 
     **Python**
 
-    ```
+    ```python
+   # Add references
    from dotenv import load_dotenv
    from azure.identity import DefaultAzureCredential
    from azure.ai.projects import AIProjectClient
@@ -174,7 +175,8 @@ lab:
 
     **C#**
 
-    ```
+    ```csharp
+   // Add references
    using Azure.Identity;
    using Azure.AI.Projects;
    using Azure.AI.OpenAI;
@@ -186,7 +188,8 @@ lab:
 
     **Python**
 
-    ```
+    ```python
+   # Initialize the project client
    project_client = AIProjectClient.from_connection_string(
         conn_str=project_connection,
         credential=DefaultAzureCredential())
@@ -194,7 +197,8 @@ lab:
 
     **C#**
 
-    ```
+    ```csharp
+   // Initialize the project client
    var projectClient = new AIProjectClient(project_connection,
                         new DefaultAzureCredential());
     ```
@@ -203,14 +207,16 @@ lab:
 
     **Python**
 
-    ```
+    ```python
+   # Get an OpenAI client
    openai_client = project_client.inference.get_azure_openai_client(api_version="2024-06-01")
 
     ```
 
     **C#**
 
-    ```
+    ```csharp
+   // Get an OpenAI client
    ConnectionResponse connection = projectClient.GetConnectionsClient().GetDefaultConnection(ConnectionType.AzureOpenAI, withCredential: true);
 
    var connectionProperties = connection.Properties as ConnectionPropertiesApiKeyAuth;
@@ -228,6 +234,7 @@ lab:
     **Python**
 
     ```python
+   # Generate an image
    result = openai_client.images.generate(
         model=model_deployment,
         prompt=input_text,
@@ -240,7 +247,8 @@ lab:
 
     **C#**
 
-    ```
+    ```csharp
+   // Generate an image
    var imageGeneration = await openAIimageClient.GenerateImageAsync(
             input_text,
             new ImageGenerationOptions()
@@ -276,15 +284,13 @@ lab:
 
     > **注**: このシンプルなアプリには、会話履歴を保持するためのロジックが含まれていないので、モデルは、各プロンプトを前のプロンプトのコンテキストを持たない新しいリクエストとして処理します。
 
-1. アプリによって生成された画像をダウンロードして表示するには、Cloud Shell 画面のツール バーで、**[ファイルのアップロード/ダウンロード]** ボタンを使用して、ファイルをダウンロードしてから開きます。 ファイルをダウンロードするには、ダウンロード インターフェイスでそのファイル パスを完了します。例えば:
+1. アプリによって生成された画像をダウンロードして表示するには、Cloud Shell **ダウンロード** コマンドを使用して、生成された.png ファイルを指定します。
 
-    **Python**
+    ```
+   download ./images/image_1.png
+    ```
 
-    /home/*user*`/mslearn-openai/Labfiles/03-image-generation/Python/images/image_1.png`
-
-    **C#**
-
-    /home/*user*`/mslearn-openai/Labfiles/03-image-generation/CSharp/images/image_1.png`
+    ダウンロード コマンドを実行すると、ブラウザーの右下にポップアップ リンクが作成され、そこからファイルをダウンロードして開くことができます。
 
 ## まとめ
 
